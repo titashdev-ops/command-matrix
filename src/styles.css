@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian: #07090e;
+  --color-obsidian-surface: #0f172a;
+  --color-obsidian-border: #1e293b;
+  --color-cyan-electric: #00f0ff;
+  --color-emerald-glow: #00ff87;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --shadow-cyan-glow: 0 0 25px rgba(0, 240, 255, 0.15);
+  --shadow-emerald-glow: 0 0 25px rgba(0, 255, 135, 0.15);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #07090e;
+    color: #ffffff;
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    background-color: rgba(0, 240, 255, 0.2);
+    color: #ffffff;
+  }
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translate(-2px, 1px);
+  }
+  20% {
+    clip-path: inset(80% 0 10% 0);
+    transform: translate(2px, -1px);
+  }
+  40% {
+    clip-path: inset(30% 0 50% 0);
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    clip-path: inset(50% 0 30% 0);
+    transform: translate(2px, -2px);
+  }
+  80% {
+    clip-path: inset(20% 0 70% 0);
+    transform: translate(-1px, 1px);
+  }
+  100% {
+    clip-path: inset(40% 0 40% 0);
+    transform: translate(1px, -1px);
+  }
+}
+
+.glitch-hover:hover {
+  text-shadow: -2px 0 #00f0ff, 2px 0 #00ff87;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

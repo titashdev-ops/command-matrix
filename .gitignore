@@ -1,0 +1,16 @@
+node_modules
+.vercel
+dist
+.output
+.nitro
+screenshots
+artifacts
+.grok
+attachments
+*.log
+.env
+.env.*
+.DS_Store
+coverage
+*.tsbuildinfo
+routeTree.gen.ts
