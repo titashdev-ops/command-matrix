@@ -18,6 +18,13 @@ export const Route = createRootRoute({
           "Spatial HUD portfolio for Titash Dev — systems architecture case studies, modeled telemetry, and interactive engineering decision records.",
       },
       { name: "author", content: "Titash Dev" },
+      {
+        property: "og:description",
+        content:
+          "Spatial HUD portfolio for Titash Dev — systems architecture case studies, modeled telemetry, and interactive engineering decision records.",
+      },
+      { property: "og:image", content: "/og.jpg" },
+      { name: "twitter:image", content: "/og.jpg" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
