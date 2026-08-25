@@ -1,52 +1,26 @@
-# TITASH DEV — Command Matrix
+# command-matrix
 
-A spatial HUD portfolio. Interactive architecture case studies, modeled telemetry, and engineering decision records.
+A frontend portfolio of systems architecture case studies.
 
-This is a **frontend-only** site. There is no live UAV fleet, no SAP/ServiceNow ingest, and no Node/WebSocket server. Moving numbers in the HUD are a client-side demo loop.
+## Problem
 
-## Stack
+Architecture work is hard to inspect from a resume. This site is a browsable set of case studies, decision records, and interactive models.
 
-- React 19 + Vite / TanStack Start
-- Tailwind CSS v4
-- Framer Motion
-- Three.js / React Three Fiber
+## Status
+
+Prototype / Simulation.
+
+## Implemented
+
+- Interactive architecture case studies
+- Architecture decision records
+- Client-side simulated telemetry
 - Static data in `src/data/`
+- Hosted site: [command-matrix-nine.vercel.app](https://command-matrix-nine.vercel.app)
 
-## Run
+## Not claimed
 
-```bash
-npm install
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
-```
-
-Deploy the Vercel output from `npm run build`. Attach `dronly.in` in the Vercel project, then point the domain’s DNS at Vercel.
-
-## Contact
-
-The discovery wizard opens a `mailto:` brief to `titashdev@gmail.com`. No form backend.
-
-## Profiles
-
-- GitHub: [titashdev-ops](https://github.com/titashdev-ops)
-- LinkedIn: [titashdeb](https://www.linkedin.com/in/titashdeb)
-
-## Status labels
-
-| Label | Meaning |
-|---|---|
-| Simulation | Interactive model / teaching artifact |
-| Prototype | Partial implementation |
-| Documented | Architecture narrative, not a live SLA |
-| Concept / Research | Forward-looking, not shipped |
-
-## Not in this repo
-
-- Express + Socket.IO telemetry server
-- Gemini API
-- Auth, database, CMS
+- No live fleet, SAP, or ServiceNow ingest
+- No server-side telemetry pipeline
+- No auth, database, or CMS
+- Moving numbers in the UI are a client-side demo loop, not production data
