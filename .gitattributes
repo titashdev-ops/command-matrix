@@ -1,0 +1,3 @@
+*.jsx linguist-language=TypeScript
+public/__grok/** linguist-vendored
+scripts/** linguist-vendored
