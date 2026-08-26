@@ -275,13 +275,11 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
 
       <div className="flex-1 overflow-y-auto custom-scrollbar overscroll-contain p-4 sm:p-6 md:p-10 lg:p-12 relative">
         <div className="max-w-5xl mx-auto space-y-10 sm:space-y-16 pb-16">
-          <DossierCover project={activeProject} accent={accent} intel={intel} />
+          {viewMode === "investigation" && (
+            <DossierCover project={activeProject} accent={accent} intel={intel} />
+          )}
           {viewMode === "review" ? (
-            <EngineeringReviewPanel 
-              mission={activeProject} 
-              activeMode={viewMode}
-              onToggleMode={(mode) => setViewMode(mode)}
-            />
+            <EngineeringReviewPanel mission={activeProject} />
           ) : (
             <InvestigationFlow mission={activeProject} />
           )}

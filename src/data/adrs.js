@@ -21,8 +21,8 @@ export const ADR_RECORDS = [
     ],
     "decision": "Serverless Functions (Vercel/AWS Lambda)",
     "tradeoffs": "Benefits: Instant scaling, zero operational overhead. Compromises: Cold start latency, stateless execution model requires external persistence.",
-    "consequences": "Reduced infrastructure management overhead to zero. System successfully handles 100x traffic spikes without manual engineering intervention. However, cold starts require edge-caching for latency-sensitive middleware.",
-    "currentStatus": "Verified"
+    "consequences": "Less ops work on burst traffic. Cold starts still need edge caching for anything latency-sensitive. This is a documented choice, not a measured 100x SLA.",
+    "currentStatus": "Documented"
   },
   {
     "id": "adr-002",
@@ -47,7 +47,7 @@ export const ADR_RECORDS = [
     "decision": "React + TypeScript",
     "tradeoffs": "Benefits: Eliminates entire classes of runtime errors, excellent ecosystem, self-documenting code. Compromises: Slower compilation times, steeper learning curve, typing overhead.",
     "consequences": "Significantly reduced production regressions. The strict type system allowed for aggressive refactoring of the telemetry dashboard with high confidence. Requires keeping runtime boundaries strictly typed via Zod.",
-    "currentStatus": "Verified"
+    "currentStatus": "Documented"
   },
   {
     "id": "adr-003",
@@ -71,8 +71,8 @@ export const ADR_RECORDS = [
     ],
     "decision": "Zod Schema Validation",
     "tradeoffs": "Benefits: Absolute certainty on data shapes, prevents UI crashes. Compromises: Requires keeping TypeScript types and Zod schemas in sync, slight runtime performance cost.",
-    "consequences": "Achieved 99.9% UI stability against AI hallucinations. Malformed responses are now intercepted and either corrected or gracefully degraded before reaching the view layer.",
-    "currentStatus": "Verified"
+    "consequences": "Malformed LLM JSON is stopped before it hits the view. Types and Zod schemas have to stay in sync. Modeled stability — not a 99.9% production claim.",
+    "currentStatus": "Documented"
   },
   {
     "id": "adr-004",
@@ -97,7 +97,7 @@ export const ADR_RECORDS = [
     "decision": "React Three Fiber (R3F)",
     "tradeoffs": "Benefits: Native integration with React state, automatic disposal of geometries/materials, highly readable scene graphs. Compromises: Slight React reconciliation overhead on every frame if not optimized carefully.",
     "consequences": "Cut 3D development time in half. Developers familiar with React were able to contribute to the WebGL scene without deep imperative graphics knowledge. Requires strict memoization for high node counts.",
-    "currentStatus": "Verified"
+    "currentStatus": "Documented"
   },
   {
     "id": "adr-005",

@@ -194,7 +194,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Eliminates TCP head-of-line blocking during cellular tower handoffs.",
           alternative: "WebSockets, REST HTTP/2 polling, raw TCP",
           tradeoff: "Requires custom client-side packet sequence deduplication and reassembly.",
-          impact: "Maintained 99.99% packet ingress reliability under 50k pings/sec."
+          impact: "Modeled reliability under burst ping load — not a measured 99.99% SLA."
         },
         {
           decision: "Uber H3 Hexagonal Spatial Indexing",
@@ -222,7 +222,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         { phase: "Research & Benchmarking", architectureState: "REST HTTP/1.1 & standard WebSockets", shiftReason: "Observed 120ms jitter and high HTTP header overhead over cellular." },
         { phase: "Prototype Phase", architectureState: "UDP Edge Gateway + ProtoBuf Byte Streams", shiftReason: "Jitter dropped to 4ms; identified cell tower dropouts requiring sequence deduplication." },
         { phase: "Architecture Refinement", architectureState: "Uber H3 Spatial Indexing + TimescaleDB", shiftReason: "O(N^2) pairwise distance checks bottlenecked central dispatch." },
-        { phase: "Deployed Production", architectureState: "Circuit Breakers + WebRTC Video + gRPC Pool", shiftReason: "Sustains 50k pings/sec with 99.99% SLA under field cell congestion." }
+        { phase: "Current model", architectureState: "Circuit breakers + WebRTC + gRPC pool", shiftReason: "Field cell congestion is simulated in this case study." }
       ],
       engineeringPrinciples: [
         "Systems Over Isolated Features — Prioritized end-to-end transport SLA over superficial UI controls",

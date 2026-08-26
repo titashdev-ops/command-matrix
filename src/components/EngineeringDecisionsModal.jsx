@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, FileText, ChevronRight, CheckCircle, AlertTriangle, Activity, GitCommit } from "lucide-react";
+import { X, FileText, GitCommit } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
-import { useSpatial, TABS } from "../SpatialContext";
 import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
@@ -13,8 +12,7 @@ import { useRef } from "react";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 export default function EngineeringDecisionsModal() {
-  const { setActiveTab } = useSpatial();
-  const { openEnterpriseExplorer, isAdrsOpen, closeAdrs, playClickSound, targetAdrId, setTargetAdrId } = useSystemCommand();
+  const { isAdrsOpen, closeAdrs, playClickSound, targetAdrId, setTargetAdrId } = useSystemCommand();
   const [activeAdrId, setActiveAdrId] = useState(ADR_RECORDS[0]?.id);
 
   useEffect(() => {
@@ -49,24 +47,18 @@ export default function EngineeringDecisionsModal() {
           aria-modal="true"
           aria-labelledby="adr-title"
           onClick={(e) => e.stopPropagation()}
-          initial={{ scale: 0.94, opacity: 0, y: 15 }}
+          initial={{ scale: 0.97, opacity: 0, y: 14 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.94, opacity: 0, y: 15 }}
-          transition={{
-            type: "spring",
-            stiffness: 320,
-            damping: 22,
-            mass: 0.85,
-            bounce: 0.22,
-          }}
+          exit={{ scale: 0.98, opacity: 0, y: 10 }}
+          transition={{ duration: 0.48, ease: [0.16, 1, 0.3, 1] }}
           className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-xl border border-obsidian-border bg-obsidian-surface/95 shadow-2xl overscroll-contain"
         >
           {/* Header */}
           <div className="flex shrink-0 items-center justify-between border-b border-obsidian-border/60 bg-obsidian/80 p-3 sm:p-4 md:px-6 backdrop-blur-md">
             <div className="flex items-center gap-4">
               <div>
-                <div className="font-mono text-xs sm:text-sm font-bold tracking-widest text-cyan-electric">ENGINEERING DECISION MATRIX (ADR)</div>
-                <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500">Architecture Review & Technical Reasoning</div>
+                <div className="font-display text-sm sm:text-base font-bold tracking-tight text-white">Decision records</div>
+                <div className="font-sans text-xs text-slate-500">Architecture choices, written down</div>
               </div>
 
               {/* View Mode Toggle */}
@@ -80,18 +72,18 @@ export default function EngineeringDecisionsModal() {
                       : "text-slate-400 hover:text-white"
                   )}
                 >
-                  <FileText size={12} /> RECORD INDEX
+                  <FileText size={12} /> Records
                 </button>
                 <button type="button"
                   onClick={() => { playClickSound(); setViewMode("SIMULATOR"); }}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 py-1 rounded font-sans text-xs font-bold tracking-wider transition-all",
+                    "flex items-center gap-1.5 px-3 py-1 rounded font-sans text-xs font-semibold tracking-wide transition-all",
                     viewMode === "SIMULATOR"
                       ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/40"
                       : "text-slate-400 hover:text-white"
                   )}
                 >
-                  <GitCommit size={12} /> DECISION SIMULATOR
+                  <GitCommit size={12} /> Trade-off model
                 </button>
               </div>
             </div>
@@ -106,23 +98,10 @@ export default function EngineeringDecisionsModal() {
           </div>
 
           {/* Engineering Intelligence Lab Header Banner */}
-          <div className="border-b border-obsidian-border/60 bg-gradient-to-r from-cyan-electric/10 via-obsidian/80 to-purple-500/10 px-4 py-2.5 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2 font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric">
-                <span className="inline-block h-2 w-2 rounded-full bg-cyan-electric animate-pulse" />
-                ENGINEERING INTELLIGENCE LAB
-                <span className="text-slate-600">|</span>
-                <span className="text-slate-400">Architectural Decision & Trade-Off Module</span>
-              </div>
-              <p className="font-sans text-xs text-slate-300 max-w-3xl leading-snug">
-                Interactive engineering exercises demonstrating systems thinking, architectural trade-offs, capacity planning, and engineering decision-making through transparent simulation and evidence-based reasoning.
-              </p>
-            </div>
-            <div className="hidden md:flex items-center gap-2 shrink-0 font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">
-              <span className="px-2 py-0.5 rounded border border-cyan-electric/30 bg-cyan-electric/10 text-cyan-electric">Simulation</span>
-              <span className="px-2 py-0.5 rounded border border-emerald-glow/30 bg-emerald-glow/10 text-emerald-glow">Educational</span>
-              <span className="px-2 py-0.5 rounded border border-purple-500/30 bg-purple-500/10 text-purple-300">Decision-Support</span>
-            </div>
+          <div className="border-b border-obsidian-border/60 bg-obsidian/70 px-4 py-2.5 sm:px-6 shrink-0">
+            <p className="font-sans text-xs sm:text-sm text-slate-400">
+              Documented decisions. The trade-off model is a thought exercise, not a live system.
+            </p>
           </div>
           
           {viewMode === "SIMULATOR" ? (
@@ -133,7 +112,7 @@ export default function EngineeringDecisionsModal() {
           <div className="flex h-full min-h-0 flex-col md:flex-row">
             {/* Sidebar Navigation */}
             <div className="w-full shrink-0 overflow-y-auto max-h-44 md:max-h-none border-b border-obsidian-border/60 bg-obsidian/50 p-2.5 sm:p-4 md:w-80 md:border-b-0 md:border-r md:p-6 custom-scrollbar">
-              <div className="mb-2 sm:mb-4 font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500">Record Index</div>
+              <div className="mb-2 sm:mb-4 kicker text-slate-500">Records</div>
               <div className="flex flex-col gap-1.5 sm:gap-2">
                 {ADR_RECORDS.map((adr) => {
                   const isActive = activeAdrId === adr.id;
@@ -171,96 +150,57 @@ export default function EngineeringDecisionsModal() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-4xl space-y-8"
                   >
-                    <div className="border-b border-obsidian-border/60 pb-6 relative">
-                      {/* Glow effect */}
-                      <div className="absolute -top-12 -left-12 w-48 h-48 bg-cyan-electric/5 rounded-full blur-3xl pointer-events-none" />
-                      
-                      <h2 id="adr-title" className="font-sans text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-3 relative z-10">{activeAdr.title}</h2>
-                      <div className="flex flex-wrap items-center gap-4 font-sans text-xs text-slate-500 relative z-10">
-                        <span className="flex items-center gap-1.5"><CheckCircle size={14} className="text-emerald-glow" /> Status: {activeAdr.currentStatus || "Verified"}</span>
-                        <span className="flex items-center gap-1.5"><FileText size={14} /> ID: {activeAdr.id.toUpperCase()}</span>
-                        <span className="flex items-center gap-1.5 opacity-60">| Date: {activeAdr.date}</span>
+                    <div className="relative overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/70 p-6 sm:p-8">
+                      <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                      <div className="relative z-10 space-y-4">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="kicker rounded-full border border-emerald-glow/30 bg-emerald-glow/10 px-2.5 py-1 text-emerald-glow">
+                            {activeAdr.currentStatus === "Verified" ? "Documented" : (activeAdr.currentStatus || "Documented")}
+                          </span>
+                          <span className="kicker text-slate-500">{activeAdr.id}</span>
+                        </div>
+                        <h2 id="adr-title" className="font-display text-2xl sm:text-4xl font-extrabold tracking-[-0.035em] text-white">
+                          {activeAdr.title}
+                        </h2>
+                        <p className="lede">{activeAdr.problem}</p>
+                        <div className="grid sm:grid-cols-2 gap-3 pt-2">
+                          <div className="rounded-xl border border-emerald-glow/25 bg-emerald-glow/5 p-4">
+                            <div className="kicker text-emerald-glow/80 mb-2">Decision</div>
+                            <p className="text-sm text-slate-200">{activeAdr.decision}</p>
+                          </div>
+                          <div className="rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
+                            <div className="kicker text-amber-300/80 mb-2">Trade-off</div>
+                            <p className="text-sm text-slate-300">{activeAdr.tradeoffs}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Context */}
-                      <section className="space-y-4">
-                        <div>
-                          <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric mb-2 flex items-center gap-2"><ChevronRight size={14} /> Problem & Context</h3>
-                          <p className="text-slate-300 text-sm leading-relaxed border-l-2 border-slate-700 pl-4">{activeAdr.context}</p>
-                        </div>
-                        <div>
-                          <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-amber-500 mb-2 flex items-center gap-2"><AlertTriangle size={14} /> Problem Statement</h3>
-                          <p className="text-slate-300 text-sm leading-relaxed border-l-2 border-slate-700 pl-4">{activeAdr.problem}</p>
+                    <section className="space-y-2">
+                      <h3 className="kicker text-slate-500">Context</h3>
+                      <p className="text-sm text-slate-300 leading-relaxed">{activeAdr.context}</p>
+                    </section>
+
+                    {(activeAdr.rejectedAlternatives || []).length > 0 && (
+                      <section>
+                        <h3 className="kicker text-slate-500 mb-3">Not chosen</h3>
+                        <div className="grid gap-2">
+                          {(activeAdr.rejectedAlternatives || []).map((opt, i) => (
+                            <div key={i} className="rounded-lg border border-obsidian-border/80 bg-obsidian/50 px-3 py-2">
+                              <div className="font-sans text-sm font-semibold text-slate-200">{opt.name}</div>
+                              <div className="text-xs text-slate-500 mt-0.5">{opt.description}</div>
+                            </div>
+                          ))}
                         </div>
                       </section>
+                    )}
 
-                      {/* Decision & Trade-offs */}
-                      <div className="space-y-4">
-                        <section className="border border-emerald-glow/30 bg-emerald-glow/5 p-4 rounded-xl">
-                          <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-emerald-glow mb-2 flex items-center gap-2"><CheckCircle size={14} /> Decision</h3>
-                          <p className="text-slate-200 font-medium text-sm">{activeAdr.decision}</p>
-                        </section>
-                        <section className="border border-amber-500/30 bg-amber-500/5 p-4 rounded-xl">
-                          <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-amber-500 mb-2 flex items-center gap-2"><AlertTriangle size={14} /> Trade-offs</h3>
-                          <p className="text-slate-300 text-sm leading-relaxed">{activeAdr.tradeoffs}</p>
-                        </section>
-                      </div>
-                    </div>
-
-                    {/* Rejected Alternatives */}
                     <section>
-                      <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric mb-3 flex items-center gap-2"><ChevronRight size={14} /> Rejected Alternatives</h3>
-                      <div className="grid gap-3">
-                        {(activeAdr.rejectedAlternatives || []).map((opt, i) => (
-                          <div key={i} className="border border-rose-500/30 bg-rose-500/5 p-3 rounded-lg flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 hover:border-rose-500/50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50">
-                            <div className="font-sans font-bold text-rose-300 shrink-0 sm:w-1/3 text-sm">{opt.name}</div>
-                            <div className="text-sm text-slate-400">{opt.description}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-
-                    {/* Consequences */}
-                    <section>
-                      <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric mb-3 flex items-center gap-2"><ChevronRight size={14} /> Consequences (Outcome)</h3>
-                      <p className="text-slate-300 text-sm leading-relaxed border-l-2 border-emerald-glow/50 bg-emerald-glow/5 p-3 rounded-r-lg">{activeAdr.consequences}</p>
-                    </section>
-
-                    {/* Contextual Intelligence */}
-                    <section className="border border-obsidian-border bg-obsidian-surface/80 p-5 rounded-xl">
-                      <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-purple-400 mb-4 flex items-center gap-2"><Activity size={14} /> Contextual Intelligence</h3>
-                      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
-                        
-                        <div className="space-y-1">
-                          <div className="text-slate-400 uppercase tracking-wider mb-1">Related Components</div>
-                          <div className="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-300">{activeAdr.relatedComponents || "Evidence Pending"}</div>
-                        </div>
-                        <div className="space-y-1">
-                          <div className="text-slate-400 uppercase tracking-wider mb-1">Related Architecture</div>
-                          {activeAdr.relatedArchitecture && activeAdr.relatedArchitecture !== "Evidence Pending" ? (
-                            <button type="button" onClick={() => openEnterpriseExplorer()} className="w-full text-left px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-electric/50 transition-colors duration-200 rounded text-cyan-electric/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50">{activeAdr.relatedArchitecture}</button>
-                          ) : (
-                            <div className="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-500">Evidence Pending</div>
-                          )}
-                        </div>
-                        <div className="space-y-1">
-                          <div className="text-slate-400 uppercase tracking-wider mb-1">Related Documentation</div>
-                          <div className="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-300">{activeAdr.relatedDocumentation || "Documentation Pending"}</div>
-                        </div>
-                        <div className="space-y-1">
-                          <div className="text-slate-400 uppercase tracking-wider mb-1">Related Evidence</div>
-                          {activeAdr.relatedBenchmarks && activeAdr.relatedBenchmarks !== "Benchmark Pending" ? (
-                            <button type="button" onClick={() => { closeAdrs(); setActiveTab(TABS.TRUST_CENTER); }} className="w-full text-left px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-emerald-400/50 transition-colors duration-200 rounded text-emerald-400/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50">{activeAdr.relatedBenchmarks}</button>
-                          ) : (
-                            <div className="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-500">Benchmark Pending</div>
-                          )}
-                        </div>
-                      </div>
+                      <h3 className="kicker text-slate-500 mb-2">What followed</h3>
+                      <p className="text-sm text-slate-300 leading-relaxed">{activeAdr.consequences}</p>
                     </section>
                   </motion.div>
                 )}
