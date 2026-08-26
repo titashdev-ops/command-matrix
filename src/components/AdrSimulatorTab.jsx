@@ -331,9 +331,8 @@ export default function AdrSimulatorTab() {
       ``,
       `* **Status:** ${isCompliant ? "Documented" : "Conflicts with a constraint"}`,
       `* **Date:** ${new Date().toISOString().substring(0, 10)}`,
-      `* **Modeled score:** ${avgScore}/100`,
-      `* **Modeled latency:** ${totalLatency} ms`,
-      `* **Modeled cost:** $${totalCost.toLocaleString()}/mo`,
+      `* **Latency (estimate):** ${totalLatency} ms`,
+      `* **Cost (estimate):** $${totalCost.toLocaleString()}/mo`,
       ``,
       `## Context`,
       `${activeScenario.context}`,
@@ -356,7 +355,7 @@ export default function AdrSimulatorTab() {
       ``,
       `## Outcome`,
       isCompliant
-        ? `* Fits the constraints you turned on. Modeled — not a live SLA.`
+        ? `* Fits the constraints you turned on. Estimates — not a live SLA.`
         : `* Conflicts:\n` + constraintViolations.map(v => `  - ${v}`).join('\n'),
       ``,
       `## What you give up`,
@@ -393,16 +392,16 @@ export default function AdrSimulatorTab() {
       <div className="flex flex-col gap-4 border-b border-obsidian-border/60 pb-5">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
           <div>
-            <p className="kicker text-cyan-electric/80 mb-2">Thought exercise</p>
+            <p className="kicker text-cyan-electric/80 mb-2">A path, not a lab</p>
             <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-[-0.03em] text-white">
               {activeScenario.title}
             </h2>
             <p className="lede mt-2 max-w-xl">{activeScenario.goal}</p>
           </div>
           <div className="flex items-center gap-2 font-sans text-xs text-slate-500">
-            <span>Modeled latency <strong className="text-cyan-electric">{totalLatency}ms</strong></span>
+            <span>Latency <strong className="text-cyan-electric">{totalLatency}ms</strong></span>
             <span className="text-slate-700">·</span>
-            <span>Modeled cost <strong className="text-emerald-glow">${totalCost}/mo</strong></span>
+            <span>Cost <strong className="text-emerald-glow">${totalCost}/mo</strong></span>
           </div>
         </div>
 
@@ -488,7 +487,7 @@ export default function AdrSimulatorTab() {
         /* --- MADR DOCUMENT PREVIEW --- */
         <div className="p-6 rounded-xl border border-obsidian-border bg-slate-950 font-mono text-xs text-slate-300 space-y-4 custom-scrollbar overflow-x-auto">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <span className="text-cyan-electric font-bold">{activeScenario.adrId}: modeled record</span>
+            <span className="text-cyan-electric font-bold">{activeScenario.title}</span>
             <div className="flex items-center gap-2">
               <button type="button"
                 onClick={handleCopyReport}
@@ -593,8 +592,8 @@ export default function AdrSimulatorTab() {
               {!isCompliant && <span className="text-xs font-normal text-rose-400">({constraintViolations.length})</span>}
             </div>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 font-sans text-xs text-slate-300 pt-1">
-              <span>Modeled latency <strong className="text-cyan-electric text-sm">{totalLatency} ms</strong></span>
-              <span>Modeled cost <strong className="text-emerald-glow text-sm">${totalCost.toLocaleString()}/mo</strong></span>
+              <span>Latency <strong className="text-cyan-electric text-sm">{totalLatency} ms</strong></span>
+              <span>Cost <strong className="text-emerald-glow text-sm">${totalCost.toLocaleString()}/mo</strong></span>
             </div>
           </div>
 
@@ -622,7 +621,7 @@ export default function AdrSimulatorTab() {
               <FileText size={16} /> What this path costs
             </div>
             <span className="text-xs px-2 py-0.5 rounded border border-cyan-electric/40 bg-cyan-electric/10 font-sans text-cyan-electric">
-              Thought exercise
+              Estimates
             </span>
           </div>
 
@@ -641,7 +640,7 @@ export default function AdrSimulatorTab() {
               <span className="font-sans text-xs uppercase text-emerald-glow font-bold block">Trade-off</span>
               <p className="text-slate-300">
                 {isCompliant
-                  ? `Fits the constraints. Modeled latency ${totalLatency}ms, cost $${totalCost.toLocaleString()}/mo.`
+                  ? `Fits the constraints. Latency ${totalLatency}ms, cost $${totalCost.toLocaleString()}/mo.`
                   : `Conflicts: ${constraintViolations[0] || "Review the choices"}`}
               </p>
             </div>

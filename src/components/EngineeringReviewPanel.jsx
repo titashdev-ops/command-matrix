@@ -51,7 +51,7 @@ export default function EngineeringReviewPanel({ mission }) {
             {why}
           </p>
           <p className="font-sans text-sm text-slate-500">
-            What I would defend in a review. Modeled — not a live SLA.
+            What I would defend. Not a live SLA.
           </p>
         </div>
         <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6">

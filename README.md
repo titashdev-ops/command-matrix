@@ -35,8 +35,6 @@ npm install
 npm run dev
 ```
 
-Then open the URL Vite prints (default is port 8080).
-
 ## Build
 
 ```bash
@@ -55,9 +53,11 @@ The discovery wizard opens a `mailto:` brief to `titashdev@gmail.com`. There is 
 ```text
 src/           HUD UI, routes, and case-study data
 public/        Favicon and share card
-scripts/       Vite host adapters (PWA/OG injection for the hosted preview)
-server/        TanStack Start / Nitro middleware used at build time
+scripts/       Host-preview adapters (PWA/OG injection)
+server/        TanStack Start / Nitro build adapter
 ```
+
+The product is a static SPA. `scripts/` and `server/` exist so the same repo can build on the hosted preview and on Vercel. They are not an application backend. There is no runtime API.
 
 ## License
 

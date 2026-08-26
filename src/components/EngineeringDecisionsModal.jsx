@@ -8,7 +8,7 @@ import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { modalReveal, coverReveal, easeLux } from "../lib/motion";
+import { modalReveal, coverReveal, overlayFade } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -33,15 +33,12 @@ export default function EngineeringDecisionsModal() {
 
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.48, ease: easeLux }}
-        className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-2 sm:p-4 md:p-8 backdrop-blur-md overflow-hidden"
-        onClick={closeAdrs}
-        role="presentation" // Outer div shouldn't be the dialog if it doesn't have the content trapped
-      >
+        <motion.div
+          {...overlayFade}
+          className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-2 sm:p-4 md:p-8 backdrop-blur-md overflow-hidden"
+          onClick={closeAdrs}
+          role="presentation"
+        >
         <motion.div
           ref={modalRef}
           role="dialog"
@@ -101,7 +98,7 @@ export default function EngineeringDecisionsModal() {
           {/* Header note */}
           <div className="border-b border-obsidian-border/60 bg-obsidian/70 px-4 py-2.5 sm:px-6 shrink-0">
             <p className="font-sans text-xs sm:text-sm text-slate-400">
-              Choices I would defend. The model is a thought exercise, not a live system.
+              Choices I would defend. Not a live system.
             </p>
           </div>
           

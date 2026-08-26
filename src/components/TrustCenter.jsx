@@ -11,11 +11,11 @@ import { useSystemCommand } from "../context/SystemCommandContext";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const TRUST_SECTIONS = [
-  { id: "adrs", label: "Architecture Decision Records", icon: FileText },
-  { id: "benchmarks", label: "Benchmark Library", icon: Activity },
-  { id: "reports", label: "Engineering Reports", icon: Database },
-  { id: "diagrams", label: "System Diagrams", icon: Network },
-  { id: "resume", label: "Resume & Profiles", icon: Briefcase },
+  { id: "adrs", label: "Records", icon: FileText },
+  { id: "benchmarks", label: "Comparisons", icon: Activity },
+  { id: "reports", label: "Notes", icon: Database },
+  { id: "diagrams", label: "Diagrams", icon: Network },
+  { id: "resume", label: "Resume", icon: Briefcase },
 ];
 
 export default function TrustCenter() {
@@ -28,10 +28,10 @@ export default function TrustCenter() {
       <div className="flex flex-col border-b border-obsidian-border/60 p-6 bg-obsidian/80">
         <div className="flex items-center gap-3 mb-2">
           <Shield className="text-emerald-400" size={24} />
-          <h2 className="text-xl font-display font-bold text-slate-100 tracking-[-0.03em]">Trust Center</h2>
+          <h2 className="text-xl font-display font-bold text-slate-100 tracking-[-0.03em]">Evidence</h2>
         </div>
-        <p className="font-mono text-xs text-slate-400 uppercase tracking-wide">
-          Modeled engineering evidence • labeled simulations, not live ops telemetry
+        <p className="font-sans text-sm text-slate-400">
+          Named comparisons and notes. Simulations are labeled.
         </p>
       </div>
 
@@ -46,7 +46,7 @@ export default function TrustCenter() {
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors font-sans text-xs uppercase tracking-wider",
+                  "flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors font-sans text-sm tracking-wide",
                   isActive 
                     ? "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20" 
                     : "text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-transparent"
@@ -65,9 +65,9 @@ export default function TrustCenter() {
           {activeSection === "adrs" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-6 border-b border-obsidian-border/40 pb-4">
-                <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider">Architecture Decision Records</h3>
-                <button type="button" onClick={openAdrs} className="px-3 py-1 bg-obsidian-surface hover:bg-slate-800 border border-obsidian-border text-xs font-mono text-cyan-electric rounded transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]">
-                  Open ADR Inspector
+                <h3 className="font-sans text-sm tracking-wide text-slate-400">Records</h3>
+                <button type="button" onClick={openAdrs} className="px-3 py-1 bg-obsidian-surface hover:bg-slate-800 border border-obsidian-border text-xs font-sans text-cyan-electric rounded transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]">
+                  Open records
                 </button>
               </div>
               
@@ -133,7 +133,7 @@ export default function TrustCenter() {
           {activeSection === "reports" && (
             <div className="space-y-4">
               <div className="mb-6 border-b border-obsidian-border/40 pb-4">
-                <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider">Engineering Reports & Audits</h3>
+                <h3 className="font-sans text-sm tracking-wide text-slate-400">Notes</h3>
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -162,7 +162,7 @@ export default function TrustCenter() {
           {activeSection === "diagrams" && (
             <div className="space-y-4">
               <div className="mb-6 border-b border-obsidian-border/40 pb-4">
-                <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider">System Diagrams</h3>
+                <h3 className="font-sans text-sm tracking-wide text-slate-400">Diagrams</h3>
               </div>
               <div className="p-12 text-center border border-dashed border-obsidian-border/60 rounded-lg">
                 <Network size={32} className="mx-auto text-slate-600 mb-3" />
@@ -174,7 +174,7 @@ export default function TrustCenter() {
           {activeSection === "resume" && (
             <div className="space-y-4">
               <div className="mb-6 border-b border-obsidian-border/40 pb-4">
-                <h3 className="font-sans font-medium text-slate-400 uppercase tracking-wider">Resume & Professional Profiles</h3>
+                <h3 className="font-sans text-sm tracking-wide text-slate-400">Resume</h3>
               </div>
               
               <div className="flex gap-4">

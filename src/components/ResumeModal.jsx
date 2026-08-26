@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useModal } from "../hooks/useModal";
+import { overlayFade, modalReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -18,31 +19,22 @@ export default function ResumeModal() {
 
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="pointer-events-auto fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-2 sm:p-4 md:p-6 backdrop-blur-sm overflow-hidden"
-        onClick={closeResume}
-        role="presentation" // outer div
-      >
+        <motion.div
+          {...overlayFade}
+          className="pointer-events-auto fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-2 sm:p-4 md:p-6 backdrop-blur-sm overflow-hidden"
+          onClick={closeResume}
+          role="presentation"
+        >
         <motion.div
           ref={modalRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby="resume-title"
           onClick={(e) => e.stopPropagation()}
-          initial={{ y: 20, opacity: 0, scale: 0.94 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          exit={{ y: 20, opacity: 0, scale: 0.94 }}
-          transition={{
-            type: "spring",
-            stiffness: 320,
-            damping: 22,
-            mass: 0.85,
-            bounce: 0.22,
-          }}
+          initial={modalReveal.initial}
+          animate={modalReveal.animate}
+          exit={modalReveal.exit}
+          transition={modalReveal.transition}
           className="relative flex h-full max-h-[96vh] sm:max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-900 shadow-2xl overscroll-contain"
         >
           {/* Clean Header */}

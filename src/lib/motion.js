@@ -22,6 +22,13 @@ export const springSoft = {
   mass: 0.9,
 };
 
+export const overlayFade = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.28, ease: easeLux },
+};
+
 export const fadeSwap = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },

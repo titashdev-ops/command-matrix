@@ -14,7 +14,7 @@ import { useRef } from "react";
 import { CASE_STUDIES, getEngineeringIntelligence } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
-import { coverReveal, modalReveal, easeLux } from "../lib/motion";
+import { coverReveal, modalReveal, overlayFade } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -314,11 +314,8 @@ function IndexView({ onSelectProject, onClose }) {
           <h2 id="case-studies-title" className="font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight mb-1 sm:mb-2 flex items-center gap-3">
             <Layout className="text-cyan-electric shrink-0" size={24} /> Case archive
           </h2>
-          <div className="font-sans text-xs uppercase tracking-[0.18em] text-slate-500 flex items-center gap-3 sm:gap-4 flex-wrap">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-cyan-electric rounded-full shadow-[0_0_8px_rgba(0,240,255,0.8)]" />
-              {CASE_STUDIES.length} modeled systems
-            </span>
+          <div className="font-sans text-sm text-slate-500">
+            Named systems. Simulations are labeled.
           </div>
         </div>
         <button type="button" 
@@ -330,46 +327,11 @@ function IndexView({ onSelectProject, onClose }) {
         </button>
       </div>
 
-      {/* Executive Engineering Briefing */}
       <div className="shrink-0 mb-4 sm:mb-6 p-3.5 sm:p-5 rounded-xl border border-obsidian-border/80 bg-obsidian-surface/40 backdrop-blur-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-cyan-electric/10 to-transparent pointer-events-none blur-xl" />
-        <div className="flex items-center justify-between mb-2.5 relative z-10">
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={14} className="text-cyan-electric shrink-0" />
-            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-300 font-semibold">Archive overview</span>
-          </div>
-          <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 bg-obsidian px-2 py-0.5 rounded border border-obsidian-border hidden sm:inline-block">Portfolio</span>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 relative z-10">
-          <div className="p-2.5 sm:p-3 rounded-lg bg-obsidian/80 border border-obsidian-border/60">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1 truncate">Simulations</div>
-            <div className="font-sans text-base sm:text-lg font-bold text-cyan-electric flex items-center justify-between">
-              {CASE_STUDIES.filter(c => c.implementationStatus === "Simulation").length}
-              <span className="text-[8px] sm:text-xs font-normal text-slate-400">Modeled</span>
-            </div>
-          </div>
-          <div className="p-2.5 sm:p-3 rounded-lg bg-obsidian/80 border border-obsidian-border/60">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1 truncate">Prototypes</div>
-            <div className="font-sans text-base sm:text-lg font-bold text-violet-400 flex items-center justify-between">
-              {CASE_STUDIES.filter(c => c.implementationStatus === "Prototype").length}
-              <span className="text-[8px] sm:text-xs font-normal text-slate-400">Active</span>
-            </div>
-          </div>
-          <div className="p-2.5 sm:p-3 rounded-lg bg-obsidian/80 border border-obsidian-border/60">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1 truncate">Internal Systems</div>
-            <div className="font-sans text-base sm:text-lg font-bold text-amber-400 flex items-center justify-between">
-              {CASE_STUDIES.filter(c => c.implementationStatus === "Internal").length}
-              <span className="text-[8px] sm:text-xs font-normal text-slate-400">Local-First</span>
-            </div>
-          </div>
-          <div className="p-2.5 sm:p-3 rounded-lg bg-obsidian/80 border border-obsidian-border/60">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1 truncate">Research & R&D</div>
-            <div className="font-sans text-base sm:text-lg font-bold text-emerald-400 flex items-center justify-between">
-              {CASE_STUDIES.filter(c => c.implementationStatus === "Research" || c.implementationStatus === "Concept").length}
-              <span className="text-[8px] sm:text-xs font-normal text-slate-400">Spatial/AI</span>
-            </div>
-          </div>
-        </div>
+        <p className="lede relative z-10 max-w-2xl">
+          Four named systems first. The rest is supporting work. Open a cover, then the brief.
+        </p>
       </div>
 
       {/* Tabs - Scrollable on mobile */}
@@ -568,10 +530,7 @@ export default function FlagshipProjectsModal() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.48, ease: easeLux }}
+        {...overlayFade}
         className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-2 sm:p-4 md:p-8 backdrop-blur-xl overflow-hidden"
         style={{ perspective: 1400 }}
         onClick={handleModalClose}
