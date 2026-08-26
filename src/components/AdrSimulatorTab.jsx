@@ -10,23 +10,23 @@ import { twMerge } from "tailwind-merge";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const ENTERPRISE_CONSTRAINTS = [
-  { id: "STRICT_COMPLIANCE", label: "HIPAA / SOC2 Audit Trail", icon: Lock },
-  { id: "LOW_LATENCY_SLA", label: "Sub-50ms P99 SLA", icon: Zap },
-  { id: "BUDGET_CAP", label: "Cloud Cost Cap ($1,500/mo)", icon: DollarSign },
-  { id: "ZERO_DOWNTIME", label: "Multi-Region Active-Active", icon: Shield }
+  { id: "STRICT_COMPLIANCE", label: "Audit trail", icon: Lock },
+  { id: "LOW_LATENCY_SLA", label: "Low latency", icon: Zap },
+  { id: "BUDGET_CAP", label: "Budget", icon: DollarSign },
+  { id: "ZERO_DOWNTIME", label: "Always on", icon: Shield }
 ];
 
 const SIM_SCENARIOS = [
   {
     id: "UAV_TELEMETRY",
-    title: "Scenario A: UAV Kinematic Telemetry & C2 Matrix",
-    goal: "Ingest 500+ live drone flight streams, 60 FPS spatial telemetry, sub-50ms glass-to-glass control loops.",
+    title: "Fleet telemetry",
+    goal: "A fleet operator needs a live-feeling viewport. This is a model of that choice — not a live fleet.",
     adrId: "ADR-001",
-    context: "High-frequency UAV kinematic telemetry requires minimal wire protocol overhead, non-blocking browser rendering, and time-series persistence capable of handling 50,000 writes/sec without write lock contention.",
+    context: "High-frequency positions and a spatial viewport. The tension is wire cost vs. a frame that stays smooth.",
     nodes: [
       {
-        stepTitle: "1. Ingestion Protocol Architecture",
-        question: "Which transport protocol pipeline satisfies sub-50ms glass-to-glass video & spatial control?",
+        stepTitle: "Ingress",
+        question: "How do positions and video get to the operator?",
         options: [
           { 
             id: "webrtc_mqtt", 
@@ -35,7 +35,7 @@ const SIM_SCENARIOS = [
             cost: 650, 
             score: 98, 
             violates: [],
-            note: "Optimal ultra-low latency & bi-directional telemetry control with zero wire serialization bloat." 
+            note: "Light on the wire. Bidirectional. The usual pick when the operator has to feel present." 
           },
           { 
             id: "hls_http", 
@@ -44,7 +44,7 @@ const SIM_SCENARIOS = [
             cost: 200, 
             score: 32, 
             violates: ["LOW_LATENCY_SLA"],
-            note: "Unacceptable latency for live drone command and control. Unusable for real-time evasive maneuvers." 
+            note: "Fine for playback. Too slow if the operator is still in the loop." 
           },
           { 
             id: "grpc_web", 
@@ -53,13 +53,13 @@ const SIM_SCENARIOS = [
             cost: 450, 
             score: 82, 
             violates: [],
-            note: "Strongly typed protobuf protocol, but slightly higher overhead than WebRTC DataChannels for video-sync." 
+            note: "Typed and solid. A bit heavier than a data channel for video-sync." 
           }
         ]
       },
       {
-        stepTitle: "2. Client-Side Rendering Engine",
-        question: "How should 60 FPS spatial updates update the browser viewport without DOM thrashing?",
+        stepTitle: "Viewport",
+        question: "How should the map update without fighting React?",
         options: [
           { 
             id: "transient_refs", 
@@ -68,7 +68,7 @@ const SIM_SCENARIOS = [
             cost: 150, 
             score: 96, 
             violates: [],
-            note: "Completely bypasses React reconciliation loops during 60 Hz tick updates. Sub-frame rendering latency." 
+            note: "Skip React on the tick. The canvas owns the frame." 
           },
           { 
             id: "react_state", 
@@ -77,13 +77,13 @@ const SIM_SCENARIOS = [
             cost: 50, 
             score: 40, 
             violates: ["LOW_LATENCY_SLA"],
-            note: "Triggers frequent full tree re-renders at 60 FPS, causing frame drops and input lag." 
+            note: "The tree re-renders on every tick. Frames drop." 
           }
         ]
       },
       {
-        stepTitle: "3. Hot Time-Series Storage",
-        question: "Where should high-frequency spatial points be persisted for immediate playback & audit?",
+        stepTitle: "Storage",
+        question: "Where do the points live if you want to replay them?",
         options: [
           { 
             id: "timescale_redis", 
@@ -92,7 +92,7 @@ const SIM_SCENARIOS = [
             cost: 800, 
             score: 95, 
             violates: [],
-            note: "Sub-millisecond query performance with 90% columnar compression ratios." 
+            note: "Hot cache plus compressed history. Modeled, not a measured SLA." 
           },
           { 
             id: "standard_postgres", 
@@ -101,7 +101,7 @@ const SIM_SCENARIOS = [
             cost: 120, 
             score: 50, 
             violates: ["LOW_LATENCY_SLA"],
-            note: "Table locks under high concurrent insert volume (50k/s) stall write threads." 
+            note: "Writes pile up. Fine for a demo table, not a storm of points." 
           }
         ]
       }
@@ -109,14 +109,14 @@ const SIM_SCENARIOS = [
   },
   {
     id: "HEALTHCARE_EMR",
-    title: "Scenario B: Enterprise Clinical Healthcare EMR OS",
-    goal: "Multi-practice patient dental records, HIPAA audit compliance, field-level encryption, and zero race conditions.",
+    title: "Clinical records",
+    goal: "Many rooms, one patient story. A model of how the record is written — not a live EMR.",
     adrId: "ADR-002",
-    context: "Clinical healthcare EMR systems must satisfy immutable HIPAA audit requirements, granular role-based access control (RBAC), and multi-tenant patient data segregation across clinical imaging and billing microservices.",
+    context: "Clinical data wants an audit trail, clear roles, and no silent overwrites when two people edit at once.",
     nodes: [
       {
-        stepTitle: "1. Data Mutation & Audit Pattern",
-        question: "Which architecture pattern guarantees immutable patient history auditing with zero race conditions?",
+        stepTitle: "How the record is written",
+        question: "What keeps history honest when two people edit the same patient?",
         options: [
           { 
             id: "cqrs_kafka", 
@@ -125,7 +125,7 @@ const SIM_SCENARIOS = [
             cost: 1200, 
             score: 96, 
             violates: [],
-            note: "Complete immutable audit trail of every patient change with decoupled read-side GraphQL projections." 
+            note: "Every change is an event. The read model is a projection. Audit is the log itself." 
           },
           { 
             id: "monolith_crud", 
@@ -134,13 +134,13 @@ const SIM_SCENARIOS = [
             cost: 300, 
             score: 55, 
             violates: ["STRICT_COMPLIANCE"],
-            note: "Risk of silent overwrites during concurrent multi-provider patient updates. Defeats zero-trust audit compliance." 
+            note: "Two writes can overwrite each other. The log is whoever saved last." 
           }
         ]
       },
       {
-        stepTitle: "2. Service Federation Layer",
-        question: "How to unify decoupled patient, billing, and clinical imaging services safely?",
+        stepTitle: "How services meet",
+        question: "How do records, billing, and imaging talk without a mess of clients?",
         options: [
           { 
             id: "graphql_federation", 
@@ -149,7 +149,7 @@ const SIM_SCENARIOS = [
             cost: 500, 
             score: 94, 
             violates: [],
-            note: "Single strongly-typed schema gateway for heterogeneous client web and mobile apps." 
+            note: "One schema at the edge. Clients stay simple." 
           },
           { 
             id: "rest_mesh", 
@@ -158,13 +158,13 @@ const SIM_SCENARIOS = [
             cost: 200, 
             score: 60, 
             violates: [],
-            note: "Causes N+1 query waterfall overhead and fragmented client-side state handling." 
+            note: "Each client stitches REST. Waterfalls and split state." 
           }
         ]
       },
       {
-        stepTitle: "3. Cryptographic Security & RBAC",
-        question: "Which authentication architecture enforces strict HIPAA role-based data isolation?",
+        stepTitle: "Who can see what",
+        question: "How do you keep roles and fields from leaking?",
         options: [
           { 
             id: "jwt_pki_rbac", 
@@ -173,7 +173,7 @@ const SIM_SCENARIOS = [
             cost: 400, 
             score: 98, 
             violates: [],
-            note: "Zero-trust compliance with cryptographic field-level audit log hashes and immediate token revocation." 
+            note: "Short tokens, field encryption. Modeled isolation — not a certified clinic." 
           },
           { 
             id: "session_cookies", 
@@ -182,7 +182,7 @@ const SIM_SCENARIOS = [
             cost: 100, 
             score: 65, 
             violates: ["STRICT_COMPLIANCE"],
-            note: "Harder to scale securely across edge-cached GraphQL API endpoints." 
+            note: "Sessions work until you spread the API across the edge." 
           }
         ]
       }
@@ -190,14 +190,14 @@ const SIM_SCENARIOS = [
   },
   {
     id: "VECTOR_GRAPH_AI",
-    title: "Scenario C: Hybrid RAG & Knowledge Graph AI Engine",
-    goal: "Sub-100ms vector similarity search combined with multi-hop graph entity traversal for enterprise AI reasoning.",
+    title: "Knowledge graph",
+    goal: "Find a thing, then walk its neighbors. A model of retrieval — not a live RAG service.",
     adrId: "ADR-003",
-    context: "RAG knowledge systems must bridge vector embeddings with structural graph relationships without incurring high vector search latency or unbounded graph traversal memory overhead.",
+    context: "Vectors find similar notes. A graph holds how they relate. The trade-off is speed versus how far you walk.",
     nodes: [
       {
-        stepTitle: "1. Knowledge Representation Engine",
-        question: "Which storage topology unifies semantic vector embeddings with deep entity graph relations?",
+        stepTitle: "How knowledge is stored",
+        question: "Vectors, a graph, or both?",
         options: [
           { 
             id: "pinecone_neo4j", 
@@ -206,7 +206,7 @@ const SIM_SCENARIOS = [
             cost: 1400, 
             score: 95, 
             violates: [],
-            note: "Fast parallel retrieval: Cosine nearest-neighbor vectors paired with 3-hop graph relationship context." 
+            note: "Neighbors from the vector store, context from a few graph hops." 
           },
           { 
             id: "pgvector_only", 
@@ -215,13 +215,13 @@ const SIM_SCENARIOS = [
             cost: 350, 
             score: 72, 
             violates: ["LOW_LATENCY_SLA"],
-            note: "Economical, but vector index query time scales poorly beyond 10M embeddings under high traffic." 
+            note: "One database, cheaper. Slows down as the index grows." 
           }
         ]
       },
       {
-        stepTitle: "2. Caching & Subgraph Pruning",
-        question: "How to prevent multi-hop graph queries from causing latency spikes during peak load?",
+        stepTitle: "How far you walk",
+        question: "What stops a graph query from wandering?",
         options: [
           { 
             id: "bloom_subgraph", 
@@ -230,7 +230,7 @@ const SIM_SCENARIOS = [
             cost: 300, 
             score: 97, 
             violates: [],
-            note: "Filters out 92% of redundant graph traversals before reaching the database." 
+            note: "Skip hops you already know are empty. Modeled pruning." 
           },
           { 
             id: "uncached_traversal", 
@@ -239,7 +239,7 @@ const SIM_SCENARIOS = [
             cost: 100, 
             score: 45, 
             violates: ["LOW_LATENCY_SLA"],
-            note: "Dynamic multi-hop traversals exhaust database CPU cores under concurrent query loads." 
+            note: "Every walk hits the graph cold. Fine until many people ask at once." 
           }
         ]
       }
@@ -309,13 +309,13 @@ export default function AdrSimulatorTab() {
       // Check active constraints
       activeConstraints.forEach(c => {
         if (opt.violates.includes(c)) {
-          constraintViolations.push(`${node.stepTitle}: ${opt.label} violates ${c.replace("_", " ")}`);
+          constraintViolations.push(`${node.stepTitle}: ${opt.label} conflicts with ${c.replace("_", " ")}`);
         }
       });
 
       if (activeConstraints.includes("BUDGET_CAP") && totalCost > 1500) {
-        if (!constraintViolations.includes("Cloud Cost exceeds $1,500/mo cap")) {
-          constraintViolations.push("Cloud Cost exceeds $1,500/mo cap");
+        if (!constraintViolations.includes("Over the modeled budget")) {
+          constraintViolations.push("Over the modeled budget");
         }
       }
     }
@@ -329,42 +329,42 @@ export default function AdrSimulatorTab() {
     return [
       `# ${activeScenario.adrId}: ${activeScenario.title}`,
       ``,
-      `* **Status:** ${isCompliant ? "ACCEPTED // COMPLIANT" : "REJECTED // CONSTRAINT VIOLATIONS DETECTED"}`,
+      `* **Status:** ${isCompliant ? "Documented" : "Conflicts with a constraint"}`,
       `* **Date:** ${new Date().toISOString().substring(0, 10)}`,
-      `* **Composite Score:** ${avgScore}/100`,
-      `* **Pipeline Latency:** ${totalLatency} ms`,
-      `* **Est. Monthly Cost:** $${totalCost.toLocaleString()}/mo`,
+      `* **Modeled score:** ${avgScore}/100`,
+      `* **Modeled latency:** ${totalLatency} ms`,
+      `* **Modeled cost:** $${totalCost.toLocaleString()}/mo`,
       ``,
-      `## Context & Problem Statement`,
+      `## Context`,
       `${activeScenario.context}`,
-      `**Operational Goal:** ${activeScenario.goal}`,
+      `**Goal:** ${activeScenario.goal}`,
       ``,
-      `## Active Operational Constraints`,
+      `## Constraints`,
       activeConstraints.length > 0 
         ? activeConstraints.map(c => `- [x] ${c.replace("_", " ")}`).join('\n')
-        : `- None specified`,
+        : `- None`,
       ``,
-      `## Architectural Decision Matrix`,
+      `## Choices`,
       ``,
-      `| Decision Vector | Chosen Architecture Option | Latency | Est. Cost | Rationale |`,
+      `| Step | Choice | Latency | Cost | Why |`,
       `|---|---|---|---|---|`,
       ...activeScenario.nodes.map((node, stepIndex) => {
         const selectedOptId = currentSelections[stepIndex];
         const opt = node.options.find(o => o.id === selectedOptId);
-        return `| **${node.stepTitle}** | ${opt?.label || 'None'} | ${opt?.latency || 0} ms | $${opt?.cost || 0}/mo | ${opt?.note || 'N/A'} |`;
+        return `| **${node.stepTitle}** | ${opt?.label || 'None'} | ${opt?.latency || 0} ms | $${opt?.cost || 0}/mo | ${opt?.note || '—'} |`;
       }),
       ``,
-      `## Compliance & Risk Analysis`,
+      `## Outcome`,
       isCompliant
-        ? `* **Compliance:** PASSED. All architectural choices satisfy active operational constraints.`
-        : `* **Violations Detected:**\n` + constraintViolations.map(v => `  - WARNING: ${v}`).join('\n'),
+        ? `* Fits the constraints you turned on. Modeled — not a live SLA.`
+        : `* Conflicts:\n` + constraintViolations.map(v => `  - ${v}`).join('\n'),
       ``,
-      `## Consequences & Mitigations`,
-      `* **Positive Impact:** Sub-system latency bounded at ${totalLatency}ms with modular component separation.`,
-      `* **Structural Failure Mode:** High concurrency spike mitigation handled via circuit breaker load shedding.`,
+      `## What you give up`,
+      `* Latency in this model: ${totalLatency}ms.`,
+      `* Cost in this model: $${totalCost.toLocaleString()}/mo.`,
       ``,
       `---`,
-      `*Generated by Titash Dev System Command Engineering Decision Matrix (Portfolio Decision-Support Tool)*`
+      `*Thought exercise from this portfolio. Not production telemetry.*`
     ].join('\n');
   };
 
@@ -392,27 +392,22 @@ export default function AdrSimulatorTab() {
       {/* Top Controls & Mode Switcher */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-obsidian-border/60 pb-4">
         <div>
-          <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric flex items-center gap-2">
-            <GitCommit size={16} /> Architectural Tradeoff Decision-Support Tool & MADR Generator
+          <div className="font-display text-sm font-bold text-white flex items-center gap-2">
+            <GitCommit size={16} className="text-cyan-electric" /> Trade-off model
           </div>
-          <div className="font-sans text-xs text-slate-400">
-            Compare architectural branches under SLA, cost, and compliance constraints to evaluate trade-offs and export MADR records.
+          <div className="font-sans text-xs text-slate-400 mt-1">
+            Pick a path. See what you give up. A thought exercise — not a live system.
           </div>
         </div>
 
-        {/* Simulation Boundaries & Trust Panel */}
         <div className="w-full lg:w-auto p-3.5 rounded-lg border border-cyan-electric/30 bg-cyan-electric/5 space-y-1.5 shrink-0">
-          <div className="flex items-center justify-between gap-3 font-sans font-medium text-slate-400 uppercase tracking-wider">
-            <span className="flex items-center gap-1.5"><GitCommit size={13} /> Decision Boundaries</span>
-            <span className="text-xs px-1.5 py-0.5 rounded border border-cyan-electric/40 bg-cyan-electric/10">Decision-Support</span>
+          <div className="flex items-center justify-between gap-3">
+            <span className="kicker text-cyan-electric/80">Modeled</span>
+            <span className="text-xs px-1.5 py-0.5 rounded border border-cyan-electric/40 bg-cyan-electric/10 text-cyan-electric">Thought exercise</span>
           </div>
           <p className="font-sans text-sm text-slate-300 leading-snug">
-            Evaluates trade-off branches against SLA, cost caps, and compliance mandates.
+            Constraints color the choices. They are hypothetical, not a lab.
           </p>
-          <div className="flex items-center gap-3 font-sans text-xs text-slate-400 pt-0.5">
-            <div><strong className="text-emerald-glow">Demonstrates:</strong> Trade-off reasoning & MADRs</div>
-            <div><strong className="text-purple-300">Scope:</strong> Educational Evidence</div>
-          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -427,7 +422,7 @@ export default function AdrSimulatorTab() {
                   : "text-slate-400 hover:text-white"
               )}
             >
-              DECISION TREE
+              CHOICES
             </button>
             <button type="button"
               onClick={() => setViewFormat("MADR_DOCUMENT")}
@@ -438,7 +433,7 @@ export default function AdrSimulatorTab() {
                   : "text-slate-400 hover:text-white"
               )}
             >
-              <FileText size={12} /> MADR DOCUMENT
+              <FileText size={12} /> RECORD
             </button>
           </div>
 
@@ -481,16 +476,16 @@ export default function AdrSimulatorTab() {
         </div>
 
         <div className="flex items-center gap-2 font-mono text-sm text-slate-400 border-t md:border-t-0 border-obsidian-border/60 pt-2 md:pt-0">
-          <span>Est. Latency: <strong className="text-cyan-electric">{totalLatency}ms</strong></span>
+          <span>Modeled latency: <strong className="text-cyan-electric">{totalLatency}ms</strong></span>
           <span className="text-slate-600">|</span>
-          <span>Est. Cost: <strong className="text-emerald-glow">${totalCost}/mo</strong></span>
+          <span>Modeled cost: <strong className="text-emerald-glow">${totalCost}/mo</strong></span>
         </div>
       </div>
 
       {/* Operational Constraint Toggles */}
       <div className="p-4 rounded-xl border border-obsidian-border bg-obsidian-surface/40 space-y-2">
         <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-          <Lock size={13} className="text-amber-400" /> Active Enterprise Constraints & SLA Rules
+          <Lock size={13} className="text-amber-400" /> Constraints
         </div>
         <div className="flex flex-wrap gap-2">
           {ENTERPRISE_CONSTRAINTS.map(c => {
@@ -519,20 +514,20 @@ export default function AdrSimulatorTab() {
         /* --- MADR DOCUMENT PREVIEW --- */
         <div className="p-6 rounded-xl border border-obsidian-border bg-slate-950 font-mono text-xs text-slate-300 space-y-4 custom-scrollbar overflow-x-auto">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <span className="text-cyan-electric font-bold">{activeScenario.adrId}: ARCHITECTURAL DECISION RECORD</span>
+            <span className="text-cyan-electric font-bold">{activeScenario.adrId}: modeled record</span>
             <div className="flex items-center gap-2">
               <button type="button"
                 onClick={handleCopyReport}
                 className="flex items-center gap-1.5 px-3 py-1 rounded border border-cyan-electric/40 bg-cyan-electric/10 text-cyan-electric hover:bg-cyan-electric/20 transition-all duration-200 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
               >
                 {copied ? <Check size={12} /> : <Copy size={12} />}
-                {copied ? "COPIED" : "COPY MARKDOWN"}
+                {copied ? "Copied" : "Copy"}
               </button>
               <button type="button"
                 onClick={handleDownloadReport}
                 className="flex items-center gap-1.5 px-3 py-1 rounded border border-emerald-glow/40 bg-emerald-glow/10 text-emerald-glow hover:bg-emerald-glow/20 transition-all duration-200 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
               >
-                <Download size={12} /> DOWNLOAD .MD
+                <Download size={12} /> Download
               </button>
             </div>
           </div>
@@ -585,14 +580,13 @@ export default function AdrSimulatorTab() {
 
                         {hasViolation && (
                           <div className="flex items-center gap-1 font-sans text-xs text-rose-400 mt-1 font-bold">
-                            <AlertTriangle size={12} /> Constraint Violation
+                            <AlertTriangle size={12} /> Conflicts
                           </div>
                         )}
 
                         <div className="flex items-center justify-between font-mono text-xs text-slate-400 mt-2.5 pt-2 ">
                           <span>Latency: <strong className={opt.latency < 50 ? "text-emerald-glow" : "text-amber-400"}>{opt.latency}ms</strong></span>
                           <span>Cost: <strong className="text-emerald-glow">${opt.cost}/mo</strong></span>
-                          <span>Score: <strong className="text-cyan-electric">{opt.score}/100</strong></span>
                         </div>
 
                         <p className="mt-2 text-sm text-slate-400 leading-relaxed">
@@ -621,13 +615,13 @@ export default function AdrSimulatorTab() {
               "font-sans text-xs font-bold uppercase tracking-wider flex items-center justify-center md:justify-start gap-2",
               isCompliant ? "text-emerald-glow" : "text-rose-400"
             )}>
-              <ShieldCheck size={16} /> Composite Decision Evaluation Scorecard
-              {!isCompliant && <span className="text-xs font-normal text-rose-400">({constraintViolations.length} Violations)</span>}
+              <ShieldCheck size={16} /> Outcome
+              {!isCompliant && <span className="text-xs font-normal text-rose-400">({constraintViolations.length} conflicts)</span>}
             </div>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 font-sans text-xs text-slate-300 pt-1">
-              <span>Overall Score: <strong className="text-emerald-glow text-sm">{avgScore} / 100</strong></span>
-              <span>Total Latency: <strong className="text-cyan-electric text-sm">{totalLatency} ms</strong></span>
-              <span>Total Monthly Cost: <strong className="text-emerald-glow text-sm">${totalCost.toLocaleString()}/mo</strong></span>
+              <span>Score: <strong className="text-emerald-glow text-sm">{avgScore} / 100</strong></span>
+              <span>Modeled latency: <strong className="text-cyan-electric text-sm">{totalLatency} ms</strong></span>
+              <span>Modeled cost: <strong className="text-emerald-glow text-sm">${totalCost.toLocaleString()}/mo</strong></span>
             </div>
           </div>
 
@@ -637,13 +631,13 @@ export default function AdrSimulatorTab() {
               className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-cyan-electric/50 bg-cyan-electric/10 font-sans text-xs font-bold text-cyan-electric hover:bg-cyan-electric/20 transition-all duration-200 shrink-0 min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
             >
               {copied ? <Check size={16} /> : <Copy size={16} />}
-              {copied ? "MARKDOWN COPIED!" : "COPY MADR"}
+              {copied ? "Copied" : "Copy record"}
             </button>
             <button type="button"
               onClick={handleDownloadReport}
               className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-emerald-glow/50 bg-emerald-glow/10 font-sans text-xs font-bold text-emerald-glow hover:bg-emerald-glow/20 transition-all duration-200 shrink-0 min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
             >
-              <Download size={16} /> EXPORT .MD
+              <Download size={16} /> Download
             </button>
           </div>
         </div>
@@ -651,17 +645,17 @@ export default function AdrSimulatorTab() {
         {/* Engineering Takeaways & Decision Synthesis */}
         <div className="p-5 rounded-xl border border-obsidian-border bg-obsidian-surface/60 space-y-4">
           <div className="flex items-center justify-between border-b border-obsidian-border/60 pb-3">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric flex items-center gap-2">
-              <FileText size={16} /> Engineering Takeaways & Trade-Off Analysis
+            <div className="font-sans text-xs font-semibold text-cyan-electric flex items-center gap-2">
+              <FileText size={16} /> What this path costs
             </div>
             <span className="text-xs px-2 py-0.5 rounded border border-cyan-electric/40 bg-cyan-electric/10 font-sans text-cyan-electric">
-              Decision-Support Tool
+              Thought exercise
             </span>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
             <div className="p-3 rounded-lg border border-obsidian-border bg-obsidian-surface/40 space-y-1">
-              <span className="font-sans text-xs uppercase text-cyan-electric font-bold block">Selected Architecture Path</span>
+              <span className="font-sans text-xs uppercase text-cyan-electric font-bold block">Path</span>
               <p className="text-slate-300 font-sans text-sm leading-tight">
                 {activeScenario.nodes.map((n, idx) => {
                   const sel = n.options.find(o => o.id === currentSelections[idx]);
@@ -671,25 +665,25 @@ export default function AdrSimulatorTab() {
             </div>
 
             <div className="p-3 rounded-lg border border-obsidian-border bg-obsidian-surface/40 space-y-1">
-              <span className="font-sans text-xs uppercase text-emerald-glow font-bold block">Trade-Offs Accepted / Rejected</span>
+              <span className="font-sans text-xs uppercase text-emerald-glow font-bold block">Trade-off</span>
               <p className="text-slate-300">
                 {isCompliant
-                  ? `Accepted higher operational complexity to guarantee sub-${totalLatency}ms latency within $${totalCost.toLocaleString()}/mo.`
-                  : `Rejected path violates active constraints: ${constraintViolations[0] || "Review selections"}`}
+                  ? `Fits the constraints. Modeled latency ${totalLatency}ms, cost $${totalCost.toLocaleString()}/mo.`
+                  : `Conflicts: ${constraintViolations[0] || "Review the choices"}`}
               </p>
             </div>
 
             <div className="p-3 rounded-lg border border-obsidian-border bg-obsidian-surface/40 space-y-1">
-              <span className="font-sans text-xs uppercase text-amber-400 font-bold block">Engineering Skill Demonstrated</span>
+              <span className="font-sans text-xs uppercase text-amber-400 font-bold block">Why it's here</span>
               <p className="text-slate-300">
-                Systematic trade-off evaluation under conflicting cost caps, SLA targets, and HIPAA/GDPR compliance mandates.
+                To show how I pick a path when latency, cost, and audit pull in different directions.
               </p>
             </div>
 
             <div className="p-3 rounded-lg border border-obsidian-border bg-obsidian-surface/40 space-y-1">
-              <span className="font-sans text-xs uppercase text-purple-400 font-bold block">Flagship Project Links</span>
+              <span className="font-sans text-xs uppercase text-purple-400 font-bold block">Related work</span>
               <p className="text-slate-300">
-                Applied across <strong>ops.dronly.in</strong>, <strong>Healthcare Systems Initiative</strong>, <strong>Prodent OS</strong>, <strong>Career OS</strong>, and <strong>Personal OS</strong>.
+                Same questions as <strong>ops.dronly.in</strong>, <strong>Healthcare</strong>, <strong>Prodent OS</strong>, and <strong>Career OS</strong>.
               </p>
             </div>
           </div>
