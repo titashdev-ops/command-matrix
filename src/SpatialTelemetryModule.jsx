@@ -40,7 +40,7 @@ export default function SpatialTelemetryModule() {
             </motion.p>
             <motion.h1
               variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 240, damping: 22 } } }}
-              className="font-sans text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_0_42px_rgba(0,240,255,0.18)]"
+              className="hologram-name font-sans text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_0_42px_rgba(0,240,255,0.22)]"
             >
               Titash Dev
             </motion.h1>

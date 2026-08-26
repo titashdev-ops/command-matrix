@@ -29,7 +29,8 @@ function Glass3DTiltCard({
   metrics, 
   description, 
   ctaText, 
-  onCtaClick, 
+  onCtaClick,
+  layoutId,
   index = 0 
 }) {
   const cardRef = useRef(null);
@@ -209,6 +210,15 @@ function Glass3DTiltCard({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={onCtaClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onCtaClick?.();
+          }
+        }}
         style={{
           rotateX,
           rotateY,
@@ -253,8 +263,10 @@ function Glass3DTiltCard({
                 <Icon size={20} />
               </div>
               <div>
-                <h3 className="font-sans text-base font-bold text-white tracking-tight group-hover:text-cyan-electric transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50">
-                  {title}
+                <h3 className="font-sans text-base font-bold text-white tracking-tight group-hover:text-cyan-electric transition-colors duration-200">
+                  <motion.span layoutId={layoutId} className="inline-block">
+                    {title}
+                  </motion.span>
                 </h3>
                 <p className="font-sans font-medium text-slate-400 uppercase tracking-wider">
                   {subtitle}
@@ -336,6 +348,7 @@ export default function FloatingIntelligenceModules() {
         { label: "STATUS", value: "Case study" }
       ],
       ctaText: "Open case study",
+      layoutId: "case-title-ops-dronly",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "ops-dronly"));
@@ -354,6 +367,7 @@ export default function FloatingIntelligenceModules() {
         { label: "STATUS", value: "Prototype" }
       ],
       ctaText: "Open case study",
+      layoutId: "case-title-sports-physio",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "sports-physio"));
@@ -372,6 +386,7 @@ export default function FloatingIntelligenceModules() {
         { label: "STATUS", value: "Modeled" }
       ],
       ctaText: "Open case study",
+      layoutId: "case-title-prodent-os",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "prodent-os"));
@@ -390,6 +405,7 @@ export default function FloatingIntelligenceModules() {
         { label: "STATUS", value: "Internal" }
       ],
       ctaText: "Open case study",
+      layoutId: "case-title-career-os",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "career-os"));

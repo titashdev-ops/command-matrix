@@ -140,6 +140,67 @@ const PROJECT_ACCENTS = {
   }
 };
 
+function DossierCover({ project, accent, intel }) {
+  const problem =
+    project.engineeringReview?.technicalProblem ||
+    project.businessProblem?.business ||
+    project.missionObjective;
+  const decision =
+    project.decisionLedger?.[0]?.decision ||
+    intel.primaryEngineeringPattern;
+  const status = project.implementationStatus;
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 240, damping: 24 }}
+      className="relative overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/70 p-6 sm:p-10 mb-10 shadow-[0_0_80px_rgba(0,240,255,0.08)]"
+    >
+      <div className="dossier-sheen" aria-hidden="true" />
+      <div className={`absolute -right-16 -top-16 h-56 w-56 rounded-full blur-3xl opacity-40 ${accent.bg}`} />
+      <div className="relative z-10 space-y-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className={cn("font-mono text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full border", accent.text, accent.bg, accent.border)}>
+            {status}
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-500">
+            {project.domain}
+          </span>
+        </div>
+        <motion.h3
+          layoutId={`case-title-${project.missionId}`}
+          className="font-sans text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.16)]"
+        >
+          {project.projectName}
+        </motion.h3>
+        <p className="max-w-2xl font-sans text-sm sm:text-base text-slate-300 leading-relaxed">
+          {project.missionObjective}
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          {[
+            { label: "Problem", value: problem },
+            { label: "Decision", value: decision },
+            { label: "Status", value: `${status} · ${project.classification}` },
+          ].map((cell) => (
+            <div
+              key={cell.label}
+              className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4 backdrop-blur-md"
+            >
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-electric/80 mb-2">
+                {cell.label}
+              </div>
+              <div className="font-sans text-xs sm:text-sm text-slate-200 leading-relaxed line-clamp-4">
+                {cell.value}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.section>
+  );
+}
+
 function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
   const { playClickSound, openAdrs } = useSystemCommand();
   const [viewMode, setViewMode] = useState("investigation"); // 'investigation' | 'review'
@@ -164,7 +225,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
           <div className="p-1.5 rounded bg-obsidian-surface border border-obsidian-border group-hover:border-slate-500 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50">
             <ArrowLeft size={14} />
           </div>
-          <span className="hidden sm:inline">Return to Mission Control</span>
+          <span className="hidden sm:inline">All case studies</span>
           <span className="sm:hidden">Return</span>
         </button>
         <div className="flex items-center gap-2 sm:gap-4">
@@ -203,6 +264,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
 
       <div className="flex-1 overflow-y-auto custom-scrollbar overscroll-contain p-4 sm:p-6 md:p-10 lg:p-12 relative">
         <div className="max-w-5xl mx-auto space-y-10 sm:space-y-16 pb-16">
+          <DossierCover project={activeProject} accent={accent} intel={intel} />
           {viewMode === "review" ? (
             <EngineeringReviewPanel 
               mission={activeProject} 
@@ -241,12 +303,14 @@ function IndexView({ onSelectProject, onClose }) {
       {/* Header */}
       <div className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
         <div>
-          <h2 className="font-mono text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-widest mb-1 sm:mb-2 flex items-center gap-3">
-            <Layout className="text-cyan-electric shrink-0" size={24} /> MISSION CONTROL
+          <h2 id="case-studies-title" className="font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight mb-1 sm:mb-2 flex items-center gap-3">
+            <Layout className="text-cyan-electric shrink-0" size={24} /> Case archive
           </h2>
-          <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 flex items-center gap-3 sm:gap-4 flex-wrap">
-            <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]" /> SYSTEM ONLINE</span>
-            <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-cyan-electric rounded-full shadow-[0_0_8px_rgba(6,182,212,0.8)]" /> {CASE_STUDIES.length} OPERATIONS</span>
+          <div className="font-sans text-xs uppercase tracking-[0.18em] text-slate-500 flex items-center gap-3 sm:gap-4 flex-wrap">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 bg-cyan-electric rounded-full shadow-[0_0_8px_rgba(0,240,255,0.8)]" />
+              {CASE_STUDIES.length} modeled systems
+            </span>
           </div>
         </div>
         <button type="button" 
@@ -264,9 +328,9 @@ function IndexView({ onSelectProject, onClose }) {
         <div className="flex items-center justify-between mb-2.5 relative z-10">
           <div className="flex items-center gap-2">
             <ShieldCheck size={14} className="text-cyan-electric shrink-0" />
-            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-300 font-semibold">EXECUTIVE ENGINEERING BRIEFING</span>
+            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-300 font-semibold">Archive overview</span>
           </div>
-          <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 bg-obsidian px-2 py-0.5 rounded border border-obsidian-border hidden sm:inline-block">COMMAND LEVEL</span>
+          <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 bg-obsidian px-2 py-0.5 rounded border border-obsidian-border hidden sm:inline-block">Portfolio</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 relative z-10">
           <div className="p-2.5 sm:p-3 rounded-lg bg-obsidian/80 border border-obsidian-border/60">
@@ -277,7 +341,7 @@ function IndexView({ onSelectProject, onClose }) {
             </div>
           </div>
           <div className="p-2.5 sm:p-3 rounded-lg bg-obsidian/80 border border-obsidian-border/60">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1 truncate">Prototype Ops</div>
+            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1 truncate">Prototypes</div>
             <div className="font-sans text-base sm:text-lg font-bold text-violet-400 flex items-center justify-between">
               {CASE_STUDIES.filter(c => c.implementationStatus === "Prototype").length}
               <span className="text-[8px] sm:text-xs font-normal text-slate-400">Active</span>
@@ -500,9 +564,10 @@ export default function FlagshipProjectsModal() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-2 sm:p-4 md:p-8 backdrop-blur-md overflow-hidden"
+        className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-2 sm:p-4 md:p-8 backdrop-blur-xl overflow-hidden"
+        style={{ perspective: 1400 }}
         onClick={handleModalClose}
-        role="presentation" // Outer div
+        role="presentation"
       >
         <motion.div
           ref={modalRef}
@@ -510,17 +575,16 @@ export default function FlagshipProjectsModal() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="case-studies-title"
-          initial={{ scale: 0.94, opacity: 0, y: 15 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
+          initial={{ scale: 0.88, opacity: 0, y: 28, rotateX: 6 }}
+          animate={{ scale: 1, opacity: 1, y: 0, rotateX: 0 }}
           exit={{ scale: 0.94, opacity: 0, y: 15 }}
           transition={{
             type: "spring",
-            stiffness: 320,
-            damping: 22,
-            mass: 0.85,
-            bounce: 0.22,
+            stiffness: 280,
+            damping: 24,
+            mass: 0.9,
           }}
-          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-[1400px] flex-col overflow-hidden rounded-xl border border-obsidian-border bg-obsidian shadow-2xl overscroll-contain"
+          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-[1400px] flex-col overflow-hidden rounded-xl border border-cyan-electric/25 bg-obsidian shadow-[0_0_80px_rgba(0,240,255,0.12)] overscroll-contain"
         >
           {/* Corner Brackets */}
           <div className="pointer-events-none absolute left-0 top-0 h-10 w-10 sm:h-16 sm:w-16 border-l-2 border-t-2 border-cyan-electric/30 rounded-tl-xl z-50" />

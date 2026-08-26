@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig, LayoutGroup } from "framer-motion";
 import { SpatialProvider, useSpatial, TABS } from "./SpatialContext";
 import { SystemCommandProvider } from "./context/SystemCommandContext";
 import SpatialTelemetryModule from "./SpatialTelemetryModule";
@@ -145,6 +145,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <LayoutGroup>
       <SystemCommandProvider>
         <SpatialProvider>
           <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-obsidian">
@@ -173,6 +174,7 @@ export default function App() {
           </div>
         </SpatialProvider>
       </SystemCommandProvider>
+      </LayoutGroup>
     </MotionConfig>
   );
 }
