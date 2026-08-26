@@ -1,60 +1,66 @@
 export const easeOut = [0.16, 1, 0.3, 1];
 export const easeLux = [0.22, 1, 0.36, 1];
 
-export const fadeSwap = {
-  initial: { opacity: 0, y: 18, scale: 0.988, filter: "blur(5px)" },
-  animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
-  exit: { opacity: 0, y: -14, scale: 0.994, filter: "blur(5px)" },
-  transition: { duration: 0.64, ease: easeLux },
-};
-
-export const modalReveal = {
-  initial: { opacity: 0, y: 22, scale: 0.97, filter: "blur(8px)" },
-  animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
-  exit: { opacity: 0, y: 12, scale: 0.985, filter: "blur(6px)" },
-  transition: { duration: 0.56, ease: easeLux },
+export const springBounce = {
+  type: "spring",
+  stiffness: 380,
+  damping: 22,
+  mass: 0.72,
 };
 
 export const springPrecise = {
   type: "spring",
-  stiffness: 300,
-  damping: 36,
-  mass: 0.78,
+  stiffness: 420,
+  damping: 28,
+  mass: 0.65,
 };
 
 export const springSoft = {
   type: "spring",
-  stiffness: 220,
-  damping: 32,
-  mass: 0.95,
+  stiffness: 260,
+  damping: 24,
+  mass: 0.9,
+};
+
+export const fadeSwap = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -14 },
+  transition: springSoft,
+};
+
+export const modalReveal = {
+  initial: { opacity: 0, y: 26, scale: 0.97 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: 12, scale: 0.985 },
+  transition: springBounce,
 };
 
 export const staggerHero = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
 
 export const heroItem = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.88, ease: easeLux } },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: springSoft },
 };
 
 export const heroName = {
-  hidden: { opacity: 0, y: 20, clipPath: "inset(0 32% 0 0)" },
+  hidden: { opacity: 0, y: 18, clipPath: "inset(0 28% 0 0)" },
   show: {
     opacity: 1,
     y: 0,
     clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 1.05, ease: easeLux },
+    transition: { duration: 0.95, ease: easeLux },
   },
 };
 
 export const coverReveal = {
-  initial: { opacity: 0, y: 16, clipPath: "inset(6% 0 0 0)" },
+  initial: { opacity: 0, y: 18 },
   animate: {
     opacity: 1,
     y: 0,
-    clipPath: "inset(0% 0 0 0)",
-    transition: { duration: 0.78, ease: easeLux },
+    transition: springBounce,
   },
 };

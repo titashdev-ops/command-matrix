@@ -393,7 +393,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label htmlFor="currentArch" className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">Current Architecture State</label>
+                    <label htmlFor="currentArch" className="font-sans text-xs tracking-wide text-slate-400">Current architecture</label>
                     <input
                       id="currentArch"
                       type="text"
@@ -405,7 +405,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     />
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="targetScale" className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">Target Scale / Throughput</label>
+                    <label htmlFor="targetScale" className="font-sans text-xs tracking-wide text-slate-400">Target scale</label>
                     <input
                       id="targetScale"
                       type="text"
@@ -448,7 +448,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
 
                 <div className="pt-2  grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label htmlFor="wizName" className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">Lead Engineer Name *</label>
+                    <label htmlFor="wizName" className="font-sans text-xs tracking-wide text-slate-400">Name *</label>
                     <input
                       id="wizName"
                       required aria-required="true"
@@ -461,7 +461,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     />
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="wizEmail" className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">Direct Email *</label>
+                    <label htmlFor="wizEmail" className="font-sans text-xs tracking-wide text-slate-400">Email *</label>
                     <input
                       id="wizEmail"
                       required aria-required="true"

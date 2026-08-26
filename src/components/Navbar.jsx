@@ -217,8 +217,8 @@ export default function Navbar({ onOpenSearch }) {
               </div>
 
               <div className="flex-1 overflow-y-auto p-4">
-                <div className="mb-2 font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500">
-                  Navigation
+                <div className="mb-2 font-sans text-xs tracking-wide text-slate-500">
+                  Navigate
                 </div>
                 <div className="flex flex-col gap-2">
                   {Object.values(TABS).map((tabKey) => {

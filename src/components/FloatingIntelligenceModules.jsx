@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { CASE_STUDIES } from "../data/missions";
-import { easeOut } from "../lib/motion";
+import { springBounce } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -195,13 +195,12 @@ function Glass3DTiltCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{
-        duration: 0.72,
-        ease: easeOut,
-        delay: index * 0.09,
+        ...springBounce,
+        delay: index * 0.08,
       }}
       className={cn("perspective-1000 w-full pointer-events-auto", spanClass)}
     >

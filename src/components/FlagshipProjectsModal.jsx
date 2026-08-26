@@ -230,7 +230,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
       <div className="shrink-0 p-3 sm:p-4 md:p-6 border-b border-obsidian-border/60 bg-obsidian/90 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between gap-2">
         <button type="button" 
           onClick={() => { playClickSound(); onBack(); }}
-          className="flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors duration-200 group font-sans font-medium text-slate-400 uppercase tracking-wider min-h-[40px] px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+          className="flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors duration-200 group font-sans text-sm tracking-wide min-h-[40px] px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
         >
           <div className="p-1.5 rounded bg-obsidian-surface border border-obsidian-border group-hover:border-slate-500 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50">
             <ArrowLeft size={14} />

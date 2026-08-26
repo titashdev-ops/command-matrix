@@ -586,16 +586,15 @@ export default function AdrSimulatorTab() {
         )}>
           <div className="space-y-1 text-center md:text-left">
             <div className={cn(
-              "font-sans text-xs font-bold uppercase tracking-wider flex items-center justify-center md:justify-start gap-2",
+              "font-sans text-xs font-semibold tracking-wide flex items-center justify-center md:justify-start gap-2",
               isCompliant ? "text-emerald-glow" : "text-rose-400"
             )}>
-              <ShieldCheck size={16} /> Outcome
-              {!isCompliant && <span className="text-xs font-normal text-rose-400">({constraintViolations.length} conflicts)</span>}
+              <ShieldCheck size={16} /> {isCompliant ? "Fits the constraints" : "Conflicts"}
+              {!isCompliant && <span className="text-xs font-normal text-rose-400">({constraintViolations.length})</span>}
             </div>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 font-sans text-xs text-slate-300 pt-1">
-              <span>Score: <strong className="text-emerald-glow text-sm">{avgScore} / 100</strong></span>
-              <span>Modeled latency: <strong className="text-cyan-electric text-sm">{totalLatency} ms</strong></span>
-              <span>Modeled cost: <strong className="text-emerald-glow text-sm">${totalCost.toLocaleString()}/mo</strong></span>
+              <span>Modeled latency <strong className="text-cyan-electric text-sm">{totalLatency} ms</strong></span>
+              <span>Modeled cost <strong className="text-emerald-glow text-sm">${totalCost.toLocaleString()}/mo</strong></span>
             </div>
           </div>
 

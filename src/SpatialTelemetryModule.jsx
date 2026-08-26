@@ -86,7 +86,7 @@ export default function SpatialTelemetryModule() {
                   System topology
                 </span>
               </div>
-              <span className="font-sans text-[10px] uppercase tracking-wider text-slate-500 font-bold">
+              <span className="font-sans text-[10px] tracking-wide text-slate-500">
                 A model · not live ops
               </span>
             </div>
@@ -106,7 +106,7 @@ export default function SpatialTelemetryModule() {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="mb-0.5 font-sans text-[10px] uppercase tracking-wider text-slate-500">Selected node</div>
+                      <div className="mb-0.5 font-sans text-[10px] tracking-wide text-slate-500">Selected</div>
                       <div className="font-sans text-sm font-semibold text-white">{targetLock.label}</div>
                       <div className="mt-0.5 font-sans text-xs text-cyan-electric">
                         ID: {targetLock.id.toUpperCase()}
@@ -114,7 +114,7 @@ export default function SpatialTelemetryModule() {
                     </div>
                     <button
                       onClick={() => setTargetLock(null)}
-                      className="rounded-md border border-obsidian-border bg-obsidian px-3 py-1 font-sans text-[10px] uppercase tracking-wider text-slate-400 transition-colors hover:text-white cursor-pointer"
+                      className="rounded-md border border-obsidian-border bg-obsidian px-3 py-1 font-sans text-[10px] tracking-wide text-slate-400 transition-colors hover:text-white cursor-pointer"
                     >
                       Clear
                     </button>
