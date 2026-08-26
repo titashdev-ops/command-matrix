@@ -120,7 +120,7 @@ export default function TelemetryStressTesterModal() {
     ? "CIRCUIT OPEN // SHEDDING LOAD"
     : effectiveP99 > 150 || rawUtilization > 0.85
       ? "HIGH UTILIZATION // ADAPTIVE BATCHING"
-      : "NOMINAL OPERATIONAL";
+      : "NOMINAL";
 
   // Live Telemetry Tick Generator
   useEffect(() => {

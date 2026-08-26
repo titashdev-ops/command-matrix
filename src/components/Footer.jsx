@@ -1,64 +1,71 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Mail, Terminal, Briefcase } from "lucide-react";
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
+import { Mail, Terminal, Briefcase, FileText } from "lucide-react";
 import { useSystemCommand } from "../context/SystemCommandContext";
 
-const cn = (...inputs) => twMerge(clsx(inputs));
-
 export default function Footer() {
-  const { playClickSound } = useSystemCommand();
+  const { playClickSound, openResume, openContact } = useSystemCommand();
 
   return (
     <motion.footer
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-      className="pointer-events-auto relative z-50 mt-auto border-t border-cyan-500/30 bg-slate-950/90 backdrop-blur-xl"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="pointer-events-auto relative z-50 mt-auto border-t border-obsidian-border/80 bg-slate-950/90 backdrop-blur-xl"
     >
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-5 md:flex-row md:px-12">
-        
-        {/* Telemetry Badge */}
-        <div className="flex items-center gap-3 rounded-full border border-obsidian-border bg-obsidian-surface/60 px-4 py-2">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-slate-400" />
-          </span>
-          <span className="font-mono text-xs font-semibold tracking-widest text-slate-300">
-            TITASH DEV // PORTFOLIO
-          </span>
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-8 md:flex-row md:items-center md:justify-between md:px-12">
+        <div className="space-y-1 text-center md:text-left">
+          <div className="font-mono text-xs font-semibold tracking-[0.2em] text-slate-200">
+            TITASH DEV
+          </div>
+          <p className="font-sans text-sm text-slate-400">
+            Systems Architect · Bangalore. For case studies or architecture reviews.
+          </p>
         </div>
 
-        {/* Social Routing Nodes */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <a
             href="https://github.com/titashdev-ops"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="GitHub Profile"
             onClick={() => playClickSound()}
-            className="group rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-slate-400 transition-all hover:border-cyan-500/50 hover:bg-cyan-500/10 hover:text-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-300 transition-colors hover:border-cyan-electric/40 hover:text-cyan-electric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
           >
-            <Terminal size={20} />
+            <Terminal size={14} />
+            GitHub
           </a>
           <a
             href="https://www.linkedin.com/in/titashdeb"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="LinkedIn Profile"
             onClick={() => playClickSound()}
-            className="group rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-slate-400 transition-all hover:border-cyan-500/50 hover:bg-cyan-500/10 hover:text-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-300 transition-colors hover:border-cyan-electric/40 hover:text-cyan-electric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
           >
-            <Briefcase size={20} />
+            <Briefcase size={14} />
+            LinkedIn
           </a>
-          <a
-            href="mailto:titashdev@gmail.com"
-            aria-label="Send Email"
-            onClick={() => playClickSound()}
-            className="group rounded-lg border border-slate-700 bg-slate-900 p-2.5 text-slate-400 transition-all hover:border-cyan-500/50 hover:bg-cyan-500/10 hover:text-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+          <button
+            type="button"
+            onClick={() => {
+              playClickSound();
+              openResume();
+            }}
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-medium text-slate-300 transition-colors hover:border-cyan-electric/40 hover:text-cyan-electric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
           >
-            <Mail size={20} />
-          </a>
+            <FileText size={14} />
+            Resume
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              playClickSound();
+              openContact();
+            }}
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-cyan-electric/40 bg-cyan-electric/10 px-3 py-2 text-xs font-medium text-cyan-electric transition-colors hover:bg-cyan-electric/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+          >
+            <Mail size={14} />
+            Contact
+          </button>
         </div>
       </div>
     </motion.footer>

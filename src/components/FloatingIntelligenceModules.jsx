@@ -45,10 +45,10 @@ function Glass3DTiltCard({
   const mouseYRelative = useMotionValue(0.5);
 
   // Spring Physics for mouse release overshoot & settling
-  const springConfig = { stiffness: 280, damping: 18, mass: 0.75, bounce: 0.25 };
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), springConfig);
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), springConfig);
-  const scale = useSpring(isHovered ? 1.03 : 1, springConfig);
+  const springConfig = { stiffness: 240, damping: 28, mass: 0.9, bounce: 0 };
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), springConfig);
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-6, 6]), springConfig);
+  const scale = useSpring(isHovered ? 1.015 : 1, springConfig);
 
   // Radial highlight gradient origin
   const spotlightX = useSpring(useTransform(mouseXRelative, [0, 1], ["0%", "100%"]), springConfig);
@@ -58,6 +58,9 @@ function Glass3DTiltCard({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    if (reduce || !fine) return;
     const ctx = canvas.getContext("2d");
 
     const updateCanvasSize = () => {
@@ -189,16 +192,13 @@ function Glass3DTiltCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 22,
-        mass: 0.85,
-        bounce: 0.2,
-        delay: index * 0.1,
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+        delay: index * 0.06,
       }}
       className="perspective-1000 w-full pointer-events-auto"
     >
@@ -390,7 +390,7 @@ export default function FloatingIntelligenceModules() {
   ];
 
   return (
-    <section className="relative w-full py-12">
+    <section className="relative w-full py-2">
       {/* Section Header */}
       <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-obsidian-border/80 pb-4">
         <div>
@@ -399,11 +399,11 @@ export default function FloatingIntelligenceModules() {
             <span>CASE STUDIES</span>
           </div>
           <h2 className="font-sans text-2xl font-extrabold text-white sm:text-3xl tracking-tight">
-            Named systems
+            Selected work
           </h2>
         </div>
-        <p className="font-sans text-xs text-slate-400 max-w-md">
-          Four architecture dossiers. Each is labeled as simulation, prototype, or modeled — not live production.
+        <p className="font-sans text-sm text-slate-400 max-w-md leading-relaxed">
+          Four architecture dossiers. Each is labeled honestly: simulation, prototype, or modeled.
         </p>
       </div>
 

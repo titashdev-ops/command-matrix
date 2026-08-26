@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { SpatialProvider, useSpatial, TABS } from "./SpatialContext";
 import { SystemCommandProvider } from "./context/SystemCommandContext";
 import SpatialTelemetryModule from "./SpatialTelemetryModule";
@@ -8,8 +8,6 @@ import SaasOperationsModule from "./components/SaasOperationsModule";
 import TrustCenter from "./components/TrustCenter";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-import BootSequence from "./components/BootSequence";
 import CursorFollower from "./components/CursorFollower";
 
 const SpatialCanvasBackground = React.lazy(() => import("./SpatialCanvasBackground"));
@@ -22,13 +20,33 @@ import TelemetryStressTesterModal from "./components/TelemetryStressTesterModal"
 import ResumeModal from "./components/ResumeModal";
 import FlagshipProjectsModal from "./components/FlagshipProjectsModal";
 
+const TAB_TRANSITION = { duration: 0.28, ease: [0.22, 1, 0.36, 1] };
 
-/* ─────────────────────────────────────────────────────────────
-   App.jsx — Master Orchestrator
-   Architecture: Fixed R3F canvas (z-0) + Scrolling HTML overlay (z-10)
-   Event Policy: Overlay root is pointer-events-none.
-                 Interactive elements carry pointer-events-auto.
-   ───────────────────────────────────────────────────────────── */
+function SpatialAtmosphere() {
+  const [allowCanvas, setAllowCanvas] = React.useState(false);
+
+  React.useEffect(() => {
+    const wide = window.matchMedia("(min-width: 768px)").matches;
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setAllowCanvas(wide && fine && !reduce);
+  }, []);
+
+  if (!allowCanvas) {
+    return (
+      <div
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/12 via-obsidian to-obsidian"
+        aria-hidden="true"
+      />
+    );
+  }
+
+  return (
+    <React.Suspense fallback={null}>
+      <SpatialCanvasBackground />
+    </React.Suspense>
+  );
+}
 
 function OverlayRouter({ onOpenSearch }) {
   const { activeTab } = useSpatial();
@@ -48,15 +66,15 @@ function OverlayRouter({ onOpenSearch }) {
       </a>
       <Navbar onOpenSearch={onOpenSearch} />
 
-      <main id="hud-main" className="pointer-events-none flex-1 mx-auto w-full max-w-7xl px-4 pb-24 lg:pb-24 pt-32 md:px-6 lg:px-12 lg:pb-24 lg:pt-28">
+      <main id="hud-main" className="pointer-events-none flex-1 mx-auto w-full max-w-7xl px-4 pb-24 pt-28 md:px-6 lg:px-12 lg:pt-28">
         <AnimatePresence mode="wait">
           {activeTab === TABS.VECTOR && (
             <motion.div
               key="vector"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={TAB_TRANSITION}
             >
               <SpatialTelemetryModule />
             </motion.div>
@@ -65,10 +83,10 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.POINT_CLOUD && (
             <motion.div
               key="point-cloud"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={TAB_TRANSITION}
             >
               <AiArchitectureModule />
             </motion.div>
@@ -77,10 +95,10 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.AIRSPACE && (
             <motion.div
               key="airspace"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={TAB_TRANSITION}
             >
               <SaasOperationsModule />
             </motion.div>
@@ -88,10 +106,10 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.TRUST_CENTER && (
             <motion.div
               key="trust-center"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={TAB_TRANSITION}
             >
               <TrustCenter />
             </motion.div>
@@ -105,16 +123,9 @@ function OverlayRouter({ onOpenSearch }) {
 }
 
 export default function App() {
-
-  const [isBooting, setIsBooting] = useState(false);
-
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const handleOpenSearch = () => setIsSearchOpen(true);
   const handleCloseSearch = () => setIsSearchOpen(false);
-
-  const finishBoot = React.useCallback(() => {
-    setIsBooting(false);
-  }, []);
 
   React.useEffect(() => {
     const onKey = (e) => {
@@ -128,29 +139,28 @@ export default function App() {
   }, []);
 
   return (
-    <SystemCommandProvider>
-      <SpatialProvider>
-        <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-obsidian">
-          <div className="fixed inset-0 z-0 pointer-events-none md:pointer-events-auto" aria-hidden="true">
-            <React.Suspense fallback={null}>
-              <SpatialCanvasBackground />
-            </React.Suspense>
+    <MotionConfig reducedMotion="user">
+      <SystemCommandProvider>
+        <SpatialProvider>
+          <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-obsidian">
+            <div className="fixed inset-0 z-0 pointer-events-none md:pointer-events-auto" aria-hidden="true">
+              <SpatialAtmosphere />
+            </div>
+
+            <OverlayRouter onOpenSearch={handleOpenSearch} />
+            <CursorFollower />
+
+            <ContactModal />
+            <GlobalSearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} />
+            <DiagnosticsOverlay />
+            <EnterpriseArchitectureExplorer />
+            <EngineeringDecisionsModal />
+            <TelemetryStressTesterModal />
+            <ResumeModal />
+            <FlagshipProjectsModal />
           </div>
-
-          <OverlayRouter onOpenSearch={handleOpenSearch} />
-          {isBooting && <BootSequence onComplete={finishBoot} />}
-          <CursorFollower />
-
-          <ContactModal />
-          <GlobalSearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} />
-          <DiagnosticsOverlay />
-          <EnterpriseArchitectureExplorer />
-          <EngineeringDecisionsModal />
-          <TelemetryStressTesterModal />
-          <ResumeModal />
-          <FlagshipProjectsModal />
-        </div>
-      </SpatialProvider>
-    </SystemCommandProvider>
+        </SpatialProvider>
+      </SystemCommandProvider>
+    </MotionConfig>
   );
 }

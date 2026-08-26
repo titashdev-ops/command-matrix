@@ -35,10 +35,10 @@ export default function ServicesModule({ onSelectService }) {
             </div>
             <div>
               <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric font-bold">
-                HIGH-IMPACT ENGINEERING OFFERINGS
+                Scope
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                Outcomes-Focused Engineering Advisory & Systems Delivery
+                Architecture reviews and systems delivery
               </h2>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default function ServicesModule({ onSelectService }) {
         </div>
 
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans max-w-4xl">
-          Direct technical collaboration designed to solve specific architecture bottlenecks, evaluate risk before capital commitment, and build high-performance systems with measurable non-functional guarantees.
+          Architecture reviews, risk before capital, and systems work with explicit non-functional constraints. Start a brief from any card.
         </p>
       </div>
 

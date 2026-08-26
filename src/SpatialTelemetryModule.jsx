@@ -19,24 +19,26 @@ export default function SpatialTelemetryModule() {
   return (
     <>
       
-      <section className="pointer-events-none relative isolate w-full py-12 sm:py-20">
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-12">
+      <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
           
-          {/* Calm Hero Header */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl space-y-3"
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-2xl space-y-4"
           >
-            <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
+            <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-slate-500">
+              Portfolio
+            </p>
+            <h1 className="font-sans text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.05] tracking-tight text-white">
               Titash Dev
             </h1>
-            <p className="font-mono text-sm sm:text-base tracking-widest uppercase text-cyan-electric">
+            <p className="font-mono text-sm tracking-[0.18em] uppercase text-cyan-electric">
               Systems Architect
             </p>
             <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
-              Architecture case studies in UAV operations, clinical systems, and talent graphs. This is a portfolio of modeled systems — not a live command center.
+              Architecture case studies in UAV operations, clinical systems, and talent graphs. Modeled systems — not a live command center.
             </p>
           </motion.div>
 
@@ -62,10 +64,10 @@ export default function SpatialTelemetryModule() {
 
           {/* Topology canvas — atmosphere, not the story */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.99, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/60 shadow-[0_20px_50px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl pointer-events-auto flex flex-col"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="relative hidden overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/60 shadow-[0_20px_50px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl pointer-events-auto md:flex md:flex-col"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-transparent to-emerald-900/10 pointer-events-none" />
             <div className="flex items-center justify-between border-b border-obsidian-border/60 bg-obsidian-surface/80 px-5 py-3 backdrop-blur-md">

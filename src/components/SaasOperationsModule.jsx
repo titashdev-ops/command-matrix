@@ -31,14 +31,11 @@ export default function SaasOperationsModule() {
           className="max-w-3xl space-y-3"
         >
           <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-slate-200">
-            Engagement &{" "}
-            <span className="bg-gradient-to-br from-amber-400 via-yellow-300 to-cyan-electric bg-clip-text text-transparent">
-              Systems Advisory
-            </span>
+            Work together
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
-            Structured engineering discovery, actionable architecture audits, and high-impact advisory designed for scale-stage platforms.
+            A short brief for architecture reviews and systems work. No funnel — a mailto with the constraints you care about.
           </p>
         </motion.div>
 
@@ -46,7 +43,7 @@ export default function SaasOperationsModule() {
         <div className="pointer-events-auto space-y-3">
           <div className="flex items-center justify-between border-b border-obsidian-border/60 pb-2">
             <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-amber-400 flex items-center gap-2">
-              <Zap size={14} /> SERVICE OFFERINGS & ENGAGEMENT MODELS
+              <Zap size={14} /> Ways to work
             </span>
             <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">
               Scoped reviews
@@ -66,13 +63,13 @@ export default function SaasOperationsModule() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-amber-400/15 pb-6">
             <div className="space-y-1 max-w-2xl">
               <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-amber-400 font-bold">
-                DIRECT ENGAGEMENT
+                Next
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-white font-sans tracking-tight">
-                Schedule a Technical Audit or Discovery Session
+                Send a brief, or open the resume
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
-                Launch the guided Engineering Discovery Wizard to detail your technical constraints, or open the on-page resume view.
+                The discovery form writes a mailto. Nothing is stored on this site.
               </p>
             </div>
 
@@ -86,7 +83,7 @@ export default function SaasOperationsModule() {
                 className="px-6 py-3 rounded-xl border border-amber-400/80 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 font-sans text-xs font-bold transition-all duration-200 shadow-lg hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap min-h-[44px] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
               >
                 <Compass size={15} />
-                <span>LAUNCH DISCOVERY WIZARD</span>
+                <span>Start a brief</span>
               </button>
 
               <button
@@ -98,7 +95,7 @@ export default function SaasOperationsModule() {
                 className="px-5 py-3 rounded-xl border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-200 font-sans text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap min-h-[44px] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
               >
                 <Download size={14} className="text-cyan-electric" />
-                <span>OPEN RESUME VIEW</span>
+                <span>Resume</span>
               </button>
             </div>
           </div>

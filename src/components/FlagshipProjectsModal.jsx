@@ -445,7 +445,7 @@ function IndexView({ onSelectProject, onClose }) {
                 ) : (
                   <div className="hidden lg:flex flex-col justify-center items-center lg:col-span-1 rounded-xl border border-dashed border-obsidian-border/50 bg-obsidian-surface/30 p-6 text-center">
                      <ShieldCheck size={20} className="text-slate-600 mb-3" />
-                     <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">No subordinate<br/>operations active</span>
+                     <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">No related<br/>case studies</span>
                   </div>
                 )}
               </div>

@@ -8,8 +8,9 @@ export default function CursorFollower() {
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)").matches;
-    setEnabled(fine);
-    if (!fine) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setEnabled(fine && !reduce);
+    if (!fine || reduce) return;
 
     const updateMousePosition = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
