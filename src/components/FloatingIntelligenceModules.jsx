@@ -32,7 +32,8 @@ function Glass3DTiltCard({
   ctaText, 
   onCtaClick,
   layoutId,
-  index = 0 
+  index = 0,
+  spanClass = "",
 }) {
   const cardRef = useRef(null);
   const canvasRef = useRef(null);
@@ -202,7 +203,7 @@ function Glass3DTiltCard({
         ease: easeOut,
         delay: index * 0.07,
       }}
-      className="perspective-1000 w-full pointer-events-auto"
+      className={cn("perspective-1000 w-full pointer-events-auto", spanClass)}
     >
       <motion.div
         ref={cardRef}
@@ -315,8 +316,8 @@ function Glass3DTiltCard({
               <span>{ctaText}</span>
               <ArrowUpRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 text-cyan-electric" />
             </button>
-            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">
-              CASE STUDY
+            <span className="font-sans text-[11px] tracking-wide text-slate-500">
+              Brief
             </span>
           </div>
 
@@ -341,13 +342,10 @@ export default function FloatingIntelligenceModules() {
       badge: "SIMULATION",
       badgeColor: "text-cyan-electric border-cyan-electric/40 bg-cyan-electric/10",
       accentColor: "from-cyan-electric via-emerald-glow/40 to-transparent",
-      description: "Command-and-control architecture for commercial drone fleets. Modeled MQTT, WebRTC, and spatial viewport — not a live fleet controller.",
-      metrics: [
-        { label: "DOMAIN", value: "UAV C2" },
-        { label: "STATUS", value: "Case study" }
-      ],
-      ctaText: "Open case study",
+      description: "How a fleet operator sees the sky: MQTT, WebRTC, a spatial viewport. A model of command — not a live controller.",
+      ctaText: "Read the brief",
       layoutId: "case-title-ops-dronly",
+      spanClass: "lg:col-span-7",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "ops-dronly"));
@@ -360,13 +358,10 @@ export default function FloatingIntelligenceModules() {
       badge: "PROTOTYPE",
       badgeColor: "text-amber-400 border-amber-400/40 bg-amber-400/10",
       accentColor: "from-amber-400 via-rose-500/30 to-transparent",
-      description: "Physiotherapy discovery, biomechanics analysis, and patient biofeedback interfaces. Documented prototypes, not a clinic network.",
-      metrics: [
-        { label: "DOMAIN", value: "Clinical" },
-        { label: "STATUS", value: "Prototype" }
-      ],
-      ctaText: "Open case study",
+      description: "Recovery as a loop: movement, feedback, the clinic. Prototypes — not a hospital product.",
+      ctaText: "Read the brief",
       layoutId: "case-title-sports-physio",
+      spanClass: "lg:col-span-5",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "sports-physio"));
@@ -379,13 +374,10 @@ export default function FloatingIntelligenceModules() {
       badge: "MODELED",
       badgeColor: "text-violet-400 border-violet-400/40 bg-violet-400/10",
       accentColor: "from-violet-400 via-cyan-electric/30 to-transparent",
-      description: "Event-sourced EMR architecture for multi-clinic operations. Modeled CQRS and GraphQL federation — not a production clinical network.",
-      metrics: [
-        { label: "DOMAIN", value: "EMR / ITSM" },
-        { label: "STATUS", value: "Modeled" }
-      ],
-      ctaText: "Open case study",
+      description: "One clinical OS for many rooms. Event-sourced, federated. Architecture — not a live EMR.",
+      ctaText: "Read the brief",
       layoutId: "case-title-prodent-os",
+      spanClass: "lg:col-span-5",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "prodent-os"));
@@ -398,13 +390,10 @@ export default function FloatingIntelligenceModules() {
       badge: "PROTOTYPE",
       badgeColor: "text-emerald-glow border-emerald-glow/40 bg-emerald-glow/10",
       accentColor: "from-emerald-glow via-cyan-electric/40 to-transparent",
-      description: "Internal engine that turns unstructured project notes into structured engineering dossiers. Used for this portfolio’s own evidence model.",
-      metrics: [
-        { label: "DOMAIN", value: "Talent graph" },
-        { label: "STATUS", value: "Internal" }
-      ],
-      ctaText: "Open case study",
+      description: "The engine behind these dossiers. Notes become records. Internal, on purpose.",
+      ctaText: "Read the brief",
       layoutId: "case-title-career-os",
+      spanClass: "lg:col-span-7",
       onCtaClick: () => {
         playClickSound();
         openFlagships(CASE_STUDIES.find((m) => m.missionId === "career-os"));
@@ -417,21 +406,21 @@ export default function FloatingIntelligenceModules() {
       {/* Section Header */}
       <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-obsidian-border/80 pb-4">
         <div>
-          <div className="flex items-center gap-2 font-mono text-xs text-cyan-electric tracking-widest uppercase mb-1">
-            <Sparkles size={14} className="text-cyan-electric" />
-            <span>CASE STUDIES</span>
+          <div className="kicker text-cyan-electric mb-2 flex items-center gap-2">
+            <Sparkles size={12} className="text-cyan-electric" />
+            <span>Selected work</span>
           </div>
-          <h2 className="font-display text-2xl font-extrabold text-white sm:text-3xl tracking-[-0.03em] drop-shadow-[0_0_24px_rgba(0,240,255,0.12)]">
-            Selected work
+          <h2 className="font-display text-2xl font-extrabold text-white sm:text-3xl tracking-[-0.03em]">
+            Four systems
           </h2>
         </div>
-        <p className="font-sans text-sm text-slate-400 max-w-md leading-relaxed">
-          Four architecture dossiers. Each is labeled honestly: simulation, prototype, or modeled.
+        <p className="font-sans text-sm text-slate-400 max-w-sm leading-relaxed lg:text-right">
+          Each dossier is labeled for what it actually is: simulation, prototype, or model.
         </p>
       </div>
 
       {/* Grid of 3D Tilt Glass Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5">
         {MODULES.map((mod, index) => (
           <Glass3DTiltCard key={mod.title} index={index} {...mod} />
         ))}

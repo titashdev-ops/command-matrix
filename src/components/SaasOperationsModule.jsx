@@ -32,11 +32,11 @@ export default function SaasOperationsModule() {
         >
           <p className="kicker text-amber-400/80">Engage</p>
           <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
-            Work together
+            A brief, not a funnel
           </h1>
 
           <p className="lede">
-            A short brief for architecture reviews and systems work. No funnel — a mailto with the constraints you care about.
+            Tell me the constraints. I’ll reply by mail. No CRM, no drip.
           </p>
         </motion.div>
 

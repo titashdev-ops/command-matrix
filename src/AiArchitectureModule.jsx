@@ -113,16 +113,16 @@ export default function AiArchitectureModule() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-2xl space-y-5"
+          className="grid gap-6 lg:grid-cols-12 lg:items-end"
         >
-          <p className="kicker text-emerald-glow/80">
-            Evidence archive
-          </p>
-          <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
-            Judgment, staged
-          </h1>
-          <p className="lede">
-            Modeled comparisons and architecture decisions. Not live production telemetry.
+          <div className="space-y-4 lg:col-span-7">
+            <p className="kicker text-emerald-glow/80">Evidence</p>
+            <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
+              How it was decided
+            </h1>
+          </div>
+          <p className="lede lg:col-span-5 lg:text-right">
+            Before/after models and architecture records. Nothing here is a live SLA.
           </p>
         </motion.div>
 
@@ -175,11 +175,11 @@ export default function AiArchitectureModule() {
                       <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-emerald-glow/80 mb-1">
                         Signature comparison
                       </div>
-                      <h2 className="font-sans text-xl sm:text-2xl font-bold text-white">
-                        Incident routing, modeled
+                      <h2 className="font-display text-xl sm:text-2xl font-bold text-white tracking-[-0.03em]">
+                        A ticket storm, two ways
                       </h2>
                       <p className="mt-1 text-sm text-slate-400">
-                        A before/after of a ticket storm. Numbers are simulated, not a live SLA.
+                        Simulated routing. Not a production SLA.
                       </p>
                     </div>
                     <div className="inline-flex self-start rounded-full border border-obsidian-border bg-obsidian p-1">
@@ -329,7 +329,7 @@ export default function AiArchitectureModule() {
         </div>
 
         <div className="pt-2 flex items-center justify-between pointer-events-auto border-t border-obsidian-border/40">
-          <span className="font-sans text-xs text-slate-400">Records live as ADRs. Engagement is a mailto brief.</span>
+          <span className="font-sans text-xs text-slate-400">If you want to talk, send a brief.</span>
           <button
             type="button"
             onClick={() => setActiveTab(TABS.AIRSPACE)}

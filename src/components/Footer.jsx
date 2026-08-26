@@ -19,7 +19,7 @@ export default function Footer() {
             COMMAND MATRIX
           </div>
           <p className="font-sans text-sm text-slate-400">
-            Titash Dev · Systems Architect. For case studies or architecture reviews.
+            Titash Dev. Case studies, reviews, a brief.
           </p>
         </div>
 
