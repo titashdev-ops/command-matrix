@@ -49,7 +49,7 @@ export default function SaasOperationsModule() {
               <Zap size={14} /> SERVICE OFFERINGS & ENGAGEMENT MODELS
             </span>
             <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">
-              Fixed-Scope Deliverables
+              Scoped reviews
             </span>
           </div>
 

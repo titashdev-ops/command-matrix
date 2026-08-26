@@ -3,7 +3,7 @@ import { AuthProvider } from "@/lib/auth-provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "TITASH DEV // Command Matrix";
+const APP_NAME = "Titash Dev — Systems Architect";
 
 export const Route = createRootRoute({
   head: () => ({

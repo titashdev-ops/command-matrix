@@ -6,19 +6,12 @@ import {
   Cpu, 
   Activity, 
   ArrowUpRight, 
-  ShieldCheck, 
-  Terminal, 
-  Zap, 
-  Compass, 
-  Database,
-  GitCommit,
   Sparkles,
-  Server
 } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
-import { useSpatial } from "../SpatialContext";
+import { CASE_STUDIES } from "../data/missions";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -304,7 +297,7 @@ function Glass3DTiltCard({
               <ArrowUpRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 text-cyan-electric" />
             </button>
             <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">
-              PARALLAX HUD
+              CASE STUDY
             </span>
           </div>
 
@@ -318,86 +311,80 @@ function Glass3DTiltCard({
  * FloatingIntelligenceModules Component
  * Set of semi-transparent, glass-effect floating modules with 3D tilt physics
  */
-export default function FloatingIntelligenceModules({ onOpenMissionControl }) {
-  const { 
-    setIsEnterpriseExplorerOpen, 
-    setIsAdrsOpen, 
-    setIsStressTesterOpen, 
-    setIsDiagnosticsOpen,
-    playClickSound 
-  } = useSystemCommand();
+export default function FloatingIntelligenceModules() {
+  const { openFlagships, playClickSound } = useSystemCommand();
 
   const MODULES = [
     {
-      title: "Mission Control",
-      subtitle: "Flagship UAV & Clinical Systems",
+      title: "ops.dronly.in",
+      subtitle: "UAV command & telemetry",
       icon: Radio,
-      badge: "LIVE OPS",
+      badge: "SIMULATION",
       badgeColor: "text-cyan-electric border-cyan-electric/40 bg-cyan-electric/10",
       accentColor: "from-cyan-electric via-emerald-glow/40 to-transparent",
-      description: "Distributed telemetry hub monitoring real-time flight paths, clinical event stores, and autonomous C2 operational pipelines.",
+      description: "Command-and-control architecture for commercial drone fleets. Modeled MQTT, WebRTC, and spatial viewport — not a live fleet controller.",
       metrics: [
-        { label: "TELEMETRY INGEST", value: "50k pings/sec" },
-        { label: "EDGE JITTER", value: "< 2ms latency" }
+        { label: "DOMAIN", value: "UAV C2" },
+        { label: "STATUS", value: "Case study" }
       ],
-      ctaText: "Launch Mission Control",
+      ctaText: "Open case study",
       onCtaClick: () => {
         playClickSound();
-        onOpenMissionControl?.();
+        openFlagships(CASE_STUDIES.find((m) => m.missionId === "ops-dronly"));
       }
     },
     {
-      title: "Knowledge Engine",
-      subtitle: "Capability Graph & ADR Vault",
-      icon: Layers,
-      badge: "GRAPH ACTIVE",
-      badgeColor: "text-emerald-glow border-emerald-glow/40 bg-emerald-glow/10",
-      accentColor: "from-emerald-glow via-cyan-electric/40 to-transparent",
-      description: "Structured vector ontology connecting architectural decision records (ADRs), system trade-offs, and live engineering proofs.",
-      metrics: [
-        { label: "ADR INDEX", value: "018 Verified" },
-        { label: "VECTOR VAULT", value: "100% Private" }
-      ],
-      ctaText: "Explore ADR Architecture",
-      onCtaClick: () => {
-        playClickSound();
-        setIsAdrsOpen(true);
-      }
-    },
-    {
-      title: "Spatial C2 Telemetry",
-      subtitle: "Stress & Load Simulator",
+      title: "Healthcare Systems",
+      subtitle: "Clinical movement & physio",
       icon: Activity,
-      badge: "SIMULATOR READY",
+      badge: "PROTOTYPE",
       badgeColor: "text-amber-400 border-amber-400/40 bg-amber-400/10",
       accentColor: "from-amber-400 via-rose-500/30 to-transparent",
-      description: "Interactive stress-testing suite for simulating concurrent UAV packet spikes, WebRTC video streams, and network partitions.",
+      description: "Physiotherapy discovery, biomechanics analysis, and patient biofeedback interfaces. Documented prototypes, not a clinic network.",
       metrics: [
-        { label: "PEAK LOAD TEST", value: "1.2M RPS" },
-        { label: "CIRCUIT BREAKER", value: "Auto-Tripping" }
+        { label: "DOMAIN", value: "Clinical" },
+        { label: "STATUS", value: "Prototype" }
       ],
-      ctaText: "Open Stress Tester",
+      ctaText: "Open case study",
       onCtaClick: () => {
         playClickSound();
-        setIsStressTesterOpen(true);
+        openFlagships(CASE_STUDIES.find((m) => m.missionId === "sports-physio"));
       }
     },
     {
-      title: "Enterprise Architecture",
-      subtitle: "Distributed Systems Matrix",
+      title: "Prodent OS",
+      subtitle: "Multi-clinic clinical OS",
       icon: Cpu,
-      badge: "PRODUCTION",
+      badge: "MODELED",
       badgeColor: "text-violet-400 border-violet-400/40 bg-violet-400/10",
       accentColor: "from-violet-400 via-cyan-electric/30 to-transparent",
-      description: "High-level system topology explorer dissecting event-driven architectures, multi-tenant isolation, and cloud infrastructure.",
+      description: "Event-sourced EMR architecture for multi-clinic operations. Modeled CQRS and GraphQL federation — not a production clinical network.",
       metrics: [
-        { label: "AVAILABILITY", value: "99.99% SLA" },
-        { label: "SECURITY AUDIT", value: "SOC2 Ready" }
+        { label: "DOMAIN", value: "EMR / ITSM" },
+        { label: "STATUS", value: "Modeled" }
       ],
-      ctaText: "View Topology Explorer",
+      ctaText: "Open case study",
       onCtaClick: () => {
         playClickSound();
-        setIsEnterpriseExplorerOpen(true);
+        openFlagships(CASE_STUDIES.find((m) => m.missionId === "prodent-os"));
+      }
+    },
+    {
+      title: "Career OS",
+      subtitle: "Talent graph engine",
+      icon: Layers,
+      badge: "PROTOTYPE",
+      badgeColor: "text-emerald-glow border-emerald-glow/40 bg-emerald-glow/10",
+      accentColor: "from-emerald-glow via-cyan-electric/40 to-transparent",
+      description: "Internal engine that turns unstructured project notes into structured engineering dossiers. Used for this portfolio’s own evidence model.",
+      metrics: [
+        { label: "DOMAIN", value: "Talent graph" },
+        { label: "STATUS", value: "Internal" }
+      ],
+      ctaText: "Open case study",
+      onCtaClick: () => {
+        playClickSound();
+        openFlagships(CASE_STUDIES.find((m) => m.missionId === "career-os"));
       }
     }
   ];
@@ -408,15 +395,15 @@ export default function FloatingIntelligenceModules({ onOpenMissionControl }) {
       <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-obsidian-border/80 pb-4">
         <div>
           <div className="flex items-center gap-2 font-mono text-xs text-cyan-electric tracking-widest uppercase mb-1">
-            <Sparkles size={14} className="text-cyan-electric animate-pulse" />
-            <span>FLOATING INTELLIGENCE MODULES</span>
+            <Sparkles size={14} className="text-cyan-electric" />
+            <span>CASE STUDIES</span>
           </div>
           <h2 className="font-sans text-2xl font-extrabold text-white sm:text-3xl tracking-tight">
-            Interactive Operational Controls
+            Named systems
           </h2>
         </div>
         <p className="font-sans text-xs text-slate-400 max-w-md">
-          Hover over floating glass modules to inspect 3D parallax depth and launch real-time system simulators.
+          Four architecture dossiers. Each is labeled as simulation, prototype, or modeled — not live production.
         </p>
       </div>
 

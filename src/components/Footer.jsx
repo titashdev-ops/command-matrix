@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Mail, Activity, Terminal, Briefcase } from "lucide-react";
+import { Mail, Terminal, Briefcase } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
@@ -8,7 +8,7 @@ import { useSystemCommand } from "../context/SystemCommandContext";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 export default function Footer() {
-  const { openContact, playClickSound, telemetryString, openStressTester, openAdrs } = useSystemCommand();
+  const { playClickSound } = useSystemCommand();
 
   return (
     <motion.footer
@@ -20,13 +20,12 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-5 md:flex-row md:px-12">
         
         {/* Telemetry Badge */}
-        <div className="flex items-center gap-3 rounded-full border border-emerald-400/20 bg-emerald-400/5 px-4 py-2">
+        <div className="flex items-center gap-3 rounded-full border border-obsidian-border bg-obsidian-surface/60 px-4 py-2">
           <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-slate-400" />
           </span>
-          <span className="font-mono text-xs font-semibold tracking-widest text-emerald-400">
-            HUD ONLINE // {telemetryString}
+          <span className="font-mono text-xs font-semibold tracking-widest text-slate-300">
+            TITASH DEV // PORTFOLIO
           </span>
         </div>
 

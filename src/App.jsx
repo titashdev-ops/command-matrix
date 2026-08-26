@@ -44,7 +44,7 @@ function OverlayRouter({ onOpenSearch }) {
         href="#hud-main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-obsidian-surface focus:px-3 focus:py-2 focus:text-cyan-electric focus:outline-none focus:ring-2 focus:ring-cyan-electric"
       >
-        Skip to command surface
+        Skip to work
       </a>
       <Navbar onOpenSearch={onOpenSearch} />
 
@@ -106,24 +106,13 @@ function OverlayRouter({ onOpenSearch }) {
 
 export default function App() {
 
-  const [isBooting, setIsBooting] = useState(() => {
-    if (typeof window === "undefined") return false;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-    try {
-      return sessionStorage.getItem("hud_booted") !== "1";
-    } catch {
-      return true;
-    }
-  });
+  const [isBooting, setIsBooting] = useState(false);
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const handleOpenSearch = () => setIsSearchOpen(true);
   const handleCloseSearch = () => setIsSearchOpen(false);
 
   const finishBoot = React.useCallback(() => {
-    try {
-      sessionStorage.setItem("hud_booted", "1");
-    } catch {}
     setIsBooting(false);
   }, []);
 

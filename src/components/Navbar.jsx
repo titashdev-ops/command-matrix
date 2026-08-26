@@ -19,16 +19,16 @@ import { twMerge } from "tailwind-merge";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const TAB_META = {
-  [TABS.VECTOR]: { label: "01 // IDENTITY", icon: Compass, color: "text-cyan-electric", border: "border-cyan-electric/30", bg: "bg-cyan-electric/5" },
-  [TABS.POINT_CLOUD]: { label: "02 // EVIDENCE", icon: Layers, color: "text-emerald-glow", border: "border-emerald-glow/30", bg: "bg-emerald-glow/5" },
-  [TABS.AIRSPACE]: { label: "03 // CONVERSION", icon: Navigation, color: "text-amber-400", border: "border-amber-400/30", bg: "bg-amber-400/5" },
-  [TABS.TRUST_CENTER]: { label: "04 // TRUST CENTER", icon: FileText, color: "text-emerald-400", border: "border-emerald-400/30", bg: "bg-emerald-400/5" },
+  [TABS.VECTOR]: { label: "Work", icon: Compass, color: "text-cyan-electric", border: "border-cyan-electric/30", bg: "bg-cyan-electric/5" },
+  [TABS.POINT_CLOUD]: { label: "Evidence", icon: Layers, color: "text-emerald-glow", border: "border-emerald-glow/30", bg: "bg-emerald-glow/5" },
+  [TABS.AIRSPACE]: { label: "Engage", icon: Navigation, color: "text-amber-400", border: "border-amber-400/30", bg: "bg-amber-400/5" },
+  [TABS.TRUST_CENTER]: { label: "ADRs", icon: FileText, color: "text-emerald-400", border: "border-emerald-400/30", bg: "bg-emerald-400/5" },
 };
 
 export default function Navbar({ onOpenSearch }) {
   const { activeTab, setActiveTab } = useSpatial();
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-  const { openContact, playClickSound, isAudioArmed, audioPulse, openResume } = useSystemCommand();
+  const { openContact, playClickSound, openResume } = useSystemCommand();
 
   const handleTabSwitch = (tabKey) => {
     playClickSound();
@@ -75,12 +75,12 @@ export default function Navbar({ onOpenSearch }) {
             <div className="flex h-11 w-11 sm:h-8 sm:w-8 items-center justify-center rounded-lg border border-cyan-electric/20 bg-cyan-electric/5">
               <Crosshair size={16} className="text-cyan-electric" />
             </div>
-            <div className="hidden sm:block">
+            <div className="min-w-0">
               <div className="font-mono text-xs font-bold tracking-widest text-white">
                 TITASH DEV
               </div>
-              <div className="font-mono text-xs tracking-wider text-slate-500">
-                COMMAND CENTER v3.0
+              <div className="font-mono text-[10px] tracking-wider text-slate-500 sm:text-xs">
+                Systems Architect
               </div>
             </div>
           </div>
@@ -120,14 +120,13 @@ export default function Navbar({ onOpenSearch }) {
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </button>
 
-            {/* Operational Status */}
-            <div className="hidden items-center gap-2 rounded-full border border-emerald-glow/20 bg-emerald-glow/5 px-3 py-1.5 lg:flex pointer-events-none">
+            {/* Portfolio status — not live ops */}
+            <div className="hidden items-center gap-2 rounded-full border border-obsidian-border bg-obsidian-surface/60 px-3 py-1.5 lg:flex pointer-events-none">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-glow opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-glow" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-slate-400" />
               </span>
-              <span className="font-mono text-xs tracking-wider text-emerald-glow">
-                OPERATIONAL
+              <span className="font-mono text-xs tracking-wider text-slate-400">
+                PORTFOLIO
               </span>
             </div>
 
@@ -140,36 +139,22 @@ export default function Navbar({ onOpenSearch }) {
             </div>
 
             
-            {/* Audio Status */}
-            <div className={cn(
-              "hidden items-center gap-2 rounded-full border px-3 py-1.5 lg:flex pointer-events-none transition-colors",
-              isAudioArmed ? "border-emerald-glow/20 bg-emerald-glow/5" : "border-slate-700/50 bg-slate-800/30"
-            )}>
-              <span className="relative flex h-2 w-2">
-                {isAudioArmed && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-glow opacity-75" />}
-                <span className={cn("relative inline-flex h-2 w-2 rounded-full", isAudioArmed ? "bg-emerald-glow" : "bg-slate-500")} />
-              </span>
-              <span className={cn("font-sans text-xs tracking-wider", isAudioArmed ? "text-emerald-glow" : "text-slate-500")}>
-                [AUDIO: {isAudioArmed ? 'ARMED' : 'STANDBY'}]
-              </span>
-            </div>
-
             {/* Standard View / Resume */}
             <button type="button"
               onClick={openResume}
-              aria-label="Open Standard Resume View"
+              aria-label="Open resume"
               className="group relative hidden sm:flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-slate-700/50 bg-slate-800/30 px-4 py-1.5 sm:min-h-[auto] font-mono text-xs font-bold tracking-widest text-slate-300 transition-all hover:bg-slate-700 hover:text-white duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
             >
               <FileText size={14} />
-              STANDARD VIEW
+              RESUME
             </button>
             {/* Connect CTA */}
             <button type="button"
               onClick={openContact}
               className="group relative flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-cyan-electric/50 bg-cyan-electric/10 px-4 py-1.5 sm:min-h-[auto] font-mono text-xs font-bold tracking-widest text-cyan-electric transition-all hover:bg-cyan-electric/20 hover:shadow-cyan-glow hover:scale-105 active:scale-95 hover:bg-cyan-electric/30 duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
             >
-              <Activity size={14} className="animate-pulse" />
-              CONNECT
+              <Activity size={14} />
+              CONTACT
             </button>
           </div>
         </div>
@@ -200,7 +185,7 @@ export default function Navbar({ onOpenSearch }) {
               id="mobile-nav-drawer"
               role="dialog"
               aria-modal="true"
-              aria-label="Command navigation"
+              aria-label="Site navigation"
             >
               <div className="flex items-center justify-between border-b border-obsidian-border/60 p-4">
                 <div className="flex items-center gap-3">
@@ -259,11 +244,11 @@ export default function Navbar({ onOpenSearch }) {
                     setIsDrawerOpen(false);
                     openResume();
                   }}
-                  aria-label="Open Standard Resume View"
+                  aria-label="Open resume"
                   className="group relative flex min-h-[48px] w-full items-center justify-center gap-2 overflow-hidden rounded-lg border border-slate-700/50 bg-slate-800/30 px-4 py-2 font-mono text-xs font-bold tracking-widest text-slate-300 transition-all duration-200 hover:bg-slate-700 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
                 >
                   <FileText size={16} />
-                  STANDARD VIEW
+                  RESUME
                 </button>
                 <button type="button"
                   onClick={() => {
@@ -272,8 +257,8 @@ export default function Navbar({ onOpenSearch }) {
                   }}
                   className="group relative flex min-h-[48px] w-full items-center justify-center gap-2 overflow-hidden rounded-lg border border-cyan-electric/50 bg-cyan-electric/10 px-4 py-2 font-mono text-xs font-bold tracking-widest text-cyan-electric transition-all duration-200 hover:bg-cyan-electric/20 hover:shadow-cyan-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
                 >
-                  <Activity size={16} className="animate-pulse" />
-                  CONNECT
+                  <Activity size={16} />
+                  CONTACT
                 </button>
               </div>
             </motion.div>

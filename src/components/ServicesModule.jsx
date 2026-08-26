@@ -43,8 +43,8 @@ export default function ServicesModule({ onSelectService }) {
             </div>
           </div>
 
-          <span className="font-sans text-xs px-3 py-1 rounded-full border border-emerald-400/40 bg-emerald-400/10 text-emerald-300 font-bold">
-            Guaranteed Technical Deliverables
+          <span className="font-sans text-xs px-3 py-1 rounded-full border border-slate-600/40 bg-slate-800/40 text-slate-300 font-bold">
+            Architecture reviews
           </span>
         </div>
 

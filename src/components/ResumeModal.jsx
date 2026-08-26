@@ -66,10 +66,10 @@ export default function ResumeModal() {
               <header className="space-y-4">
                 <div>
                   <h1 className="text-4xl font-extrabold text-slate-200 tracking-tight">Titash Dev</h1>
-                  <p className="text-lg text-cyan-400 font-medium mt-1">Principal Software Engineer / Technical Architect</p>
+                  <p className="text-lg text-cyan-400 font-medium mt-1">Systems Architect</p>
                 </div>
                 <p className="text-slate-300 text-base leading-relaxed max-w-2xl">
-                  Specializing in autonomous operations orchestration, enterprise ITSM integrations, and high-performance React/WebGL interfaces. I architect systems that bridge the gap between complex backend constraints and flawless human experiences.
+                  Specializing in architecture for autonomous operations, clinical platforms, and high-performance React/WebGL interfaces. This portfolio documents that work as case studies and models.
                 </p>
                 
                 <div className="flex flex-wrap gap-4 pt-2">
