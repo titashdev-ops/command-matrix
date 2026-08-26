@@ -107,6 +107,8 @@
   background-size: 220% 100%;
   animation: hologram-sweep 8s ease-in-out infinite;
 }
+
+.glitch-hover:hover {
   text-shadow: -2px 0 #00f0ff, 2px 0 #00ff87;
 }
 
