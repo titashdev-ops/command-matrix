@@ -1,4 +1,3 @@
-/* --- FILE: src/components/SaasOperationsModule.jsx --- */
 import React from "react";
 import { motion } from "framer-motion";
 import { useSystemCommand } from "../context/SystemCommandContext";

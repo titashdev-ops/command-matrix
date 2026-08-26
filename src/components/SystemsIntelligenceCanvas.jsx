@@ -1,4 +1,3 @@
-/* --- FILE: src/components/SystemsIntelligenceCanvas.jsx --- */
 import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 

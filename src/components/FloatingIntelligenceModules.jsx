@@ -1,4 +1,3 @@
-/* --- FILE: src/components/FloatingIntelligenceModules.jsx --- */
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { 

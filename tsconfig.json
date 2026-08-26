@@ -12,8 +12,6 @@
     "strict": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    // `src/lib/db.ts` imports scripts/migration-plan.mjs; checkJs types the
-    // implementation itself instead of a hand-written declaration beside it.
     "allowJs": true,
     "checkJs": false,
     "noEmit": true,
@@ -32,5 +30,11 @@
   "include": [
     "src",
     "server"
+  ],
+  "exclude": [
+    "src/lib/app-data",
+    "src/lib/multiplayer",
+    "src/lib/auth",
+    "src/lib/db.ts"
   ]
 }

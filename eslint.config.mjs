@@ -5,7 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-/** Flat ESLint config for the TanStack Start app-builder template. */
+/** Flat ESLint config. */
 export default tseslint.config(
   {
     ignores: [
@@ -15,6 +15,19 @@ export default tseslint.config(
       ".nitro/**",
       "node_modules/**",
       "src/routeTree.gen.ts",
+      "src/lib/app-data/**",
+      "src/lib/multiplayer/**",
+      "src/lib/db.ts",
+      "src/lib/auth/**",
+      "migrations/**",
+      "scripts/**/*.test.mjs",
+      "scripts/check-auth-invariant.mjs",
+      "scripts/sign-out-plan.mjs",
+      "scripts/migration-plan.mjs",
+      "scripts/migrate.mjs",
+      "scripts/browser-*.mjs",
+      "scripts/brand-check.mjs",
+      "scripts/preview-thumbnail.mjs",
     ],
   },
   js.configs.recommended,

@@ -1,4 +1,3 @@
-/* --- FILE: src/components/Footer.jsx --- */
 import React from "react";
 import { motion } from "framer-motion";
 import { Mail, Activity, Terminal, Briefcase } from "lucide-react";

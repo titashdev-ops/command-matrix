@@ -1,5 +1,3 @@
-/* --- FILE: src/utils/safety.js --- */
-
 export function buildSafeMailtoPayload({ name, contact, inquiryType, message }) {
   const targetEmail = "titashdev@gmail.com";
   const safeName = String(name || "Unknown").slice(0, 120);

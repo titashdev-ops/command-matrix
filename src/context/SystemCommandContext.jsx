@@ -1,4 +1,3 @@
-/* --- FILE: src/context/SystemCommandContext.jsx --- */
 import React, { createContext, useContext, useState, useRef, useCallback, useEffect } from "react";
 import { buildSafeMailtoPayload, safeAudioContextTrigger, playTactileClickSound, playTactileAudio } from "../utils/safety";
 

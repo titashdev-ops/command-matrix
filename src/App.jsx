@@ -1,9 +1,3 @@
-/* --- FILE: src/App.jsx --- */
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SpatialProvider, useSpatial, TABS } from "./SpatialContext";
