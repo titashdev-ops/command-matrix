@@ -3,75 +3,65 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Terminal,
   Cpu,
-  Zap,
-  AlertTriangle,
-  CheckCircle2,
-  Server,
   FileText,
   Filter,
   ArrowRight,
-  GitCommit,
-  Activity,
 } from "lucide-react";
 import { useSpatial, TABS } from "./SpatialContext";
 import { useSystemCommand } from "./context/SystemCommandContext";
 import CapabilityNavigationModule from "./components/CapabilityNavigationModule";
 import { ADR_RECORDS } from "./data/adrs";
-import EvidenceCard from "./components/EvidenceCard";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
-const BENCHMARK_MODES = {
-  LEGACY: "legacy",
-  AI: "ai",
+const MODES = {
+  BEFORE: "before",
+  AFTER: "after",
 };
 
 const METRICS = {
-  [BENCHMARK_MODES.LEGACY]: [
-    { label: "Resolution Time", value: "14.2 Hours", icon: AlertTriangle, color: "text-amber-500" },
-    { label: "SLA Breach Deflection", value: "32% Risk", icon: AlertTriangle, color: "text-red-500" },
-    { label: "Human Intervention", value: "4 Touchpoints", icon: Server, color: "text-slate-400" },
-    { label: "Stack Coverage", value: "SN • SF • SAP", icon: Server, color: "text-slate-400" },
+  [MODES.BEFORE]: [
+    { label: "Time to close", value: "14.2 h", note: "Manual queue" },
+    { label: "Routing steps", value: "4", note: "Human handoffs" },
+    { label: "Queue depth", value: "47", note: "Modeled storm" },
+    { label: "Operator role", value: "Every ticket", note: "L1 bottleneck" },
   ],
-  [BENCHMARK_MODES.AI]: [
-    { label: "Resolution Time", value: "320 Milliseconds", icon: Zap, color: "text-cyan-electric" },
-    { label: "SLA Breach Deflection", value: "99.8% Protected", icon: CheckCircle2, color: "text-emerald-glow" },
-    { label: "Human Intervention", value: "0 Touchpoints", sub: "Autonomous", icon: Cpu, color: "text-emerald-glow" },
-    { label: "Stack Coverage", value: "SN • SF • SAP", icon: Server, color: "text-cyan-electric" },
+  [MODES.AFTER]: [
+    { label: "Time to close", value: "320 ms", note: "Modeled proxy" },
+    { label: "Routing steps", value: "0", note: "Machine-readable SOP" },
+    { label: "Queue depth", value: "0", note: "Modeled storm" },
+    { label: "Operator role", value: "Supervise", note: "Exception path" },
   ],
 };
 
 const LOG_POOLS = {
-  [BENCHMARK_MODES.LEGACY]: [
-    { prefix: "[WARN]", message: "Ticket #8821 unassigned for 4.2h", prefixColor: "text-amber-500" },
-    { prefix: "[ALERT]", message: "Escalation bottleneck in ServiceNow queue", prefixColor: "text-red-500" },
-    { prefix: "[FAIL]", message: "SLA threshold breached — L1 queue depth 47", prefixColor: "text-red-500" },
-    { prefix: "[WARN]", message: "Salesforce case #4492 awaiting manual routing", prefixColor: "text-amber-500" },
-    { prefix: "[ALERT]", message: "SAP incident #7712 stuck in approval loop", prefixColor: "text-red-500" },
+  [MODES.BEFORE]: [
+    { prefix: "WAIT", message: "Ticket #8821 unassigned for 4.2h", color: "text-amber-400" },
+    { prefix: "QUEUE", message: "ServiceNow L1 depth 47", color: "text-red-400" },
+    { prefix: "HAND", message: "Salesforce case #4492 waiting on routing", color: "text-amber-400" },
+    { prefix: "LOOP", message: "SAP incident stuck in approval", color: "text-red-400" },
   ],
-  [BENCHMARK_MODES.AI]: [
-    { prefix: "[INGEST]", message: "Webhook payload captured from SAP ECC", prefixColor: "text-cyan-electric" },
-    { prefix: "[AI-PROXY]", message: "Machine-Readable SOP #409 executed", prefixColor: "text-cyan-electric" },
-    { prefix: "[SUCCESS]", message: "Context payload enriched & closed in 18ms", prefixColor: "text-emerald-glow" },
-    { prefix: "[INGEST]", message: "ServiceNow event stream normalized via proxy", prefixColor: "text-cyan-electric" },
-    { prefix: "[SUCCESS]", message: "Salesforce case auto-resolved in 42ms", prefixColor: "text-emerald-glow" },
+  [MODES.AFTER]: [
+    { prefix: "INGEST", message: "SAP webhook captured", color: "text-cyan-electric" },
+    { prefix: "SOP", message: "Machine-readable SOP #409 applied", color: "text-cyan-electric" },
+    { prefix: "CLOSE", message: "Context payload closed in 18ms (modeled)", color: "text-emerald-glow" },
+    { prefix: "NORM", message: "ServiceNow event normalized", color: "text-emerald-glow" },
   ],
 };
 
-const PAGE_2_TABS = [
-  { id: "benchmark", label: "BENCHMARK SIMULATOR", icon: Cpu },
-  { id: "adrs", label: "ADR LEDGER & DECISIONS", icon: FileText },
-  { id: "capability", label: "PROBLEM-FIRST INDEX", icon: Filter },
+const VIEWS = [
+  { id: "compare", label: "Compare", icon: Cpu },
+  { id: "decisions", label: "Decisions", icon: FileText },
+  { id: "index", label: "Index", icon: Filter },
 ];
 
 export default function AiArchitectureModule() {
   const { setActiveTab } = useSpatial();
   const { openAdrs, openFlagships, playClickSound } = useSystemCommand();
-  const [activeInspectorTab, setActiveInspectorTab] = useState("benchmark");
-  const [benchmarkMode, setBenchmarkMode] = useState(BENCHMARK_MODES.LEGACY);
-  const [selectedAdrId, setSelectedAdrId] = useState(ADR_RECORDS[0]?.id || "");
+  const [view, setView] = useState("compare");
+  const [mode, setMode] = useState(MODES.BEFORE);
   const [terminalLogs, setTerminalLogs] = useState([]);
   const logIndexRef = useRef(0);
   const terminalRef = useRef(null);
@@ -79,295 +69,277 @@ export default function AiArchitectureModule() {
   useEffect(() => {
     setTerminalLogs([]);
     logIndexRef.current = 0;
-  }, [benchmarkMode]);
+  }, [mode]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const pool = LOG_POOLS[benchmarkMode];
+      const pool = LOG_POOLS[mode];
       const log = pool[logIndexRef.current % pool.length];
-      const timestamp = new Date().toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      const timestamp = new Date().toLocaleTimeString("en-US", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
       logIndexRef.current += 1;
       setTerminalLogs((prev) => {
-        const next = [...prev, { id: `${benchmarkMode}-${logIndexRef.current}`, timestamp, prefix: log.prefix, message: log.message, prefixColor: log.prefixColor }];
-        if (next.length > 7) next.shift();
+        const next = [
+          ...prev,
+          {
+            id: `${mode}-${logIndexRef.current}`,
+            timestamp,
+            prefix: log.prefix,
+            message: log.message,
+            color: log.color,
+          },
+        ];
+        if (next.length > 6) next.shift();
         return next;
       });
-    }, 1400);
+    }, 1500);
     return () => clearInterval(interval);
-  }, [benchmarkMode]);
+  }, [mode]);
 
   useEffect(() => {
     if (terminalRef.current) terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
   }, [terminalLogs]);
 
-  const isLegacy = benchmarkMode === BENCHMARK_MODES.LEGACY;
-  const activeAdr = ADR_RECORDS.find((a) => a.id === selectedAdrId) || ADR_RECORDS[0];
+  const isBefore = mode === MODES.BEFORE;
 
   return (
-    <>
-      <section className="pointer-events-none relative isolate w-full py-12 sm:py-20">
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
-          
-          {/* Calm Hero Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl space-y-3"
-          >
-            <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
-              Empirical Benchmarks &{" "}
-              <span className="bg-gradient-to-br from-emerald-glow via-teal-300 to-cyan-electric bg-clip-text text-transparent">
-                System Evidence
-              </span>
-            </h1>
+    <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 24 }}
+          className="max-w-2xl space-y-4"
+        >
+          <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-emerald-glow/80">
+            Evidence archive
+          </p>
+          <h1 className="font-sans text-3xl sm:text-5xl lg:text-[3.25rem] font-extrabold leading-[1.05] tracking-tight text-white">
+            Judgment, staged
+          </h1>
+          <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
+            Modeled comparisons and architecture decisions. Not live production telemetry.
+          </p>
+        </motion.div>
 
-            <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
-              Modeled performance comparisons, architecture decision records, and constraint-based system narratives.
-            </p>
-          </motion.div>
+        <div className="pointer-events-auto space-y-8">
+          <div className="inline-flex rounded-xl border border-emerald-glow/20 bg-obsidian-surface/50 p-1">
+            {VIEWS.map((item) => {
+              const Icon = item.icon;
+              const active = view === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    playClickSound();
+                    setView(item.id);
+                  }}
+                  className={cn(
+                    "relative inline-flex min-h-[44px] items-center gap-2 rounded-lg px-4 py-2 font-sans text-xs font-semibold uppercase tracking-wider",
+                    active ? "text-emerald-glow" : "text-slate-500 hover:text-slate-300"
+                  )}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="evidence-pill"
+                      className="absolute inset-0 rounded-lg border border-emerald-glow/35 bg-emerald-glow/10"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <Icon size={14} className="relative" />
+                  <span className="relative">{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-          {/* Clean Inspector Control Bar */}
-          <div className="space-y-6 pointer-events-auto">
-            <div className="flex flex-wrap items-center gap-2 border-b border-obsidian-border/60 pb-2">
-              {PAGE_2_TABS.map((tab) => {
-                const Icon = tab.icon;
-                const isSelected = activeInspectorTab === tab.id;
-                return (
+          <AnimatePresence mode="wait">
+            {view === "compare" && (
+              <motion.div
+                key="compare"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ type: "spring", stiffness: 260, damping: 26 }}
+                className="relative overflow-hidden rounded-2xl border border-emerald-glow/20 bg-slate-950/70 shadow-[0_0_80px_rgba(0,255,135,0.06)]"
+              >
+                <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                <div className="relative z-10 p-5 sm:p-8 space-y-6">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-emerald-glow/80 mb-1">
+                        Signature comparison
+                      </div>
+                      <h2 className="font-sans text-xl sm:text-2xl font-bold text-white">
+                        Incident routing, modeled
+                      </h2>
+                      <p className="mt-1 text-sm text-slate-400">
+                        A before/after of a ticket storm. Numbers are simulated, not a live SLA.
+                      </p>
+                    </div>
+                    <div className="inline-flex self-start rounded-full border border-obsidian-border bg-obsidian p-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playClickSound();
+                          setMode(MODES.BEFORE);
+                        }}
+                        className={cn(
+                          "rounded-full px-4 py-2 font-sans text-xs font-bold uppercase min-h-[40px]",
+                          isBefore ? "bg-amber-400/15 text-amber-300 border border-amber-400/40" : "text-slate-500"
+                        )}
+                      >
+                        Before
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playClickSound();
+                          setMode(MODES.AFTER);
+                        }}
+                        className={cn(
+                          "rounded-full px-4 py-2 font-sans text-xs font-bold uppercase min-h-[40px]",
+                          !isBefore ? "bg-cyan-electric/15 text-cyan-electric border border-cyan-electric/40" : "text-slate-500"
+                        )}
+                      >
+                        After
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {METRICS[mode].map((m) => (
+                      <div
+                        key={m.label}
+                        className="rounded-xl border border-obsidian-border/80 bg-obsidian/80 p-4"
+                      >
+                        <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 mb-2">
+                          {m.label}
+                        </div>
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${mode}-${m.label}`}
+                            initial={{ opacity: 0, y: 8, filter: "blur(6px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+                            transition={{ duration: 0.28 }}
+                            className={cn(
+                              "font-sans text-2xl sm:text-3xl font-extrabold tracking-tight",
+                              isBefore ? "text-amber-300" : "text-cyan-electric"
+                            )}
+                          >
+                            {m.value}
+                          </motion.div>
+                        </AnimatePresence>
+                        <div className="mt-1 text-[11px] text-slate-500">{m.note}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="overflow-hidden rounded-xl border border-obsidian-border bg-obsidian">
+                    <div className="flex items-center justify-between border-b border-obsidian-border px-4 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <Terminal size={14} className="text-cyan-electric" />
+                        <span className="font-sans text-xs font-bold uppercase text-slate-300">
+                          Simulated stream
+                        </span>
+                      </div>
+                      <span className="font-mono text-[10px] uppercase text-slate-500">
+                        {isBefore ? "Manual queue" : "Modeled proxy"}
+                      </span>
+                    </div>
+                    <div ref={terminalRef} className="h-44 overflow-y-auto bg-slate-950/90 p-4 font-mono text-xs">
+                      <AnimatePresence initial={false}>
+                        {terminalLogs.map((log) => (
+                          <motion.div
+                            key={log.id}
+                            initial={{ opacity: 0, x: -8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="mb-1.5 flex items-baseline gap-2.5"
+                          >
+                            <span className="shrink-0 text-slate-600">{log.timestamp}</span>
+                            <span className={cn("shrink-0 font-bold", log.color)}>{log.prefix}</span>
+                            <span className="text-slate-300">{log.message}</span>
+                          </motion.div>
+                        ))}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {view === "decisions" && (
+              <motion.div
+                key="decisions"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              >
+                {ADR_RECORDS.map((adr) => (
                   <button
-                    key={tab.id}
+                    key={adr.id}
                     type="button"
                     onClick={() => {
                       playClickSound();
-                      setActiveInspectorTab(tab.id);
+                      openAdrs(adr.id);
                     }}
-                    className={cn(
-                      "px-4 py-2 rounded-lg font-sans text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border min-h-[40px]",
-                      isSelected
-                        ? "bg-emerald-glow/10 text-emerald-glow border-emerald-glow/40"
-                        : "bg-transparent text-slate-400 border-transparent hover:text-white hover:bg-slate-900/60"
-                    )}
+                    className="group text-left rounded-2xl border border-obsidian-border/80 bg-slate-950/70 p-5 transition-colors hover:border-emerald-glow/40"
                   >
-                    <Icon size={14} className={isSelected ? "text-emerald-glow" : "text-slate-500"} />
-                    <span>{tab.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Tab 1: Benchmark Simulator + Stack Health */}
-            {activeInspectorTab === "benchmark" && (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                {/* Mode Switcher */}
-                <div className="flex items-center justify-between gap-4 border-b border-obsidian-border/40 pb-3">
-                  <div className="inline-flex rounded-lg border border-obsidian-border bg-obsidian-surface/80 p-1">
-                    <button
-                      onClick={() => setBenchmarkMode(BENCHMARK_MODES.LEGACY)}
-                      className={cn(
-                        "inline-flex items-center gap-2 rounded-md px-4 py-1.5 font-sans text-xs font-bold uppercase transition-all cursor-pointer",
-                        isLegacy ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-slate-400 hover:text-slate-200"
-                      )}
-                    >
-                      <AlertTriangle size={13} />
-                      Legacy Flow
-                    </button>
-                    <button
-                      onClick={() => setBenchmarkMode(BENCHMARK_MODES.AI)}
-                      className={cn(
-                        "inline-flex items-center gap-2 rounded-md px-4 py-1.5 font-sans text-xs font-bold uppercase transition-all cursor-pointer",
-                        !isLegacy ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/30" : "text-slate-400 hover:text-slate-200"
-                      )}
-                    >
-                      <Cpu size={13} />
-                      Serverless AI Proxy
-                    </button>
-                  </div>
-
-                  <div className="hidden sm:flex items-center gap-2 font-sans text-[10px] text-emerald-glow">
-                    <Activity size={12} />
-                    <span>99.99% Stack Uptime Verified (SN • SF • SAP)</span>
-                  </div>
-                </div>
-
-                {/* Metrics */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                  {METRICS[benchmarkMode].map((m) => (
-                    <EvidenceCard
-                      key={m.label}
-                      title={m.label}
-                      status={benchmarkMode === "ai" ? "Verified" : "Archived"}
-                      source="Benchmark"
-                      results={{
-                        Measurement: m.value,
-                        Context: m.sub || "N/A"
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Live Terminal */}
-                <div className="overflow-hidden rounded-xl border border-obsidian-border bg-obsidian-surface/80">
-                  <div className="flex items-center justify-between border-b border-obsidian-border bg-obsidian-surface/90 px-4 py-2.5">
-                    <div className="flex items-center gap-2">
-                      <Terminal size={14} className="text-cyan-electric" />
-                      <span className="font-sans text-xs text-slate-300 font-bold uppercase">
-                        Simulated Execution Ingress
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-emerald-glow/80">
+                        {adr.id}
                       </span>
+                      <span className="font-mono text-[10px] uppercase text-slate-500">Documented</span>
                     </div>
-                    <span className={cn("font-sans text-[10px] uppercase font-bold", isLegacy ? "text-red-400" : "text-emerald-glow")}>
-                      {isLegacy ? "HIGH FRICTION QUEUE" : "SUB-SECOND PROXY"}
-                    </span>
-                  </div>
-                  <div ref={terminalRef} className="h-56 overflow-y-auto bg-slate-950/90 p-4 font-sans text-xs">
-                    <AnimatePresence initial={false}>
-                      {terminalLogs.map((log) => (
-                        <motion.div
-                          key={log.id}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.15 }}
-                          className="mb-1.5 flex items-baseline gap-2.5"
-                        >
-                          <span className="shrink-0 text-slate-600">[{log.timestamp}]</span>
-                          <span className={cn("shrink-0 font-bold", log.prefixColor)}>{log.prefix}</span>
-                          <span className="text-slate-300">{log.message}</span>
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
-                  </div>
-                </div>
+                    <h3 className="font-sans text-lg font-bold text-white group-hover:text-emerald-glow transition-colors">
+                      {adr.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-slate-400 line-clamp-3 leading-relaxed">
+                      {adr.problem || adr.context}
+                    </p>
+                    <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-cyan-electric">
+                      Open record <ArrowRight size={12} />
+                    </div>
+                  </button>
+                ))}
               </motion.div>
             )}
 
-            {/* Tab 2: Linear-Style ADR Master-Detail Inspector */}
-            {activeInspectorTab === "adrs" && (
+            {view === "index" && (
               <motion.div
-                initial={{ opacity: 0, y: 8 }}
+                key="index"
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-12 gap-4"
+                exit={{ opacity: 0, y: -8 }}
               >
-                {/* Left Master List */}
-                <div className="md:col-span-4 space-y-2">
-                  <div className="flex items-center justify-between pb-1">
-                    <span className="font-sans text-xs text-slate-400 uppercase font-bold">ADR MASTER LIST</span>
-                    <button
-                      type="button"
-                      onClick={() => openAdrs()}
-                      className="font-sans text-[10px] text-cyan-electric hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      <span>Full Lab</span>
-                      <GitCommit size={12} />
-                    </button>
-                  </div>
-                  <div className="space-y-1.5">
-                    {ADR_RECORDS.map((adr) => {
-                      const isSelected = adr.id === selectedAdrId;
-                      return (
-                        <button
-                          key={adr.id}
-                          type="button"
-                          onClick={() => setSelectedAdrId(adr.id)}
-                          className={cn(
-                            "w-full text-left p-3 rounded-lg transition-all cursor-pointer border font-sans text-xs flex flex-col gap-1",
-                            isSelected
-                              ? "bg-slate-900 border-cyan-electric/50 text-white"
-                              : "bg-slate-950/60 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
-                          )}
-                        >
-                          <div className="flex items-center justify-between font-sans text-[10px]">
-                            <span className={isSelected ? "text-cyan-electric font-bold" : "text-slate-500"}>
-                              {adr.id.toUpperCase()}
-                            </span>
-                            <span className="text-slate-500">{adr.date}</span>
-                          </div>
-                          <span className="font-semibold line-clamp-1">{adr.title}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Right Minimal Detail Pane */}
-                <div className="md:col-span-8 p-5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <div>
-                      <span className="font-sans text-[10px] text-cyan-electric font-bold uppercase">{activeAdr.id.toUpperCase()} // DECISION RECORD</span>
-                      <h2 className="text-lg font-bold text-white font-sans mt-0.5">{activeAdr.title}</h2>
-                    </div>
-                    <span className="font-sans text-[10px] text-emerald-glow border border-emerald-glow/30 px-2.5 py-0.5 rounded bg-emerald-glow/10 font-bold">
-                      Accepted
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
-                    <div>
-                      <span className="font-sans text-[10px] uppercase text-slate-500 block mb-1 font-bold">Context & Problem</span>
-                      <p className="bg-slate-900/60 p-3 rounded-lg border border-slate-800">{activeAdr.context}</p>
-                    </div>
-
-                    <div>
-                      <span className="font-sans text-[10px] uppercase text-slate-500 block mb-1 font-bold">Decision Outcome</span>
-                      <p className="bg-slate-900/60 p-3 rounded-lg border border-slate-800">{activeAdr.decision}</p>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex items-center justify-end">
-                    <button
-                      type="button"
-                      onClick={() => openAdrs()}
-                      className="font-sans text-xs text-cyan-electric hover:underline flex items-center gap-1 cursor-pointer font-bold"
-                    >
-                      <span>Open Interactive ADR Inspector</span>
-                      <ArrowRight size={12} />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Tab 3: Problem-First Index */}
-            {activeInspectorTab === "capability" && (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <CapabilityNavigationModule 
-                  onOpenDossier={(mission) => {
-                    openFlagships(mission);
-                  }}
+                <CapabilityNavigationModule
+                  onOpenDossier={(mission) => openFlagships(mission)}
                   onStartDiscovery={() => setActiveTab(TABS.AIRSPACE)}
                 />
               </motion.div>
             )}
-
-          </div>
-
-          {/* Quiet Primary CTA Link */}
-          <div className="pt-4 flex items-center justify-between pointer-events-auto border-t border-obsidian-border/40">
-            <span className="font-sans text-xs text-slate-400">
-              Satisfied with the engineering evidence?
-            </span>
-            <button
-              type="button"
-              onClick={() => setActiveTab(TABS.AIRSPACE)}
-              className="inline-flex items-center gap-2 font-sans text-xs font-bold text-emerald-glow hover:text-emerald-300 transition-colors cursor-pointer group py-2"
-            >
-              <span>Proceed to Conversion & Engagement</span>
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-
+          </AnimatePresence>
         </div>
-      </section>
-    </>
+
+        <div className="pt-2 flex items-center justify-between pointer-events-auto border-t border-obsidian-border/40">
+          <span className="font-sans text-xs text-slate-400">Records live as ADRs. Engagement is a mailto brief.</span>
+          <button
+            type="button"
+            onClick={() => setActiveTab(TABS.AIRSPACE)}
+            className="inline-flex items-center gap-2 font-sans text-xs font-bold text-emerald-glow hover:text-emerald-300 transition-colors group py-2"
+          >
+            <span>Start a brief</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
-

@@ -149,53 +149,64 @@ function DossierCover({ project, accent, intel }) {
     project.decisionLedger?.[0]?.decision ||
     intel.primaryEngineeringPattern;
   const status = project.implementationStatus;
+  const why =
+    project.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
+    project.businessImpact;
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 18, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: "spring", stiffness: 240, damping: 24 }}
-      className="relative overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/70 p-6 sm:p-10 mb-10 shadow-[0_0_80px_rgba(0,240,255,0.08)]"
+      className="relative overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/75 p-6 sm:p-10 mb-10 shadow-[0_0_90px_rgba(0,240,255,0.1)]"
     >
       <div className="dossier-sheen" aria-hidden="true" />
-      <div className={`absolute -right-16 -top-16 h-56 w-56 rounded-full blur-3xl opacity-40 ${accent.bg}`} />
-      <div className="relative z-10 space-y-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className={cn("font-mono text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full border", accent.text, accent.bg, accent.border)}>
+      <div className={`absolute -right-10 -top-10 h-64 w-64 rounded-full blur-3xl opacity-50 ${accent.bg}`} />
+      <div className="relative z-10 grid gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:items-end">
+        <div className="space-y-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={cn("font-mono text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full border", accent.text, accent.bg, accent.border)}>
+              {status}
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-500">
+              {project.domain}
+            </span>
+          </div>
+          <motion.h3
+            layoutId={`case-title-${project.missionId}`}
+            className="font-sans text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.16)]"
+          >
+            {project.projectName}
+          </motion.h3>
+          <p className="max-w-2xl font-sans text-sm sm:text-base text-slate-300 leading-relaxed">
+            {why}
+          </p>
+        </div>
+        <div className="hidden lg:block text-right">
+          <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-slate-500 mb-2">Status</div>
+          <div className={cn("font-sans text-4xl font-extrabold tracking-tight", accent.text)}>
             {status}
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-500">
-            {project.domain}
-          </span>
+          </div>
         </div>
-        <motion.h3
-          layoutId={`case-title-${project.missionId}`}
-          className="font-sans text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.16)]"
-        >
-          {project.projectName}
-        </motion.h3>
-        <p className="max-w-2xl font-sans text-sm sm:text-base text-slate-300 leading-relaxed">
-          {project.missionObjective}
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-          {[
-            { label: "Problem", value: problem },
-            { label: "Decision", value: decision },
-            { label: "Status", value: `${status} · ${project.classification}` },
-          ].map((cell) => (
-            <div
-              key={cell.label}
-              className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4 backdrop-blur-md"
-            >
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-electric/80 mb-2">
-                {cell.label}
-              </div>
-              <div className="font-sans text-xs sm:text-sm text-slate-200 leading-relaxed line-clamp-4">
-                {cell.value}
-              </div>
+      </div>
+      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-8">
+        {[
+          { label: "Problem", value: problem },
+          { label: "Decision", value: decision },
+          { label: "Why it matters", value: why },
+        ].map((cell) => (
+          <div
+            key={cell.label}
+            className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4 backdrop-blur-md"
+          >
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-electric/80 mb-2">
+              {cell.label}
             </div>
-          ))}
-        </div>
+            <div className="font-sans text-xs sm:text-sm text-slate-200 leading-relaxed line-clamp-4">
+              {cell.value}
+            </div>
+          </div>
+        ))}
       </div>
     </motion.section>
   );
@@ -237,7 +248,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
                 viewMode === "investigation" ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/40" : "text-slate-400 hover:text-white"
               )}
             >
-              INVESTIGATION
+              Brief
             </button>
             <button type="button"
               onClick={() => { playClickSound(); setViewMode("review"); }}
@@ -246,7 +257,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
                 viewMode === "review" ? "bg-amber-400/20 text-amber-300 border border-amber-400/50" : "text-slate-400 hover:text-white"
               )}
             >
-              <ShieldCheck size={11} /> REVIEW MODE
+              <ShieldCheck size={11} /> Deep review
             </button>
           </div>
           <span className={cn("font-sans text-xs sm:text-xs uppercase tracking-widest px-2 py-1 rounded border whitespace-nowrap hidden md:inline-block", accent.text, accent.bg, accent.border)}>
