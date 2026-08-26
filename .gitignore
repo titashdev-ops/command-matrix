@@ -40,6 +40,5 @@ scripts/browser-guard.mjs
 scripts/brand-check.mjs
 scripts/brand-check.test.mjs
 scripts/preview-thumbnail.mjs
-scripts/install-page.html
 scripts/grok-pwa-plugin.test.mjs
 scripts/with-app-env.test.mjs
