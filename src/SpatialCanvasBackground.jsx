@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Grid, Sparkles } from "@react-three/drei";
+import { Grid, Sparkles, Float } from "@react-three/drei";
 import * as THREE from "three";
 
 import { useSpatial, TABS } from "./SpatialContext";
@@ -13,7 +13,7 @@ const MODE_COLORS = {
   [TABS.TRUST_CENTER]: new THREE.Color("#4ade80"),
 };
 
-function PointCloudVisualizer({ count = 3600 }) {
+function PointCloudVisualizer({ count = 4200 }) {
   const pointsRef = useRef();
   const materialRef = useRef();
   const morphDirty = useRef(false);
@@ -47,7 +47,7 @@ function PointCloudVisualizer({ count = 3600 }) {
     const targetSize = targetLock ? 0.06 : audioPulse ? 0.08 : 0.04;
     materialRef.current.size += (targetSize - materialRef.current.size) * delta * (audioPulse ? 15 : 5);
 
-    const rotSpeed = targetLock ? 0.012 : 0.035;
+    const rotSpeed = targetLock ? 0.018 : 0.048;
     pointsRef.current.rotation.y += delta * rotSpeed;
 
     const morphing = activeTab === TABS.POINT_CLOUD || activeTab === TABS.AIRSPACE;
@@ -56,7 +56,7 @@ function PointCloudVisualizer({ count = 3600 }) {
       for (let i = 0; i < count; i++) {
         const i3 = i * 3;
         const n = noiseOffsets[i];
-        const wave = Math.sin(time * 0.55 + n) * 0.22;
+        const wave = Math.sin(time * 0.7 + n) * 0.32;
         positionAttr.array[i3 + 1] = basePositions[i3 + 1] + wave;
       }
       positionAttr.needsUpdate = true;
@@ -110,43 +110,69 @@ function PointCloudVisualizer({ count = 3600 }) {
   );
 }
 
-function CameraRig() {
-  const controlsRef = useRef();
-  const { targetLock } = useSpatial();
-  const targetVec = useMemo(() => new THREE.Vector3(0, 0, 0), []);
-
-  useFrame((state, delta) => {
-    if (!controlsRef.current) return;
-    if (targetLock) {
-      targetVec.set(((targetLock.x - 200) / 200) * 6, 0.5, ((targetLock.y - 200) / 200) * 6);
-    } else {
-      targetVec.set(0, 0, 0);
-    }
-    controlsRef.current.target.lerp(targetVec, delta * 2);
-    controlsRef.current.update();
+function BrandCore({ color }) {
+  const group = useRef();
+  useFrame((_, delta) => {
+    if (group.current) group.current.rotation.y += delta * 0.22;
   });
+  const tint = useMemo(() => new THREE.Color(color), [color]);
 
   return (
-    <OrbitControls
-      ref={controlsRef}
-      autoRotate
-      autoRotateSpeed={targetLock ? 0.25 : 0.7}
-      enableZoom={false}
-      maxPolarAngle={Math.PI / 2.1}
-      minDistance={5}
-      maxDistance={20}
-    />
+    <Float speed={1.35} rotationIntensity={0.28} floatIntensity={0.55}>
+      <group ref={group} position={[0, 0.4, 0]}>
+        <mesh>
+          <icosahedronGeometry args={[1.15, 0]} />
+          <meshPhysicalMaterial
+            color={tint}
+            emissive={tint}
+            emissiveIntensity={0.18}
+            roughness={0.12}
+            metalness={0.15}
+            transmission={0.86}
+            thickness={1.35}
+            ior={1.45}
+            clearcoat={1}
+            clearcoatRoughness={0.12}
+            transparent
+            opacity={0.95}
+          />
+        </mesh>
+        <mesh>
+          <icosahedronGeometry args={[1.18, 0]} />
+          <meshBasicMaterial color={color} wireframe transparent opacity={0.4} />
+        </mesh>
+      </group>
+    </Float>
   );
+}
+
+function CameraRig() {
+  const { targetLock } = useSpatial();
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    const px = state.pointer.x * 2.1;
+    const py = state.pointer.y * 0.9;
+    const lockX = targetLock ? ((targetLock.x - 200) / 200) * 1.6 : 0;
+    const tx = px + lockX;
+    const ty = 7.6 + Math.sin(t * 0.22) * 0.38 + py;
+    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, tx, 0.045);
+    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, ty, 0.045);
+    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 12, 0.045);
+    state.camera.lookAt(0, 0.25, 0);
+  });
+
+  return null;
 }
 
 export default function SpatialCanvasBackground() {
   const { activeTab } = useSpatial();
-  const [pointCount, setPointCount] = useState(3600);
+  const [pointCount, setPointCount] = useState(4200);
 
   useEffect(() => {
     const wide = typeof window !== "undefined" && window.innerWidth >= 768;
     const finePointer = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches;
-    setPointCount(wide && finePointer ? 3600 : 1200);
+    setPointCount(wide && finePointer ? 4200 : 1200);
   }, []);
 
   const accentHex =
@@ -160,26 +186,28 @@ export default function SpatialCanvasBackground() {
 
   return (
     <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/5 via-obsidian to-obsidian" aria-hidden="true">
-      <Canvas camera={{ position: [0, 8, 12], fov: 45 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
+      <Canvas camera={{ position: [0, 7.6, 12], fov: 42 }} dpr={[1, 1.6]} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
         <color attach="background" args={["#050505"]} />
-        <fog attach="fog" args={["#050505", 6, 26]} />
-        <ambientLight intensity={0.45} />
-        <pointLight position={[10, 10, 10]} intensity={1.6} color={accentHex} />
-        <pointLight position={[-10, 5, -10]} intensity={0.9} color="#00f0ff" />
+        <fog attach="fog" args={["#050505", 7, 24]} />
+        <ambientLight intensity={0.35} />
+        <pointLight position={[8, 12, 6]} intensity={2.1} color={accentHex} />
+        <pointLight position={[-10, 4, -8]} intensity={1.1} color="#00f0ff" />
+        <spotLight position={[0, 14, 4]} intensity={1.4} angle={0.5} penumbra={0.6} color="#ffffff" />
         <Grid
           position={[0, -2, 0]}
           args={[20, 20]}
           cellSize={0.5}
-          cellThickness={0.5}
+          cellThickness={0.45}
           cellColor="#1e293b"
           sectionSize={5}
-          sectionThickness={1.2}
+          sectionThickness={1.4}
           sectionColor={accentHex}
-          fadeDistance={25}
-          fadeStrength={1}
+          fadeDistance={22}
+          fadeStrength={1.1}
           infiniteGrid
         />
-        <Sparkles count={90} size={2} speed={0.35} opacity={0.45} color={accentHex} scale={16} />
+        <Sparkles count={140} size={2.2} speed={0.42} opacity={0.5} color={accentHex} scale={16} />
+        <BrandCore color={accentHex} />
         <PointCloudVisualizer count={pointCount} />
         <CameraRig />
       </Canvas>

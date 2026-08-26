@@ -78,10 +78,10 @@ export default function Navbar({ onOpenSearch }) {
             </div>
             <div className="min-w-0">
               <div className="font-mono text-xs font-bold tracking-widest text-white">
-                TITASH DEV
+                COMMAND MATRIX
               </div>
               <div className="font-mono text-[10px] tracking-wider text-slate-500 sm:text-xs">
-                Systems Architect
+                Titash Dev · Architect
               </div>
             </div>
           </div>

@@ -76,9 +76,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.VECTOR && (
             <motion.div
               key="vector"
-              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
+              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
               transition={TAB_TRANSITION}
             >
               <SpatialTelemetryModule />
@@ -88,9 +88,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.POINT_CLOUD && (
             <motion.div
               key="point-cloud"
-              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
+              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
               transition={TAB_TRANSITION}
             >
               <AiArchitectureModule />
@@ -100,9 +100,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.AIRSPACE && (
             <motion.div
               key="airspace"
-              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
+              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
               transition={TAB_TRANSITION}
             >
               <SaasOperationsModule />
@@ -111,9 +111,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.TRUST_CENTER && (
             <motion.div
               key="trust-center"
-              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
+              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
               transition={TAB_TRANSITION}
             >
               <TrustCenter />
@@ -155,6 +155,7 @@ export default function App() {
             </div>
             <div className="hud-vignette" aria-hidden="true" />
             <div className="hud-scanlines hidden md:block" aria-hidden="true" />
+            <div className="hud-grain hidden md:block" aria-hidden="true" />
             <span className="hud-corner hud-tl hidden md:block" aria-hidden="true" />
             <span className="hud-corner hud-tr hidden md:block" aria-hidden="true" />
             <span className="hud-corner hud-bl hidden md:block" aria-hidden="true" />

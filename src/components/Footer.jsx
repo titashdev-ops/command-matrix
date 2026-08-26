@@ -16,10 +16,10 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-8 md:flex-row md:items-center md:justify-between md:px-12">
         <div className="space-y-1 text-center md:text-left">
           <div className="font-mono text-xs font-semibold tracking-[0.2em] text-slate-200">
-            TITASH DEV
+            COMMAND MATRIX
           </div>
           <p className="font-sans text-sm text-slate-400">
-            Systems Architect · Bangalore. For case studies or architecture reviews.
+            Titash Dev · Systems Architect. For case studies or architecture reviews.
           </p>
         </div>
 

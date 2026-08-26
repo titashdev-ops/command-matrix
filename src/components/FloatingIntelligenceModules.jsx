@@ -46,10 +46,10 @@ function Glass3DTiltCard({
   const mouseYRelative = useMotionValue(0.5);
 
   // Spring Physics for mouse release overshoot & settling
-  const springConfig = { stiffness: 260, damping: 18, mass: 0.8, bounce: 0.18 };
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), springConfig);
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-10, 10]), springConfig);
-  const scale = useSpring(isHovered ? 1.035 : 1, springConfig);
+  const springConfig = { stiffness: 240, damping: 16, mass: 0.75, bounce: 0.22 };
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), springConfig);
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), springConfig);
+  const scale = useSpring(isHovered ? 1.045 : 1, springConfig);
 
   // Radial highlight gradient origin
   const spotlightX = useSpring(useTransform(mouseXRelative, [0, 1], ["0%", "100%"]), springConfig);

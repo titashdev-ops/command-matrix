@@ -36,7 +36,7 @@ export default function SpatialTelemetryModule() {
               variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 280, damping: 24 } } }}
               className="font-mono text-[10px] tracking-[0.32em] uppercase text-cyan-electric/80"
             >
-              Portfolio · Spatial HUD
+              Command Matrix · Portfolio HUD
             </motion.p>
             <motion.h1
               variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 240, damping: 22 } } }}
