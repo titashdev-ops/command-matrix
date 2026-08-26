@@ -6,10 +6,10 @@ export default function CursorFollower() {
   const [isHovering, setIsHovering] = useState(false);
   const x = useMotionValue(-200);
   const y = useMotionValue(-200);
-  const bloomX = useSpring(x, { stiffness: 28, damping: 18, mass: 1.1 });
-  const bloomY = useSpring(y, { stiffness: 28, damping: 18, mass: 1.1 });
-  const cursorX = useSpring(x, { stiffness: 280, damping: 26, mass: 0.4 });
-  const cursorY = useSpring(y, { stiffness: 280, damping: 26, mass: 0.4 });
+  const bloomX = useSpring(x, { stiffness: 22, damping: 20, mass: 1.25 });
+  const bloomY = useSpring(y, { stiffness: 22, damping: 20, mass: 1.25 });
+  const cursorX = useSpring(x, { stiffness: 240, damping: 28, mass: 0.45 });
+  const cursorY = useSpring(y, { stiffness: 240, damping: 28, mass: 0.45 });
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)").matches;

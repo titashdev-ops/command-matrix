@@ -23,7 +23,7 @@ const TAB_META = {
   [TABS.VECTOR]: { label: "Work", icon: Compass, color: "text-cyan-electric", border: "border-cyan-electric/30", bg: "bg-cyan-electric/5" },
   [TABS.POINT_CLOUD]: { label: "Evidence", icon: Layers, color: "text-emerald-glow", border: "border-emerald-glow/30", bg: "bg-emerald-glow/5" },
   [TABS.AIRSPACE]: { label: "Engage", icon: Navigation, color: "text-amber-400", border: "border-amber-400/30", bg: "bg-amber-400/5" },
-  [TABS.TRUST_CENTER]: { label: "ADRs", icon: FileText, color: "text-emerald-400", border: "border-emerald-400/30", bg: "bg-emerald-400/5" },
+  [TABS.TRUST_CENTER]: { label: "Records", icon: FileText, color: "text-emerald-400", border: "border-emerald-400/30", bg: "bg-emerald-400/5" },
 };
 
 export default function Navbar({ onOpenSearch }) {
@@ -81,8 +81,8 @@ export default function Navbar({ onOpenSearch }) {
               <div className="font-mono text-xs font-bold tracking-widest text-white">
                 COMMAND MATRIX
               </div>
-              <div className="font-mono text-[10px] tracking-wider text-slate-500 sm:text-xs">
-                Titash Dev · Architect
+              <div className="font-sans text-[10px] tracking-wide text-slate-500 sm:text-xs">
+                Titash Dev
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function Navbar({ onOpenSearch }) {
                   key={tabKey}
                   onClick={() => handleTabSwitch(tabKey)}
                   className={cn(
-                    "relative z-10 inline-flex min-h-[48px] min-w-[48px] items-center gap-2 rounded-lg px-4 py-2 font-sans text-xs font-semibold uppercase tracking-wider transition-colors duration-300",
+                    "relative z-10 inline-flex min-h-[48px] min-w-[48px] items-center gap-2 rounded-lg px-4 py-2 font-sans text-[13px] font-medium tracking-wide transition-colors duration-300",
                     isActive
                       ? cn(meta.color)
                       : "text-slate-500 hover:text-slate-300"
@@ -153,18 +153,17 @@ export default function Navbar({ onOpenSearch }) {
             <button type="button"
               onClick={openResume}
               aria-label="Open resume"
-              className="group relative hidden sm:flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-slate-700/50 bg-slate-800/30 px-4 py-1.5 sm:min-h-[auto] font-mono text-xs font-bold tracking-widest text-slate-300 transition-all hover:bg-slate-700 hover:text-white duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+              className="group relative hidden sm:flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-slate-700/50 bg-slate-800/30 px-4 py-1.5 sm:min-h-[auto] font-sans text-xs font-semibold tracking-wide text-slate-300 transition-all hover:bg-slate-700 hover:text-white duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
             >
               <FileText size={14} />
-              RESUME
+              Resume
             </button>
-            {/* Connect CTA */}
             <button type="button"
               onClick={openContact}
-              className="group relative flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-cyan-electric/60 bg-cyan-electric/15 px-4 py-1.5 sm:min-h-[auto] font-mono text-xs font-bold tracking-widest text-cyan-electric transition-all hover:bg-cyan-electric/25 hover:shadow-cyan-glow hover:scale-105 active:scale-95 duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+              className="lux-sheen group relative flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-cyan-electric/60 bg-cyan-electric/15 px-4 py-1.5 sm:min-h-[auto] font-sans text-xs font-semibold tracking-wide text-cyan-electric transition-all hover:bg-cyan-electric/25 hover:shadow-cyan-glow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
             >
               <Activity size={14} />
-              CONTACT
+              Contact
             </button>
           </div>
         </div>
@@ -234,7 +233,7 @@ export default function Navbar({ onOpenSearch }) {
                           setIsDrawerOpen(false);
                         }}
                         className={cn(
-                          "inline-flex min-h-[48px] items-center gap-3 rounded-lg px-4 py-2 font-sans text-xs font-semibold uppercase tracking-wider transition-all duration-300",
+                          "inline-flex min-h-[48px] items-center gap-3 rounded-lg px-4 py-2 font-sans text-sm font-medium tracking-wide transition-all duration-300",
                           isActive
                             ? cn("border", meta.border, meta.bg, meta.color)
                             : "border border-transparent text-slate-500 hover:bg-obsidian-surface/40 hover:text-slate-300"

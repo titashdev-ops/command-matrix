@@ -8,6 +8,7 @@ import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
+import { modalReveal, easeLux } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -36,7 +37,7 @@ export default function EngineeringDecisionsModal() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.48, ease: easeLux }}
         className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-2 sm:p-4 md:p-8 backdrop-blur-md overflow-hidden"
         onClick={closeAdrs}
         role="presentation" // Outer div shouldn't be the dialog if it doesn't have the content trapped
@@ -47,10 +48,10 @@ export default function EngineeringDecisionsModal() {
           aria-modal="true"
           aria-labelledby="adr-title"
           onClick={(e) => e.stopPropagation()}
-          initial={{ scale: 0.97, opacity: 0, y: 14 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.98, opacity: 0, y: 10 }}
-          transition={{ duration: 0.48, ease: [0.16, 1, 0.3, 1] }}
+          initial={modalReveal.initial}
+          animate={modalReveal.animate}
+          exit={modalReveal.exit}
+          transition={modalReveal.transition}
           className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-xl border border-obsidian-border bg-obsidian-surface/95 shadow-2xl overscroll-contain"
         >
           {/* Header */}

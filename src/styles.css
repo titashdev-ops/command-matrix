@@ -47,16 +47,41 @@
 .kicker {
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 0.6875rem;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .lede {
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  max-width: 36rem;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  max-width: 34rem;
   color: #cbd5e1;
+  font-weight: 400;
+}
+
+.lux-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.lux-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.14) 50%,
+    transparent 62%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .lux-sheen:hover::after {
+    transform: translateX(130%);
+    transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 @keyframes glitch-anim {

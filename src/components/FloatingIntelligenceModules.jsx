@@ -199,9 +199,9 @@ function Glass3DTiltCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{
-        duration: 0.55,
+        duration: 0.72,
         ease: easeOut,
-        delay: index * 0.07,
+        delay: index * 0.09,
       }}
       className={cn("perspective-1000 w-full pointer-events-auto", spanClass)}
     >
@@ -226,7 +226,7 @@ function Glass3DTiltCard({
           transformStyle: "preserve-3d",
         }}
         className={cn(
-          "relative overflow-hidden rounded-2xl border border-obsidian-border/90 bg-slate-950/70 p-6 shadow-2xl backdrop-blur-xl transition-colors duration-300 group cursor-pointer",
+          "relative overflow-hidden rounded-2xl border border-obsidian-border/90 bg-slate-950/70 p-6 shadow-2xl backdrop-blur-xl transition-colors duration-300 group cursor-pointer lux-sheen",
           isHovered
             ? "border-cyan-electric/55 shadow-[0_0_40px_rgba(0,240,255,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]"
             : "hover:border-cyan-electric/25"
@@ -268,7 +268,7 @@ function Glass3DTiltCard({
                     {title}
                   </motion.span>
                 </h3>
-                <p className="font-sans font-medium text-slate-400 uppercase tracking-wider">
+                <p className="font-sans text-sm text-slate-400 tracking-wide">
                   {subtitle}
                 </p>
               </div>
@@ -311,7 +311,7 @@ function Glass3DTiltCard({
                 e.stopPropagation();
                 onCtaClick?.();
               }}
-              className="font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1.5 transition-colors duration-200 group/btn cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+              className="font-sans text-sm font-medium text-slate-300 tracking-wide flex items-center gap-1.5 transition-colors duration-200 group/btn cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
             >
               <span>{ctaText}</span>
               <ArrowUpRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 text-cyan-electric" />

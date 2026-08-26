@@ -140,7 +140,7 @@ export default function AiArchitectureModule() {
                     setView(item.id);
                   }}
                   className={cn(
-                    "relative inline-flex min-h-[44px] items-center gap-2 rounded-lg px-4 py-2 font-sans text-xs font-semibold uppercase tracking-wider",
+                    "relative inline-flex min-h-[44px] items-center gap-2 rounded-lg px-4 py-2 font-sans text-[13px] font-medium tracking-wide",
                     active ? "text-emerald-glow" : "text-slate-500 hover:text-slate-300"
                   )}
                 >

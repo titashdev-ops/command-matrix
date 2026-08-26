@@ -61,7 +61,7 @@ export default function Footer() {
               playClickSound();
               openContact();
             }}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-cyan-electric/40 bg-cyan-electric/10 px-3 py-2 text-xs font-medium text-cyan-electric transition-colors hover:bg-cyan-electric/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+            className="lux-sheen inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-cyan-electric/40 bg-cyan-electric/10 px-3 py-2 text-xs font-medium text-cyan-electric transition-colors hover:bg-cyan-electric/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
           >
             <Mail size={14} />
             Contact

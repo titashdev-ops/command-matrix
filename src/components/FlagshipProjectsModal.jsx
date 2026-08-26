@@ -14,6 +14,7 @@ import { useRef } from "react";
 import { CASE_STUDIES, getEngineeringIntelligence } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
+import { coverReveal, modalReveal, easeLux } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -155,9 +156,7 @@ function DossierCover({ project, accent, intel }) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 18, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ type: "spring", stiffness: 240, damping: 24 }}
+      {...coverReveal}
       className="relative overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/75 p-6 sm:p-10 mb-10 shadow-[0_0_90px_rgba(0,240,255,0.1)]"
     >
       <div className="dossier-sheen" aria-hidden="true" />
@@ -178,7 +177,7 @@ function DossierCover({ project, accent, intel }) {
           >
             {project.projectName}
           </motion.h3>
-          <p className="max-w-2xl font-sans text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="lede max-w-2xl">
             {why}
           </p>
         </div>
@@ -572,7 +571,7 @@ export default function FlagshipProjectsModal() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.48, ease: easeLux }}
         className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-2 sm:p-4 md:p-8 backdrop-blur-xl overflow-hidden"
         style={{ perspective: 1400 }}
         onClick={handleModalClose}
@@ -584,10 +583,10 @@ export default function FlagshipProjectsModal() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="case-studies-title"
-          initial={{ scale: 0.96, opacity: 0, y: 18 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.98, opacity: 0, y: 10 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          initial={modalReveal.initial}
+          animate={modalReveal.animate}
+          exit={modalReveal.exit}
+          transition={modalReveal.transition}
           className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-[1400px] flex-col overflow-hidden rounded-xl border border-cyan-electric/25 bg-obsidian shadow-[0_0_80px_rgba(0,240,255,0.12)] overscroll-contain"
         >
           {/* Corner Brackets */}
