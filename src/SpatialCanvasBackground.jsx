@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Grid } from "@react-three/drei";
+import { OrbitControls, Grid, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 
 import { useSpatial, TABS } from "./SpatialContext";
@@ -13,7 +13,7 @@ const MODE_COLORS = {
   [TABS.TRUST_CENTER]: new THREE.Color("#4ade80"),
 };
 
-function PointCloudVisualizer({ count = 2200 }) {
+function PointCloudVisualizer({ count = 3600 }) {
   const pointsRef = useRef();
   const materialRef = useRef();
   const morphDirty = useRef(false);
@@ -47,16 +47,19 @@ function PointCloudVisualizer({ count = 2200 }) {
     const targetSize = targetLock ? 0.06 : audioPulse ? 0.08 : 0.04;
     materialRef.current.size += (targetSize - materialRef.current.size) * delta * (audioPulse ? 15 : 5);
 
-    const rotSpeed = targetLock ? 0.008 : 0.018;
+    const rotSpeed = targetLock ? 0.012 : 0.035;
     pointsRef.current.rotation.y += delta * rotSpeed;
 
     const morphing = activeTab === TABS.POINT_CLOUD || activeTab === TABS.AIRSPACE;
     if (!morphing) {
-      if (morphDirty.current) {
-        positionAttr.array.set(basePositions);
-        positionAttr.needsUpdate = true;
-        morphDirty.current = false;
+      morphDirty.current = false;
+      for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
+        const n = noiseOffsets[i];
+        const wave = Math.sin(time * 0.55 + n) * 0.22;
+        positionAttr.array[i3 + 1] = basePositions[i3 + 1] + wave;
       }
+      positionAttr.needsUpdate = true;
       return;
     }
     morphDirty.current = true;
@@ -127,7 +130,7 @@ function CameraRig() {
     <OrbitControls
       ref={controlsRef}
       autoRotate
-      autoRotateSpeed={targetLock ? 0.15 : 0.35}
+      autoRotateSpeed={targetLock ? 0.25 : 0.7}
       enableZoom={false}
       maxPolarAngle={Math.PI / 2.1}
       minDistance={5}
@@ -138,12 +141,12 @@ function CameraRig() {
 
 export default function SpatialCanvasBackground() {
   const { activeTab } = useSpatial();
-  const [pointCount, setPointCount] = useState(2200);
+  const [pointCount, setPointCount] = useState(3600);
 
   useEffect(() => {
     const wide = typeof window !== "undefined" && window.innerWidth >= 768;
     const finePointer = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches;
-    setPointCount(wide && finePointer ? 2200 : 900);
+    setPointCount(wide && finePointer ? 3600 : 1200);
   }, []);
 
   const accentHex =
@@ -157,11 +160,12 @@ export default function SpatialCanvasBackground() {
 
   return (
     <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/5 via-obsidian to-obsidian" aria-hidden="true">
-      <Canvas camera={{ position: [0, 8, 12], fov: 45 }} dpr={[1, 1.25]} gl={{ antialias: false, alpha: true, powerPreference: "low-power" }}>
+      <Canvas camera={{ position: [0, 8, 12], fov: 45 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
         <color attach="background" args={["#050505"]} />
-        <fog attach="fog" args={["#050505", 5, 25]} />
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1.2} color={accentHex} />
+        <fog attach="fog" args={["#050505", 6, 26]} />
+        <ambientLight intensity={0.45} />
+        <pointLight position={[10, 10, 10]} intensity={1.6} color={accentHex} />
+        <pointLight position={[-10, 5, -10]} intensity={0.9} color="#00f0ff" />
         <Grid
           position={[0, -2, 0]}
           args={[20, 20]}
@@ -169,12 +173,13 @@ export default function SpatialCanvasBackground() {
           cellThickness={0.5}
           cellColor="#1e293b"
           sectionSize={5}
-          sectionThickness={1}
+          sectionThickness={1.2}
           sectionColor={accentHex}
           fadeDistance={25}
           fadeStrength={1}
           infiniteGrid
         />
+        <Sparkles count={90} size={2} speed={0.35} opacity={0.45} color={accentHex} scale={16} />
         <PointCloudVisualizer count={pointCount} />
         <CameraRig />
       </Canvas>

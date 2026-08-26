@@ -23,23 +23,39 @@ export default function SpatialTelemetryModule() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
           
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-2xl space-y-4"
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: {},
+              show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+            }}
+            className="relative max-w-3xl space-y-5"
           >
-            <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-slate-500">
-              Portfolio
-            </p>
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.05] tracking-tight text-white">
+            <div className="hud-bloom hidden md:block" aria-hidden="true" />
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 280, damping: 24 } } }}
+              className="font-mono text-[10px] tracking-[0.32em] uppercase text-cyan-electric/80"
+            >
+              Portfolio · Spatial HUD
+            </motion.p>
+            <motion.h1
+              variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 240, damping: 22 } } }}
+              className="font-sans text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_0_42px_rgba(0,240,255,0.18)]"
+            >
               Titash Dev
-            </h1>
-            <p className="font-mono text-sm tracking-[0.18em] uppercase text-cyan-electric">
+            </motion.h1>
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 24 } } }}
+              className="font-mono text-sm tracking-[0.2em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-electric via-teal-200 to-emerald-glow"
+            >
               Systems Architect
-            </p>
-            <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
+            </motion.p>
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 24 } } }}
+              className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed max-w-2xl"
+            >
               Architecture case studies in UAV operations, clinical systems, and talent graphs. Modeled systems — not a live command center.
-            </p>
+            </motion.p>
           </motion.div>
 
           {/* Named case studies first */}
@@ -67,7 +83,7 @@ export default function SpatialTelemetryModule() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="relative hidden overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/60 shadow-[0_20px_50px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl pointer-events-auto md:flex md:flex-col"
+            className="relative hidden overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/55 shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_80px_rgba(0,240,255,0.08),_inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl pointer-events-auto md:flex md:flex-col"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-transparent to-emerald-900/10 pointer-events-none" />
             <div className="flex items-center justify-between border-b border-obsidian-border/60 bg-obsidian-surface/80 px-5 py-3 backdrop-blur-md">

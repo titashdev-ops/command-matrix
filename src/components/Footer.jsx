@@ -11,7 +11,7 @@ export default function Footer() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="pointer-events-auto relative z-50 mt-auto border-t border-obsidian-border/80 bg-slate-950/90 backdrop-blur-xl"
+      className="pointer-events-auto relative z-50 mt-auto border-t border-cyan-electric/20 bg-slate-950/80 backdrop-blur-2xl shadow-[0_-1px_24px_rgba(0,240,255,0.08)]"
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-8 md:flex-row md:items-center md:justify-between md:px-12">
         <div className="space-y-1 text-center md:text-left">

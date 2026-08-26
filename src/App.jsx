@@ -20,7 +20,12 @@ import TelemetryStressTesterModal from "./components/TelemetryStressTesterModal"
 import ResumeModal from "./components/ResumeModal";
 import FlagshipProjectsModal from "./components/FlagshipProjectsModal";
 
-const TAB_TRANSITION = { duration: 0.28, ease: [0.22, 1, 0.36, 1] };
+const TAB_TRANSITION = {
+  type: "spring",
+  stiffness: 260,
+  damping: 28,
+  mass: 0.85,
+};
 
 function SpatialAtmosphere() {
   const [allowCanvas, setAllowCanvas] = React.useState(false);
@@ -35,7 +40,7 @@ function SpatialAtmosphere() {
   if (!allowCanvas) {
     return (
       <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/12 via-obsidian to-obsidian"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/20 via-obsidian to-obsidian"
         aria-hidden="true"
       />
     );
@@ -71,9 +76,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.VECTOR && (
             <motion.div
               key="vector"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
               transition={TAB_TRANSITION}
             >
               <SpatialTelemetryModule />
@@ -83,9 +88,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.POINT_CLOUD && (
             <motion.div
               key="point-cloud"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
               transition={TAB_TRANSITION}
             >
               <AiArchitectureModule />
@@ -95,9 +100,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.AIRSPACE && (
             <motion.div
               key="airspace"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
               transition={TAB_TRANSITION}
             >
               <SaasOperationsModule />
@@ -106,9 +111,9 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.TRUST_CENTER && (
             <motion.div
               key="trust-center"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
               transition={TAB_TRANSITION}
             >
               <TrustCenter />
@@ -145,7 +150,14 @@ export default function App() {
           <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-obsidian">
             <div className="fixed inset-0 z-0 pointer-events-none md:pointer-events-auto" aria-hidden="true">
               <SpatialAtmosphere />
+              <div className="hud-grid" />
             </div>
+            <div className="hud-vignette" aria-hidden="true" />
+            <div className="hud-scanlines hidden md:block" aria-hidden="true" />
+            <span className="hud-corner hud-tl hidden md:block" aria-hidden="true" />
+            <span className="hud-corner hud-tr hidden md:block" aria-hidden="true" />
+            <span className="hud-corner hud-bl hidden md:block" aria-hidden="true" />
+            <span className="hud-corner hud-br hidden md:block" aria-hidden="true" />
 
             <OverlayRouter onOpenSearch={handleOpenSearch} />
             <CursorFollower />

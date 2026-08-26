@@ -45,10 +45,10 @@ function Glass3DTiltCard({
   const mouseYRelative = useMotionValue(0.5);
 
   // Spring Physics for mouse release overshoot & settling
-  const springConfig = { stiffness: 240, damping: 28, mass: 0.9, bounce: 0 };
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-6, 6]), springConfig);
-  const scale = useSpring(isHovered ? 1.015 : 1, springConfig);
+  const springConfig = { stiffness: 260, damping: 18, mass: 0.8, bounce: 0.18 };
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), springConfig);
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-10, 10]), springConfig);
+  const scale = useSpring(isHovered ? 1.035 : 1, springConfig);
 
   // Radial highlight gradient origin
   const spotlightX = useSpring(useTransform(mouseXRelative, [0, 1], ["0%", "100%"]), springConfig);
@@ -192,13 +192,15 @@ function Glass3DTiltCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1],
-        delay: index * 0.06,
+        type: "spring",
+        stiffness: 280,
+        damping: 22,
+        mass: 0.85,
+        delay: index * 0.08,
       }}
       className="perspective-1000 w-full pointer-events-auto"
     >
@@ -214,10 +216,16 @@ function Glass3DTiltCard({
           transformStyle: "preserve-3d",
         }}
         className={cn(
-          "relative overflow-hidden rounded-2xl border border-obsidian-border/90 bg-slate-950/75 p-6 shadow-2xl backdrop-blur-xl transition-colors duration-300 group cursor-pointer",
-          isHovered ? "border-cyan-electric/50 shadow-[0_0_30px_rgba(0,240,255,0.15)]" : "hover:border-slate-700"
+          "relative overflow-hidden rounded-2xl border border-obsidian-border/90 bg-slate-950/70 p-6 shadow-2xl backdrop-blur-xl transition-colors duration-300 group cursor-pointer",
+          isHovered
+            ? "border-cyan-electric/55 shadow-[0_0_40px_rgba(0,240,255,0.18),inset_0_1px_0_rgba(255,255,255,0.12)]"
+            : "hover:border-cyan-electric/25"
         )}
       >
+        <span className="pointer-events-none absolute left-2 top-2 h-3 w-3 border-l border-t border-cyan-electric/40" />
+        <span className="pointer-events-none absolute right-2 top-2 h-3 w-3 border-r border-t border-cyan-electric/40" />
+        <span className="pointer-events-none absolute bottom-2 left-2 h-3 w-3 border-b border-l border-cyan-electric/40" />
+        <span className="pointer-events-none absolute bottom-2 right-2 h-3 w-3 border-b border-r border-cyan-electric/40" />
         {/* Dynamic Glass Top Highlight Bar */}
         <div className={cn("absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r transition-opacity duration-500", accentColor, isHovered ? "opacity-100" : "opacity-40")} />
 
@@ -225,7 +233,7 @@ function Glass3DTiltCard({
         <motion.div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
           style={{
-            background: `radial-gradient(400px circle at ${spotlightX.get()} ${spotlightY.get()}, rgba(0, 240, 255, 0.08), transparent 80%)`,
+            background: `radial-gradient(420px circle at ${spotlightX.get()} ${spotlightY.get()}, rgba(0, 240, 255, 0.14), transparent 80%)`,
           }}
         />
 
@@ -398,7 +406,7 @@ export default function FloatingIntelligenceModules() {
             <Sparkles size={14} className="text-cyan-electric" />
             <span>CASE STUDIES</span>
           </div>
-          <h2 className="font-sans text-2xl font-extrabold text-white sm:text-3xl tracking-tight">
+          <h2 className="font-sans text-2xl font-extrabold text-white sm:text-3xl tracking-tight drop-shadow-[0_0_24px_rgba(0,240,255,0.12)]">
             Selected work
           </h2>
         </div>
