@@ -20,12 +20,7 @@ import TelemetryStressTesterModal from "./components/TelemetryStressTesterModal"
 import ResumeModal from "./components/ResumeModal";
 import FlagshipProjectsModal from "./components/FlagshipProjectsModal";
 
-const TAB_TRANSITION = {
-  type: "spring",
-  stiffness: 260,
-  damping: 28,
-  mass: 0.85,
-};
+import { fadeSwap } from "./lib/motion";
 
 function SpatialAtmosphere() {
   const [allowCanvas, setAllowCanvas] = React.useState(false);
@@ -76,10 +71,7 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.VECTOR && (
             <motion.div
               key="vector"
-              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
-              transition={TAB_TRANSITION}
+              {...fadeSwap}
             >
               <SpatialTelemetryModule />
             </motion.div>
@@ -88,10 +80,7 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.POINT_CLOUD && (
             <motion.div
               key="point-cloud"
-              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
-              transition={TAB_TRANSITION}
+              {...fadeSwap}
             >
               <AiArchitectureModule />
             </motion.div>
@@ -100,10 +89,7 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.AIRSPACE && (
             <motion.div
               key="airspace"
-              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
-              transition={TAB_TRANSITION}
+              {...fadeSwap}
             >
               <SaasOperationsModule />
             </motion.div>
@@ -111,10 +97,7 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.TRUST_CENTER && (
             <motion.div
               key="trust-center"
-              initial={{ opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -14, scale: 0.99, filter: "blur(8px)" }}
-              transition={TAB_TRANSITION}
+              {...fadeSwap}
             >
               <TrustCenter />
             </motion.div>

@@ -110,18 +110,18 @@ export default function AiArchitectureModule() {
     <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 260, damping: 24 }}
-          className="max-w-2xl space-y-4"
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-2xl space-y-5"
         >
-          <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-emerald-glow/80">
+          <p className="kicker text-emerald-glow/80">
             Evidence archive
           </p>
-          <h1 className="font-sans text-3xl sm:text-5xl lg:text-[3.25rem] font-extrabold leading-[1.05] tracking-tight text-white">
+          <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
             Judgment, staged
           </h1>
-          <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
+          <p className="lede">
             Modeled comparisons and architecture decisions. Not live production telemetry.
           </p>
         </motion.div>
@@ -224,10 +224,10 @@ export default function AiArchitectureModule() {
                         <AnimatePresence mode="wait">
                           <motion.div
                             key={`${mode}-${m.label}`}
-                            initial={{ opacity: 0, y: 8, filter: "blur(6px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
-                            transition={{ duration: 0.28 }}
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                             className={cn(
                               "font-sans text-2xl sm:text-3xl font-extrabold tracking-tight",
                               isBefore ? "text-amber-300" : "text-cyan-electric"

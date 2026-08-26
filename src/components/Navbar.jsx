@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useSpatial, TABS } from "../SpatialContext";
 import { useSystemCommand } from "../context/SystemCommandContext";
+import { springPrecise } from "../lib/motion";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -54,7 +55,7 @@ export default function Navbar({ onOpenSearch }) {
       <motion.nav
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="pointer-events-none fixed left-0 right-0 top-0 z-50 border-b border-cyan-electric/15 bg-obsidian/70 backdrop-blur-2xl shadow-[0_1px_0_rgba(0,240,255,0.12)]"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:px-12">
@@ -108,7 +109,7 @@ export default function Navbar({ onOpenSearch }) {
                     <motion.span
                       layoutId="nav-pill"
                       className={cn("absolute inset-0 rounded-lg border", meta.border, meta.bg)}
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      transition={springPrecise}
                     />
                   )}
                   <Icon size={14} className="relative" />

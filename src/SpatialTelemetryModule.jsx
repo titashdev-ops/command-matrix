@@ -8,10 +8,7 @@ import {
   Crosshair,
 } from "lucide-react";
 import { useSpatial, TABS } from "./SpatialContext";
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
-
-const cn = (...inputs) => twMerge(clsx(inputs));
+import { staggerHero, heroItem } from "./lib/motion";
 
 export default function SpatialTelemetryModule() {
   const { setActiveTab, targetLock, setTargetLock } = useSpatial();
@@ -25,34 +22,31 @@ export default function SpatialTelemetryModule() {
           <motion.div
             initial="hidden"
             animate="show"
-            variants={{
-              hidden: {},
-              show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
-            }}
-            className="relative max-w-3xl space-y-5"
+            variants={staggerHero}
+            className="relative max-w-3xl space-y-6"
           >
             <div className="hud-bloom hidden md:block" aria-hidden="true" />
             <motion.p
-              variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 280, damping: 24 } } }}
-              className="font-mono text-[10px] tracking-[0.32em] uppercase text-cyan-electric/80"
+              variants={heroItem}
+              className="kicker text-cyan-electric/80"
             >
               Command Matrix · Portfolio HUD
             </motion.p>
             <motion.h1
-              variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 240, damping: 22 } } }}
-              className="hologram-name font-sans text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_0_42px_rgba(0,240,255,0.22)]"
+              variants={heroItem}
+              className="hologram-name font-display text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[0.95] tracking-[-0.04em] drop-shadow-[0_0_42px_rgba(0,240,255,0.22)]"
             >
               Titash Dev
             </motion.h1>
             <motion.p
-              variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 24 } } }}
-              className="font-mono text-sm tracking-[0.2em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-electric via-teal-200 to-emerald-glow"
+              variants={heroItem}
+              className="kicker text-transparent bg-clip-text bg-gradient-to-r from-cyan-electric via-teal-200 to-emerald-glow tracking-[0.22em]"
             >
               Systems Architect
             </motion.p>
             <motion.p
-              variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 24 } } }}
-              className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed max-w-2xl"
+              variants={heroItem}
+              className="lede"
             >
               Architecture case studies in UAV operations, clinical systems, and talent graphs. Modeled systems — not a live command center.
             </motion.p>

@@ -28,7 +28,7 @@ export default function TrustCenter() {
       <div className="flex flex-col border-b border-obsidian-border/60 p-6 bg-obsidian/80">
         <div className="flex items-center gap-3 mb-2">
           <Shield className="text-emerald-400" size={24} />
-          <h2 className="text-xl font-sans font-bold text-slate-100">Trust Center</h2>
+          <h2 className="text-xl font-display font-bold text-slate-100 tracking-[-0.03em]">Trust Center</h2>
         </div>
         <p className="font-mono text-xs text-slate-400 uppercase tracking-wide">
           Modeled engineering evidence • labeled simulations, not live ops telemetry

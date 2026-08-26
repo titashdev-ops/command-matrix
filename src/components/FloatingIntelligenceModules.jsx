@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { CASE_STUDIES } from "../data/missions";
+import { easeOut } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -46,10 +47,10 @@ function Glass3DTiltCard({
   const mouseYRelative = useMotionValue(0.5);
 
   // Spring Physics for mouse release overshoot & settling
-  const springConfig = { stiffness: 240, damping: 16, mass: 0.75, bounce: 0.22 };
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), springConfig);
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), springConfig);
-  const scale = useSpring(isHovered ? 1.045 : 1, springConfig);
+  const springConfig = { stiffness: 320, damping: 32, mass: 0.7, bounce: 0 };
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), springConfig);
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), springConfig);
+  const scale = useSpring(isHovered ? 1.02 : 1, springConfig);
 
   // Radial highlight gradient origin
   const spotlightX = useSpring(useTransform(mouseXRelative, [0, 1], ["0%", "100%"]), springConfig);
@@ -193,15 +194,13 @@ function Glass3DTiltCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 22 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{
-        type: "spring",
-        stiffness: 280,
-        damping: 22,
-        mass: 0.85,
-        delay: index * 0.08,
+        duration: 0.55,
+        ease: easeOut,
+        delay: index * 0.07,
       }}
       className="perspective-1000 w-full pointer-events-auto"
     >
@@ -263,7 +262,7 @@ function Glass3DTiltCard({
                 <Icon size={20} />
               </div>
               <div>
-                <h3 className="font-sans text-base font-bold text-white tracking-tight group-hover:text-cyan-electric transition-colors duration-200">
+                <h3 className="font-display text-base font-bold text-white tracking-[-0.02em] group-hover:text-cyan-electric transition-colors duration-200">
                   <motion.span layoutId={layoutId} className="inline-block">
                     {title}
                   </motion.span>
@@ -422,7 +421,7 @@ export default function FloatingIntelligenceModules() {
             <Sparkles size={14} className="text-cyan-electric" />
             <span>CASE STUDIES</span>
           </div>
-          <h2 className="font-sans text-2xl font-extrabold text-white sm:text-3xl tracking-tight drop-shadow-[0_0_24px_rgba(0,240,255,0.12)]">
+          <h2 className="font-display text-2xl font-extrabold text-white sm:text-3xl tracking-[-0.03em] drop-shadow-[0_0_24px_rgba(0,240,255,0.12)]">
             Selected work
           </h2>
         </div>

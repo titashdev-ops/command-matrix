@@ -25,16 +25,17 @@ export default function SaasOperationsModule() {
         
         {/* Calm Hero Header */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl space-y-3"
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl space-y-5"
         >
-          <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-slate-200">
+          <p className="kicker text-amber-400/80">Engage</p>
+          <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
             Work together
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-300 font-sans leading-relaxed">
+          <p className="lede">
             A short brief for architecture reviews and systems work. No funnel — a mailto with the constraints you care about.
           </p>
         </motion.div>

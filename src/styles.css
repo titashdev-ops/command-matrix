@@ -8,6 +8,7 @@
   --color-emerald-glow: #00ff87;
   --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Syne", "Inter", system-ui, sans-serif;
   --shadow-cyan-glow: 0 0 25px rgba(0, 240, 255, 0.15);
   --shadow-emerald-glow: 0 0 25px rgba(0, 255, 135, 0.15);
 }
@@ -22,6 +23,11 @@
     font-family: "Inter", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
+  }
+  h1, h2, .font-display {
+    font-family: "Syne", "Inter", system-ui, sans-serif;
+    letter-spacing: -0.035em;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -31,6 +37,26 @@
     background-color: rgba(0, 240, 255, 0.2);
     color: #ffffff;
   }
+  a, button {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+.kicker {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.lede {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  max-width: 36rem;
+  color: #cbd5e1;
 }
 
 @keyframes glitch-anim {
@@ -91,7 +117,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: hologram-sweep 7s ease-in-out infinite;
+  animation: hologram-sweep 10s ease-in-out infinite;
 }
 
 .dossier-sheen {

@@ -174,7 +174,7 @@ function DossierCover({ project, accent, intel }) {
           </div>
           <motion.h3
             layoutId={`case-title-${project.missionId}`}
-            className="font-sans text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.16)]"
+            className="font-display text-3xl sm:text-5xl font-extrabold tracking-[-0.035em] text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.16)]"
           >
             {project.projectName}
           </motion.h3>
@@ -184,7 +184,7 @@ function DossierCover({ project, accent, intel }) {
         </div>
         <div className="hidden lg:block text-right">
           <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-slate-500 mb-2">Status</div>
-          <div className={cn("font-sans text-4xl font-extrabold tracking-tight", accent.text)}>
+          <div className={cn("font-display text-4xl font-extrabold tracking-[-0.04em]", accent.text)}>
             {status}
           </div>
         </div>
@@ -574,7 +574,7 @@ export default function FlagshipProjectsModal() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
         className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-2 sm:p-4 md:p-8 backdrop-blur-xl overflow-hidden"
         style={{ perspective: 1400 }}
         onClick={handleModalClose}
@@ -586,15 +586,10 @@ export default function FlagshipProjectsModal() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="case-studies-title"
-          initial={{ scale: 0.88, opacity: 0, y: 28, rotateX: 6 }}
-          animate={{ scale: 1, opacity: 1, y: 0, rotateX: 0 }}
-          exit={{ scale: 0.94, opacity: 0, y: 15 }}
-          transition={{
-            type: "spring",
-            stiffness: 280,
-            damping: 24,
-            mass: 0.9,
-          }}
+          initial={{ scale: 0.96, opacity: 0, y: 18 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.98, opacity: 0, y: 10 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-[1400px] flex-col overflow-hidden rounded-xl border border-cyan-electric/25 bg-obsidian shadow-[0_0_80px_rgba(0,240,255,0.12)] overscroll-contain"
         >
           {/* Corner Brackets */}
