@@ -8,7 +8,7 @@ import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { modalReveal, easeLux } from "../lib/motion";
+import { modalReveal, coverReveal, easeLux } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -91,17 +91,17 @@ export default function EngineeringDecisionsModal() {
 
             <button type="button"
               onClick={() => { playClickSound(); closeAdrs(); }}
-              aria-label="Close ADRs"
+              aria-label="Close records"
               className="flex relative after:absolute after:content-[''] after:-inset-3 min-h-[32px] min-w-[32px] sm:h-10 sm:w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-obsidian-border hover:text-slate-200 transition-colors duration-200 focus:ring-2 focus:ring-cyan-electric focus:outline-none shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
             >
               <X size={20} />
             </button>
           </div>
 
-          {/* Engineering Intelligence Lab Header Banner */}
+          {/* Header note */}
           <div className="border-b border-obsidian-border/60 bg-obsidian/70 px-4 py-2.5 sm:px-6 shrink-0">
             <p className="font-sans text-xs sm:text-sm text-slate-400">
-              Documented decisions. The trade-off model is a thought exercise, not a live system.
+              Choices I would defend. The model is a thought exercise, not a live system.
             </p>
           </div>
           
@@ -148,10 +148,7 @@ export default function EngineeringDecisionsModal() {
                 {activeAdr && (
                   <motion.div
                     key={activeAdr.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                    {...coverReveal}
                     className="max-w-4xl space-y-8"
                   >
                     <div className="relative overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/70 p-6 sm:p-8">
@@ -161,7 +158,7 @@ export default function EngineeringDecisionsModal() {
                           <span className="kicker rounded-full border border-emerald-glow/30 bg-emerald-glow/10 px-2.5 py-1 text-emerald-glow">
                             {activeAdr.currentStatus === "Verified" ? "Documented" : (activeAdr.currentStatus || "Documented")}
                           </span>
-                          <span className="kicker text-slate-500">{activeAdr.id}</span>
+                          <span className="kicker text-slate-500">{activeAdr.date}</span>
                         </div>
                         <h2 id="adr-title" className="font-display text-2xl sm:text-4xl font-extrabold tracking-[-0.035em] text-white">
                           {activeAdr.title}

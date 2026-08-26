@@ -15,7 +15,7 @@ const SEARCH_DATA = [
   ...CASE_STUDIES.map(cs => ({
     id: cs.missionId,
     title: cs.projectName,
-    category: "MISSION / CASE STUDY",
+    category: "Work",
     icon: Layout,
     path: "FLAGSHIP_MODAL",
     payload: cs
@@ -23,19 +23,19 @@ const SEARCH_DATA = [
   ...ADR_RECORDS.map(adr => ({
     id: adr.id,
     title: adr.title,
-    category: "ARCHITECTURE DECISION",
+    category: "Records",
     icon: FileText,
     path: "ADR_MODAL",
     payload: adr
   })),
-  { id: "nav-benchmarks", title: "Engineering Benchmarks & Evidence", category: "DOCUMENTATION", icon: Activity, path: "TRUST_CENTER" },
-  { id: "nav-discovery", title: "Project Discovery Intake", category: "TOOLS", icon: Terminal, path: "DISCOVERY_WIZARD" },
-  { id: "nav-vector", title: "Enterprise Cloud Architecture", category: "SYSTEM MAPS", icon: Map, path: "VECTOR" },
-  { id: "nav-pointcloud", title: "AI Pipeline & Architecture", category: "SYSTEM MAPS", icon: Activity, path: "POINT_CLOUD" },
-  { id: "nav-airspace", title: "SaaS Operations & Services", category: "SYSTEM MAPS", icon: Database, path: "AIRSPACE" },
-  { id: "nav-archexplorer", title: "Enterprise Architecture Explorer", category: "TOOLS", icon: Code, path: "ARCH_EXPLORER" },
-  { id: "nav-docs", title: "Engineering Documentation", category: "DOCUMENTATION", icon: FileText, path: "TRUST_CENTER" },
-  { id: "nav-concepts", title: "Engineering Concepts", category: "DOCUMENTATION", icon: Database, path: "ARCH_EXPLORER" },
+  { id: "nav-benchmarks", title: "Evidence", category: "Docs", icon: Activity, path: "TRUST_CENTER" },
+  { id: "nav-discovery", title: "Start a brief", category: "Tools", icon: Terminal, path: "DISCOVERY_WIZARD" },
+  { id: "nav-vector", title: "Work", category: "Maps", icon: Map, path: "VECTOR" },
+  { id: "nav-pointcloud", title: "Evidence", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
+  { id: "nav-airspace", title: "Engage", category: "Maps", icon: Database, path: "AIRSPACE" },
+  { id: "nav-archexplorer", title: "Architecture", category: "Tools", icon: Code, path: "ARCH_EXPLORER" },
+  { id: "nav-docs", title: "Docs", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
+  { id: "nav-concepts", title: "Concepts", category: "Docs", icon: Database, path: "ARCH_EXPLORER" },
 ];
 
 export default function GlobalSearchModal({ isOpen, onClose }) {
@@ -219,10 +219,10 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
             {!query && (
               <div className="p-4 bg-obsidian-surface/30">
                 <div className="text-xs font-sans font-medium text-slate-500 uppercase tracking-wider">
-                  Quick Filters
+                  Quick filters
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {["MISSION", "ARCHITECTURE", "SYSTEM MAPS", "DOCUMENTATION"].map(filter => (
+                  {["Work", "Records", "Maps", "Docs"].map(filter => (
                     <button type="button" 
                       key={filter} 
                       onClick={() => handleFilterClick(filter)}

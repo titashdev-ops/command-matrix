@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, CheckCircle2, Lock, GitBranch } from "lucide-react";
-import { easeOut } from "../lib/motion";
+import { coverReveal } from "../lib/motion";
 
 function Cell({ label, children }) {
   return (
@@ -33,9 +33,7 @@ export default function EngineeringReviewPanel({ mission }) {
   return (
     <div className="space-y-8 text-slate-100">
       <motion.section
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: easeOut }}
+        {...coverReveal}
         className="relative overflow-hidden rounded-2xl border border-amber-400/25 bg-slate-950/75 p-6 sm:p-8 shadow-[0_0_80px_rgba(251,191,36,0.08)]"
       >
         <div className="dossier-sheen hidden md:block" aria-hidden="true" />
@@ -44,13 +42,16 @@ export default function EngineeringReviewPanel({ mission }) {
             <span className="kicker rounded-full border border-amber-400/40 bg-amber-400/10 px-2.5 py-1 text-amber-300">
               {status}
             </span>
-            <span className="kicker text-slate-500">Deep review</span>
+            <span className="kicker text-slate-500">Review</span>
           </div>
           <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-[-0.035em] text-white">
             {mission.projectName}
           </h2>
           <p className="lede max-w-2xl">
-            {why}. This is the architecture I would defend in a review — modeled, not a live SLA.
+            {why}
+          </p>
+          <p className="font-sans text-sm text-slate-500">
+            What I would defend in a review. Modeled — not a live SLA.
           </p>
         </div>
         <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6">

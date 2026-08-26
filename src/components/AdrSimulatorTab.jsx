@@ -30,7 +30,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "webrtc_mqtt", 
-            label: "WebRTC DataChannel + EMQX MQTT over WebSockets", 
+            label: "WebRTC + MQTT", 
             latency: 18, 
             cost: 650, 
             score: 98, 
@@ -39,7 +39,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "hls_http", 
-            label: "HLS Video Chunking + REST Polling", 
+            label: "HLS + polling", 
             latency: 3200, 
             cost: 200, 
             score: 32, 
@@ -48,7 +48,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "grpc_web", 
-            label: "gRPC-Web Streaming over HTTP/2", 
+            label: "gRPC-Web", 
             latency: 65, 
             cost: 450, 
             score: 82, 
@@ -63,7 +63,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "transient_refs", 
-            label: "Zustand Transient Subscriptions + Instanced WebGL Mesh Buffers", 
+            label: "Zustand + WebGL", 
             latency: 2, 
             cost: 150, 
             score: 96, 
@@ -72,7 +72,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "react_state", 
-            label: "Standard React useState / Context Dispatch", 
+            label: "React state", 
             latency: 45, 
             cost: 50, 
             score: 40, 
@@ -87,7 +87,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "timescale_redis", 
-            label: "TimescaleDB Hypertables + Redis TimeSeries Hot-Tier Cache", 
+            label: "Timescale + Redis", 
             latency: 8, 
             cost: 800, 
             score: 95, 
@@ -96,7 +96,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "standard_postgres", 
-            label: "Unindexed Relational PostgreSQL Table", 
+            label: "Plain Postgres", 
             latency: 180, 
             cost: 120, 
             score: 50, 
@@ -120,7 +120,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "cqrs_kafka", 
-            label: "CQRS + Kafka Event Sourcing + Read-Side Projections", 
+            label: "Event sourcing", 
             latency: 24, 
             cost: 1200, 
             score: 96, 
@@ -129,7 +129,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "monolith_crud", 
-            label: "Direct Monolithic Relational CRUD Mutations", 
+            label: "Direct CRUD", 
             latency: 85, 
             cost: 300, 
             score: 55, 
@@ -144,7 +144,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "graphql_federation", 
-            label: "GraphQL Subgraph Federation (Router Gateway)", 
+            label: "GraphQL federation", 
             latency: 15, 
             cost: 500, 
             score: 94, 
@@ -153,7 +153,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "rest_mesh", 
-            label: "Uncoordinated REST Microservices Mesh", 
+            label: "REST mesh", 
             latency: 110, 
             cost: 200, 
             score: 60, 
@@ -168,7 +168,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "jwt_pki_rbac", 
-            label: "Short-Lived Ephemeral JWTs + PKI Tokens + Field-Level AES-GCM", 
+            label: "Short JWTs", 
             latency: 5, 
             cost: 400, 
             score: 98, 
@@ -177,7 +177,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "session_cookies", 
-            label: "Standard Server-Side Stateful Session Cookies", 
+            label: "Session cookies", 
             latency: 25, 
             cost: 100, 
             score: 65, 
@@ -201,7 +201,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "pinecone_neo4j", 
-            label: "Pinecone HNSW Vector DB + Neo4j Subgraph Cache", 
+            label: "Pinecone + Neo4j", 
             latency: 35, 
             cost: 1400, 
             score: 95, 
@@ -210,7 +210,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "pgvector_only", 
-            label: "Single PostgreSQL Instance with pgvector Extension", 
+            label: "pgvector", 
             latency: 120, 
             cost: 350, 
             score: 72, 
@@ -225,7 +225,7 @@ const SIM_SCENARIOS = [
         options: [
           { 
             id: "bloom_subgraph", 
-            label: "Bloom Filter Subgraph Caching + Vector Nearest-Neighbor Fallback", 
+            label: "Bloom + cache", 
             latency: 8, 
             cost: 300, 
             score: 97, 
@@ -234,7 +234,7 @@ const SIM_SCENARIOS = [
           },
           { 
             id: "uncached_traversal", 
-            label: "Uncached Dynamic Cypher Graph Queries", 
+            label: "Raw Cypher", 
             latency: 310, 
             cost: 100, 
             score: 45, 
@@ -390,101 +390,75 @@ export default function AdrSimulatorTab() {
   return (
     <div className="space-y-6">
       {/* Top Controls & Mode Switcher */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-obsidian-border/60 pb-4">
-        <div>
-          <div className="font-display text-sm font-bold text-white flex items-center gap-2">
-            <GitCommit size={16} className="text-cyan-electric" /> Trade-off model
+      <div className="flex flex-col gap-4 border-b border-obsidian-border/60 pb-5">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+          <div>
+            <p className="kicker text-cyan-electric/80 mb-2">Thought exercise</p>
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-[-0.03em] text-white">
+              {activeScenario.title}
+            </h2>
+            <p className="lede mt-2 max-w-xl">{activeScenario.goal}</p>
           </div>
-          <div className="font-sans text-xs text-slate-400 mt-1">
-            Pick a path. See what you give up. A thought exercise — not a live system.
+          <div className="flex items-center gap-2 font-sans text-xs text-slate-500">
+            <span>Modeled latency <strong className="text-cyan-electric">{totalLatency}ms</strong></span>
+            <span className="text-slate-700">·</span>
+            <span>Modeled cost <strong className="text-emerald-glow">${totalCost}/mo</strong></span>
           </div>
         </div>
 
-        <div className="w-full lg:w-auto p-3.5 rounded-lg border border-cyan-electric/30 bg-cyan-electric/5 space-y-1.5 shrink-0">
-          <div className="flex items-center justify-between gap-3">
-            <span className="kicker text-cyan-electric/80">Modeled</span>
-            <span className="text-xs px-1.5 py-0.5 rounded border border-cyan-electric/40 bg-cyan-electric/10 text-cyan-electric">Thought exercise</span>
-          </div>
-          <p className="font-sans text-sm text-slate-300 leading-snug">
-            Constraints color the choices. They are hypothetical, not a lab.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {/* Format Toggle */}
-          <div className="flex items-center gap-1 rounded-lg border border-obsidian-border bg-obsidian-surface/80 p-1">
+        <div className="flex flex-wrap items-center gap-2">
+          {SIM_SCENARIOS.map(scen => (
+            <button type="button"
+              key={scen.id}
+              onClick={() => setActiveScenarioId(scen.id)}
+              className={cn(
+                "px-3 py-1.5 rounded-lg font-sans text-xs font-medium tracking-wide transition-all shrink-0 min-h-[36px]",
+                scen.id === activeScenarioId
+                  ? "border border-cyan-electric/50 bg-cyan-electric/10 text-cyan-electric"
+                  : "border border-obsidian-border bg-obsidian-surface/60 text-slate-400 hover:text-white"
+              )}
+            >
+              {scen.title}
+            </button>
+          ))}
+          <div className="flex items-center gap-1 rounded-lg border border-obsidian-border bg-obsidian-surface/80 p-1 ml-auto">
             <button type="button"
               onClick={() => setViewFormat("DECISION_TREE")}
               className={cn(
-                "px-3 py-1 rounded font-sans text-xs font-bold transition-all",
+                "px-3 py-1 rounded font-sans text-xs font-medium transition-all",
                 viewFormat === "DECISION_TREE"
                   ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/40"
                   : "text-slate-400 hover:text-white"
               )}
             >
-              CHOICES
+              Choices
             </button>
             <button type="button"
               onClick={() => setViewFormat("MADR_DOCUMENT")}
               className={cn(
-                "px-3 py-1 rounded font-sans text-xs font-bold transition-all flex items-center gap-1",
+                "px-3 py-1 rounded font-sans text-xs font-medium transition-all flex items-center gap-1",
                 viewFormat === "MADR_DOCUMENT"
                   ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/40"
                   : "text-slate-400 hover:text-white"
               )}
             >
-              <FileText size={12} /> RECORD
+              <FileText size={12} /> Record
             </button>
           </div>
-
-          {/* Scenario Buttons */}
-          <div className="flex items-center gap-1.5 overflow-x-auto">
-            {SIM_SCENARIOS.map(scen => (
-              <button type="button"
-                key={scen.id}
-                onClick={() => setActiveScenarioId(scen.id)}
-                className={cn(
-                  "px-3 py-1.5 rounded-lg font-sans text-xs font-bold transition-all shrink-0 min-h-[36px]",
-                  scen.id === activeScenarioId
-                    ? "border border-cyan-electric/50 bg-cyan-electric/10 text-cyan-electric"
-                    : "border border-obsidian-border bg-obsidian-surface/60 text-slate-400 hover:text-white"
-                )}
-              >
-                {scen.adrId}
-              </button>
-            ))}
-
-            <button type="button"
-              onClick={handleResetScenario}
-              title="Reset scenario selections"
-              className="p-2 rounded-lg border border-obsidian-border bg-obsidian-surface/60 text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors duration-200 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
-              aria-label="Reset scenario selections"
-            >
-              <RefreshCw size={14} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Goal Banner */}
-      <div className="p-4 rounded-xl border border-cyan-electric/30 bg-cyan-electric/5 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div>
-          <div className="font-sans text-xs font-bold uppercase text-cyan-electric flex items-center gap-2">
-            <Zap size={16} /> {activeScenario.title}
-          </div>
-          <div className="font-sans text-xs text-slate-300 mt-1">{activeScenario.goal}</div>
-        </div>
-
-        <div className="flex items-center gap-2 font-mono text-sm text-slate-400 border-t md:border-t-0 border-obsidian-border/60 pt-2 md:pt-0">
-          <span>Modeled latency: <strong className="text-cyan-electric">{totalLatency}ms</strong></span>
-          <span className="text-slate-600">|</span>
-          <span>Modeled cost: <strong className="text-emerald-glow">${totalCost}/mo</strong></span>
+          <button type="button"
+            onClick={handleResetScenario}
+            title="Reset choices"
+            className="p-2 rounded-lg border border-obsidian-border bg-obsidian-surface/60 text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors duration-200 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+            aria-label="Reset choices"
+          >
+            <RefreshCw size={14} />
+          </button>
         </div>
       </div>
 
       {/* Operational Constraint Toggles */}
       <div className="p-4 rounded-xl border border-obsidian-border bg-obsidian-surface/40 space-y-2">
-        <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+        <div className="font-sans text-sm text-slate-400 flex items-center gap-1.5">
           <Lock size={13} className="text-amber-400" /> Constraints
         </div>
         <div className="flex flex-wrap gap-2">

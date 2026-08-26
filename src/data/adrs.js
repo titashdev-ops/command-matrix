@@ -6,22 +6,22 @@ export const ADR_RECORDS = [
     "relatedDocumentation": "Pending Documentation",
     "relatedBenchmarks": "Pending Validation",
     "date": "2023-11-04",
-    "title": "Choosing Serverless Functions",
-    "problem": "How to handle unpredictable burst traffic during incident storms without over-provisioning or dropping requests.",
-    "context": "The enterprise architecture handles unpredictable burst traffic during incident storms. Traditional provisioned VMs would either be over-provisioned (wasting cost) or under-provisioned (causing latency/dropping requests).",
+    "title": "Serverless for burst traffic",
+    "problem": "Storms of requests. You either over-provision or drop them.",
+    "context": "Incident load is spiky. Always-on VMs sit idle, then get late when the storm actually arrives.",
     "rejectedAlternatives": [
       {
-        "name": "Kubernetes (EKS/GKE)",
-        "description": "Highly scalable, but introduces significant operational overhead and control plane cost."
+        "name": "Kubernetes",
+        "description": "Scales, but you pay for the control plane and the ops."
       },
       {
-        "name": "Provisioned Auto-scaling EC2",
-        "description": "Takes minutes to scale out, potentially dropping requests during sudden 10x traffic spikes."
+        "name": "Auto-scaling VMs",
+        "description": "Takes minutes. The storm is already over — or already dropped."
       }
     ],
-    "decision": "Serverless Functions (Vercel/AWS Lambda)",
-    "tradeoffs": "Benefits: Instant scaling, zero operational overhead. Compromises: Cold start latency, stateless execution model requires external persistence.",
-    "consequences": "Less ops work on burst traffic. Cold starts still need edge caching for anything latency-sensitive. This is a documented choice, not a measured 100x SLA.",
+    "decision": "Serverless functions",
+    "tradeoffs": "Scales in, scales out. Cold starts still need a cache in front of anything latency-sensitive.",
+    "consequences": "Less ops on burst traffic. This is a documented choice, not a measured SLA.",
     "currentStatus": "Documented"
   },
   {
@@ -31,22 +31,22 @@ export const ADR_RECORDS = [
     "relatedDocumentation": "R3F Documentation",
     "relatedBenchmarks": "60FPS Render Benchmark",
     "date": "2023-11-12",
-    "title": "Using React + TypeScript",
-    "problem": "How to orchestrate complex, highly interactive data visualizations (WebGL) alongside traditional DOM UI elements with high reliability.",
-    "context": "The frontend application requires orchestrating complex, highly interactive data visualizations (WebGL) alongside traditional DOM UI elements, while maintaining high reliability.",
+    "title": "React with TypeScript",
+    "problem": "A WebGL scene and a DOM UI have to share a brain without lying to each other.",
+    "context": "The HUD mixes canvas and chrome. Untyped glue is where the two worlds fall apart.",
     "rejectedAlternatives": [
       {
-        "name": "Vanilla JS / Web Components",
-        "description": "Lowest overhead, but lacks a cohesive declarative state model for complex UI."
+        "name": "Vanilla JS",
+        "description": "Light, but no shared model for nested UI state."
       },
       {
-        "name": "React + JavaScript",
-        "description": "Excellent declarative ecosystem, but lacks static typing leading to runtime errors."
+        "name": "React without types",
+        "description": "Fine until a refactor. Then you find it at runtime."
       }
     ],
     "decision": "React + TypeScript",
-    "tradeoffs": "Benefits: Eliminates entire classes of runtime errors, excellent ecosystem, self-documenting code. Compromises: Slower compilation times, steeper learning curve, typing overhead.",
-    "consequences": "Significantly reduced production regressions. The strict type system allowed for aggressive refactoring of the telemetry dashboard with high confidence. Requires keeping runtime boundaries strictly typed via Zod.",
+    "tradeoffs": "Fewer surprise crashes. Slower compiles. Types have to be kept honest at the edges.",
+    "consequences": "Safer refactors of the HUD. High-frequency ticks still stay off the React tree.",
     "currentStatus": "Documented"
   },
   {
@@ -56,22 +56,22 @@ export const ADR_RECORDS = [
     "relatedDocumentation": "Pending Documentation",
     "relatedBenchmarks": "Vector DB Retrieval Latency",
     "date": "2023-12-05",
-    "title": "Implementing AI Request Validation",
-    "problem": "How to prevent UI crashes caused by non-deterministic, malformed JSON responses from LLM APIs.",
-    "context": "LLMs are non-deterministic. When the AI orchestrator returns JSON payloads to drive the frontend UI, hallucinations or malformed JSON can crash the React renderer.",
+    "title": "Validate LLM JSON",
+    "problem": "Models return whatever they want. The view cannot.",
+    "context": "If a malformed payload reaches React, the screen dies. Guessing the shape is not a plan.",
     "rejectedAlternatives": [
       {
-        "name": "Regex / Custom Parsers",
-        "description": "Brittle, hard to maintain, fails unpredictably on edge cases."
+        "name": "Regex parsers",
+        "description": "Brittle. Breaks on the next surprise field."
       },
       {
-        "name": "Try/Catch with Fallback",
-        "description": "Catches fatal crashes, but doesn't guarantee the data shape is correct for downstream components."
+        "name": "Try/catch fallback",
+        "description": "Stops a crash. Does not guarantee the shape."
       }
     ],
-    "decision": "Zod Schema Validation",
-    "tradeoffs": "Benefits: Absolute certainty on data shapes, prevents UI crashes. Compromises: Requires keeping TypeScript types and Zod schemas in sync, slight runtime performance cost.",
-    "consequences": "Malformed LLM JSON is stopped before it hits the view. Types and Zod schemas have to stay in sync. Modeled stability — not a 99.9% production claim.",
+    "decision": "Zod at the boundary",
+    "tradeoffs": "Types and schemas have to stay in sync. A little runtime cost.",
+    "consequences": "Bad JSON never hits the view. Modeled stability — not a production percentage.",
     "currentStatus": "Documented"
   },
   {
@@ -81,22 +81,22 @@ export const ADR_RECORDS = [
     "relatedDocumentation": "Pending Documentation",
     "relatedBenchmarks": "gRPC Telemetry Ingestion Profile",
     "date": "2024-01-18",
-    "title": "Three.js Rendering Strategy",
-    "problem": "How to manage WebGL state alongside React DOM state for rendering thousands of dynamic data points.",
-    "context": "The Spatial Telemetry module requires rendering thousands of dynamic data points in 3D. Managing WebGL state imperatively alongside React DOM state is notoriously difficult and bug-prone.",
+    "title": "React Three Fiber",
+    "problem": "Thousands of points. Two state systems. Easy to leak memory.",
+    "context": "Imperative Three.js next to React is a second app you have to keep in sync.",
     "rejectedAlternatives": [
       {
-        "name": "Imperative Three.js",
-        "description": "Maximum performance control, but requires manual synchronization with React state and manual memory management."
+        "name": "Bare Three.js",
+        "description": "Full control. You own disposal and the React handshake."
       },
       {
-        "name": "CSS 3D Transforms",
-        "description": "Easy to use, but incapable of handling thousands of nodes due to browser DOM performance limits."
+        "name": "CSS 3D",
+        "description": "Fine for a few cards. Not for a field of nodes."
       }
     ],
-    "decision": "React Three Fiber (R3F)",
-    "tradeoffs": "Benefits: Native integration with React state, automatic disposal of geometries/materials, highly readable scene graphs. Compromises: Slight React reconciliation overhead on every frame if not optimized carefully.",
-    "consequences": "Cut 3D development time in half. Developers familiar with React were able to contribute to the WebGL scene without deep imperative graphics knowledge. Requires strict memoization for high node counts.",
+    "decision": "React Three Fiber",
+    "tradeoffs": "A scene that reads like React. You still have to memoize when the node count climbs.",
+    "consequences": "The field is a component tree. Desktop only — phones skip WebGL.",
     "currentStatus": "Documented"
   },
   {
@@ -106,22 +106,22 @@ export const ADR_RECORDS = [
     "relatedDocumentation": "Pending Documentation",
     "relatedBenchmarks": "Pending Validation",
     "date": "2024-02-22",
-    "title": "State Management Strategy",
-    "problem": "How to share complex UI state (modal visibility, settings) across deeply nested trees without excessive re-renders.",
-    "context": "The application needs to share complex telemetry data, UI toggles, and modal visibility states across deeply nested component trees without triggering massive re-renders.",
+    "title": "Context for the shell",
+    "problem": "Modals and tabs live everywhere. They should not rerender the world.",
+    "context": "The shell needs a few shared flags. Telemetry ticks are a different problem.",
     "rejectedAlternatives": [
       {
         "name": "Redux",
-        "description": "Battle-tested, predictable, but carries heavy boilerplate and complex setup for simple states."
+        "description": "Predictable. Too much ceremony for a handful of flags."
       },
       {
         "name": "Zustand",
-        "description": "Minimalist, un-opinionated, but considered unnecessary complexity for low-frequency global UI toggles at this stage."
+        "description": "Light, but extra for low-frequency UI state."
       }
     ],
-    "decision": "React Context API (for global UI) + Local State",
-    "tradeoffs": "Benefits: Zero dependencies, standard API, easy to understand. Compromises: Potential for unnecessary re-renders if the context value object is not memoized or split properly.",
-    "consequences": "Sufficient for low-frequency updates like modal toggles. High-frequency telemetry remains isolated in local component state or via refs to avoid melting the React tree on every tick.",
+    "decision": "React context for the shell, local state for the rest",
+    "tradeoffs": "No extra store. Split the context or the tree pays.",
+    "consequences": "Enough for modals and tabs. High-frequency ticks stay in refs. A simulation of the shell — not a live ops bus.",
     "currentStatus": "Simulation"
   }
 ];

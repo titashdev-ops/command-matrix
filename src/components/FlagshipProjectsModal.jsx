@@ -256,7 +256,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
                 viewMode === "review" ? "bg-amber-400/20 text-amber-300 border border-amber-400/50" : "text-slate-400 hover:text-white"
               )}
             >
-              <ShieldCheck size={11} /> Deep review
+              Review
             </button>
           </div>
           <span className={cn("font-sans text-xs sm:text-xs uppercase tracking-widest px-2 py-1 rounded border whitespace-nowrap hidden md:inline-block", accent.text, accent.bg, accent.border)}>
