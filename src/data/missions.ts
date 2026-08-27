@@ -258,10 +258,9 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       }
     ],
     evidence: [
-      { type: "Deployment", title: "C2 Architecture (Modeled)", detail: "Modeled C2 architecture. This portfolio is not a live UAV fleet controller. ops.dronly.in currently has no assigned Vercel deployment.", verificationStatus: "Documented" },
-      { type: "Benchmark", title: "Latency Profiling", detail: "WebRTC video and MQTT telemetry sustained low glass-to-glass latency over LTE.", verificationStatus: "Documented" },
-      { type: "Architecture", title: "System Topology", detail: "High-availability EMQX cluster deployed across redundant cloud availability zones.", verificationStatus: "Documented" },
-      { type: "Telemetry", title: "Throughput Metrics", detail: "Load-tested concurrent MQTT connections with low broker transit latency.", verificationStatus: "Active" }
+      { type: "Architecture", title: "C2 architecture", detail: "A modeled command surface. This site does not fly a fleet.", verificationStatus: "Documented" },
+      { type: "Benchmark", title: "WebRTC vs HLS", detail: "WebRTC for the loop. HLS for playback.", verificationStatus: "Documented" },
+      { type: "Architecture", title: "System map", detail: "Edge ingress, a hot cache, a spatial viewport.", verificationStatus: "Documented" },
     ],
     businessImpact: "Consolidated multiple operator views into a single unified interface. Increased operator efficiency by streamlining telemetry monitoring and situational awareness during multi-UAV operations.",
     lessonsLearned: [
@@ -426,12 +425,9 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       }
     ],
     evidence: [
-      { type: "Deployment", title: "Physiotherapy Discovery Platform", detail: "Live intelligent triage and specialist matching platform.", url: "https://physiotherapy-client-8g1c.bolt.host/", verificationStatus: "Documented" },
-      { type: "Deployment", title: "Clinical Biomechanics Analyzer", detail: "Kinematic pose estimation and joint torque modeling engine.", url: "https://dr-harshad-ali-biome-m7na.bolt.host/", verificationStatus: "Documented" },
-      { type: "Deployment", title: "Gamified Patient Experience Engine", detail: "Biofeedback-driven interactive exercise compliance interface.", url: "https://dr-ali-gamified-nexu-xbnu.bolt.host/#configurator", verificationStatus: "Documented" },
-      { type: "Prototype", title: "Clinical Mobile App", detail: "Functional React Native beta deployed for internal testing and clinician evaluation.", verificationStatus: "Active" },
-      { type: "Documentation", title: "Kinematic Validation", detail: "Analytical validation benchmarking pose estimation against laboratory capture systems.", verificationStatus: "Documented" },
-      { type: "Research", title: "Cohort Recovery Study", detail: "Clinical trial design documenting rehabilitation velocity metrics across rehab cohorts.", verificationStatus: "Documented" }
+      { type: "Prototype", title: "Triage", detail: "Matching a patient to a specialist. A prototype, not a clinic.", url: "https://physiotherapy-client-8g1c.bolt.host/", verificationStatus: "Documented" },
+      { type: "Prototype", title: "Motion", detail: "Pose on camera. Estimates, not a lab capture system.", url: "https://dr-harshad-ali-biome-m7na.bolt.host/", verificationStatus: "Documented" },
+      { type: "Prototype", title: "Practice", detail: "Feedback while someone moves. Not a treatment claim.", url: "https://dr-ali-gamified-nexu-xbnu.bolt.host/#configurator", verificationStatus: "Documented" },
     ],
     businessImpact: "Digitized previously manual recovery tracking workflows. Enabled quantitative analysis of rehabilitation velocity across patient cohorts, improving visibility into patient recovery progress.",
     lessonsLearned: [
@@ -588,10 +584,9 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       }
     ],
     evidence: [
-      { type: "Deployment", title: "Multi-Clinic Rollout", detail: "Modeled clinical OS. Previous preview URL is offline (404).", verificationStatus: "Documented" },
-      { type: "Security", title: "Compliance Architecture", detail: "Designed in accordance with SOC2 Type II and HIPAA data protection guidelines.", verificationStatus: "Documented" },
-      { type: "Architecture", title: "Microservices Topology", detail: "Event-driven architecture design documentation ensuring decoupled deployments.", verificationStatus: "Documented" },
-      { type: "Performance", title: "Query Optimization", detail: "Read-model projections optimized EMR dashboard query response times.", verificationStatus: "Active" }
+      { type: "Architecture", title: "Clinic OS", detail: "A modeled clinical OS. The old preview URL is gone.", verificationStatus: "Documented" },
+      { type: "Architecture", title: "Audit trail", detail: "Designed toward HIPAA-style isolation. Not a certified clinic.", verificationStatus: "Documented" },
+      { type: "Architecture", title: "Event path", detail: "Write once, read from a projection. Clinics stay in sync.", verificationStatus: "Documented" },
     ],
     businessImpact: "Migrated practice locations from legacy on-premise databases to unified cloud infrastructure. Eliminated inter-clinic sync conflicts and reduced IT infrastructure overhead.",
     lessonsLearned: [
@@ -741,9 +736,9 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       }
     ],
     evidence: [
-      { type: "Prototype", title: "Talent Graph Engine", detail: "Active web prototype converting unstructured project notes into structured dossiers in under 10 seconds.", url: "", verificationStatus: "Active" },
-      { type: "Repository", title: "GitHub Core", detail: "Internal repository containing extraction chain schemas and Cypher graph queries.", verificationStatus: "Documented" },
-      { type: "Documentation", title: "Graph Visualizations", detail: "Visual output rendering of Neo4j capability nodes and their weighted relationships.", verificationStatus: "Documented" }
+      { type: "Prototype", title: "Talent graph", detail: "Notes become a graph. A prototype, not a live HR system.", verificationStatus: "Documented" },
+      { type: "Architecture", title: "Validate JSON", detail: "The model can lie. The view cannot.", verificationStatus: "Documented" },
+      { type: "Architecture", title: "Graph plus vectors", detail: "Vectors find. The graph remembers why.", verificationStatus: "Documented" },
     ],
     businessImpact: "Automated the extraction and generation of structured technical collateral. Validated capability-mapping workflows via internal prototyping, significantly reducing manual document formatting time.",
     lessonsLearned: [

@@ -1269,8 +1269,8 @@ export default function SystemsIntelligenceCanvas() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
           {/* Topology Selectors */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto custom-scrollbar max-w-full pb-1 lg:pb-0">
-            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 whitespace-nowrap flex items-center gap-1">
-              <Layers size={11} className="text-cyan-electric" /> TOPOLOGY:
+            <span className="font-sans text-xs tracking-wide text-slate-500 whitespace-nowrap flex items-center gap-1">
+              <Layers size={11} className="text-cyan-electric" /> Systems
             </span>
             {Object.values(MISSION_TOPOLOGIES).map((topo) => {
               const isSelected = selectedMissionId === topo.id;
@@ -1292,63 +1292,25 @@ export default function SystemsIntelligenceCanvas() {
             })}
           </div>
 
-          {/* Pillar 1 & 3: Live Density & Breaker Switch Controls */}
           <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar shrink-0">
-            <div className="flex items-center rounded-md border border-obsidian-border bg-slate-950/80 p-0.5 font-mono text-xs">
-              <button type="button"
-                onClick={() => { playClickSound(); setTrafficDensity('NORMAL'); }}
-                className={cn(
-                  "px-2 py-0.5 rounded transition-all cursor-pointer font-bold",
-                  trafficDensity === 'NORMAL' && !manualBreakerTripped ? "bg-cyan-electric/20 text-cyan-electric" : "text-slate-500 hover:text-slate-300"
-                )}
-              >
-                1X NORMAL
-              </button>
-              <button type="button"
-                onClick={() => { playClickSound(); setTrafficDensity('HIGH_LOAD'); }}
-                className={cn(
-                  "px-2 py-0.5 rounded transition-all cursor-pointer font-bold",
-                  trafficDensity === 'HIGH_LOAD' ? "bg-amber-400/20 text-amber-400" : "text-slate-500 hover:text-slate-300"
-                )}
-              >
-                5X SPIKE
-              </button>
-            </div>
-
-            <button type="button"
-              onClick={() => {
-                playClickSound();
-                setManualBreakerTripped(!manualBreakerTripped);
-              }}
-              className={cn(
-                "px-2 py-1 rounded border font-sans text-xs font-bold transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap",
-                isBreakerActive
-                  ? "border-rose-500 bg-rose-500/20 text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.3)] animate-pulse"
-                  : "border-emerald-glow/40 bg-emerald-glow/10 text-emerald-glow hover:bg-emerald-glow/20"
-              )}
-            >
-              <ShieldAlert size={11} /> {isBreakerActive ? "SHIELD ACTIVE" : "ARM BREAKER"}
-            </button>
-
-            {/* View Mode Toggle Switch */}
-            <div className="flex items-center rounded-md border border-obsidian-border bg-slate-950 p-0.5 font-mono text-xs shrink-0">
+            <div className="flex items-center rounded-md border border-obsidian-border bg-slate-950 p-0.5 font-sans text-xs shrink-0">
               <button type="button"
                 onClick={() => { playClickSound(); setViewMode("presentation"); }}
                 className={cn(
-                  "px-2.5 py-1 rounded transition-all cursor-pointer font-bold flex items-center gap-1",
+                  "px-2.5 py-1 rounded transition-all cursor-pointer font-medium flex items-center gap-1",
                   viewMode === "presentation" ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/40" : "text-slate-400 hover:text-white"
                 )}
               >
-                PRESENTATION
+                Map
               </button>
               <button type="button"
                 onClick={() => { playClickSound(); setViewMode("review"); }}
                 className={cn(
-                  "px-2.5 py-1 rounded transition-all cursor-pointer font-bold flex items-center gap-1",
+                  "px-2.5 py-1 rounded transition-all cursor-pointer font-medium flex items-center gap-1",
                   viewMode === "review" ? "bg-amber-400/20 text-amber-300 border border-amber-400/50" : "text-slate-400 hover:text-white"
                 )}
               >
-                <ShieldCheck size={11} /> REVIEW MODE
+                <ShieldCheck size={11} /> Review
               </button>
             </div>
           </div>
@@ -1357,8 +1319,8 @@ export default function SystemsIntelligenceCanvas() {
         {/* Phase 2: Engineering Memory (Session History Trail) */}
         {explorationHistory.length > 0 && (
           <div className="flex items-center gap-1.5 pt-1.5  font-mono text-xs overflow-x-auto custom-scrollbar">
-            <span className="text-slate-500 uppercase tracking-wider flex items-center gap-1 shrink-0">
-              <History size={10} className="text-amber-400" /> EXPLORED:
+            <span className="text-slate-500 tracking-wide flex items-center gap-1 shrink-0">
+              <History size={10} className="text-amber-400" /> Opened
             </span>
             <div className="flex items-center gap-1">
               {explorationHistory.map((item, idx) => (
@@ -1627,8 +1589,8 @@ export default function SystemsIntelligenceCanvas() {
                   <Terminal size={13} /> {activeNode ? activeNode.label : activeTopology.title}
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className="text-[8px] text-slate-400">
-                    {activeNode ? (activeNode.isCore ? "CORE COMPONENT" : "EDGE NODE") : "FLAGSHIP TOPOLOGY"}
+                  <span className="text-[10px] tracking-wide text-slate-400">
+                    {activeNode ? (activeNode.isCore ? "Component" : "Node") : "System"}
                   </span>
                 </div>
                 <button type="button"
@@ -1656,7 +1618,7 @@ export default function SystemsIntelligenceCanvas() {
                         inspectorTab === '4pillar' ? "bg-cyan-electric/20 text-cyan-electric font-bold" : "text-slate-400 hover:text-white"
                       )}
                     >
-                      <Sparkles size={10} /> Architecture Insight
+                      <Sparkles size={10} /> Brief
                     </button>
                     {activeTopology?.decisionLedger && (
                       <button type="button"
@@ -1666,7 +1628,7 @@ export default function SystemsIntelligenceCanvas() {
                           inspectorTab === 'ledger' ? "bg-amber-400/20 text-amber-400 font-bold" : "text-slate-400 hover:text-white"
                         )}
                       >
-                        <GitCommit size={10} /> Decision Ledger ({activeTopology.decisionLedger.length})
+                        <GitCommit size={10} /> Choices
                       </button>
                     )}
                     {activeTopology?.architectureEvolution && (
@@ -1703,7 +1665,7 @@ export default function SystemsIntelligenceCanvas() {
                         (inspectorTab === 'overview' || ['4pillar', 'ledger', 'evolution', 'lessons'].includes(inspectorTab)) ? "bg-cyan-electric/20 text-cyan-electric font-bold" : "text-slate-400 hover:text-white"
                       )}
                     >
-                      <Info size={10} /> Overview
+                      <Info size={10} /> Note
                     </button>
                     <button type="button"
                       onClick={() => { playClickSound(); setInspectorTab("engineering"); }}
@@ -1712,25 +1674,7 @@ export default function SystemsIntelligenceCanvas() {
                         inspectorTab === 'engineering' ? "bg-amber-400/20 text-amber-400 font-bold" : "text-slate-400 hover:text-white"
                       )}
                     >
-                      <Cpu size={10} /> Engineering
-                    </button>
-                    <button type="button"
-                      onClick={() => { playClickSound(); setInspectorTab("validation"); }}
-                      className={cn(
-                        "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                        inspectorTab === 'validation' ? "bg-emerald-glow/20 text-emerald-glow font-bold" : "text-slate-400 hover:text-white"
-                      )}
-                    >
-                      <Activity size={10} /> Validation
-                    </button>
-                    <button type="button"
-                      onClick={() => { playClickSound(); setInspectorTab("docs"); }}
-                      className={cn(
-                        "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                        inspectorTab === 'docs' ? "bg-violet-400/20 text-violet-400 font-bold" : "text-slate-400 hover:text-white"
-                      )}
-                    >
-                      <BookOpen size={10} /> Docs & ADRs
+                      <Cpu size={10} /> Choice
                     </button>
                   </>
                 )}
@@ -1755,7 +1699,7 @@ export default function SystemsIntelligenceCanvas() {
                         <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.tradeoff}</p>
                       </div>
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-emerald-glow font-bold uppercase tracking-wider block text-[8px]">4. Real-world Context</span>
+                        <span className="text-emerald-glow font-bold tracking-wide block text-[10px]">Context</span>
                         <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.context}</p>
                       </div>
                     </div>

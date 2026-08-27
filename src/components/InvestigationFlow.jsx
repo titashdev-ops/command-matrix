@@ -19,7 +19,7 @@ function Block({ icon: Icon, kicker, title, children }) {
     >
       <div className="flex items-center gap-2 mb-4">
         <Icon size={14} className="text-cyan-electric" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-electric/80">
+        <span className="kicker text-cyan-electric/80">
           {kicker}
         </span>
       </div>
@@ -31,7 +31,7 @@ function Block({ icon: Icon, kicker, title, children }) {
 
 function Chip({ children }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-obsidian-border bg-obsidian px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-slate-300">
+    <span className="inline-flex items-center rounded-full border border-obsidian-border bg-obsidian px-2.5 py-1 font-sans text-xs tracking-wide text-slate-300">
       {children}
     </span>
   );
@@ -109,17 +109,15 @@ export default function InvestigationFlow({ mission }) {
 
       {mission.evidence && mission.evidence.length > 0 && (
         <div className="pt-2 space-y-3">
-          <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-            Evidence trail
+          <h3 className="kicker text-slate-500">
+            Evidence
           </h3>
-          {mission.evidence.map((ev, i) => (
+          {mission.evidence.slice(0, 3).map((ev, i) => (
             <EvidenceCard
               key={i}
               title={ev.title}
-              status={ev.verificationStatus || "Simulation"}
-              source={ev.type}
-              methodology={{ Detail: ev.detail }}
-              results={ev.url && ev.url.startsWith("http") ? { URL: ev.url } : {}}
+              status={ev.verificationStatus || "Documented"}
+              comparison={{ frame: ev.detail }}
             />
           ))}
         </div>
