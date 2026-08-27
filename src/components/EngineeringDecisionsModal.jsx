@@ -157,6 +157,7 @@ export default function EngineeringDecisionsModal() {
                       situation={activeAdr.context}
                       choice={activeAdr.decision}
                       cost={activeAdr.tradeoffs}
+                      consequence={activeAdr.consequences}
                     />
 
                     {(activeAdr.rejectedAlternatives || []).length > 0 && (
@@ -172,11 +173,6 @@ export default function EngineeringDecisionsModal() {
                         </div>
                       </section>
                     )}
-
-                    <section>
-                      <h3 className="kicker text-slate-500 mb-2">What followed</h3>
-                      <p className="text-sm text-slate-300 leading-relaxed">{activeAdr.consequences}</p>
-                    </section>
                   </motion.div>
                 )}
 </AnimatePresence>

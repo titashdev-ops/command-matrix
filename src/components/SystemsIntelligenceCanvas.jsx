@@ -117,16 +117,16 @@ const MISSION_TOPOLOGIES = {
     bgClass: "bg-cyan-electric/10",
     glowClass: "shadow-[0_0_15px_rgba(0,240,255,0.25)]",
     architecturePattern: "Distributed Spatial Telemetry",
-    deploymentState: "PRODUCTION / EDGE DEPLOYED",
+    deploymentState: "CASE STUDY",
     discipline: "Distributed Systems & Robotics",
     decisionModel: "ADR-004: UDP/gRPC Hybrid Ingest",
     techStack: ["gRPC", "TimescaleDB", "H3", "WebRTC"],
     operationalClass: "CRITICAL (L1 C2 TELEMETRY)",
     insight: {
-      problem: "Processing 50,000 high-frequency UAV location updates per second with sub-2ms latency across unstable cellular link conditions.",
-      decision: "Architected a hybrid UDP/gRPC edge gateway pipeline coupled with hierarchical H3 spatial indexing and hypertable time-series stores.",
-      tradeoff: "Gained extreme throughput and zero-copy packet parsing; accepted strict edge packet order reconciliation requirements.",
-      context: "Autonomous drone fleet dispatch, defense C2 telemetry hubs, and real-time spatial traffic management platforms."
+      problem: "Positions arrive faster than a table wants to take them.",
+      decision: "Stream at the edge. Index in hexes. Cache the hot path.",
+      tradeoff: "You own packet order. The viewport stays smooth.",
+      context: "A fleet operator who has to feel present."
     },
     // Phase 5: Decision Ledger (ADRs)
     decisionLedger: [
@@ -367,10 +367,10 @@ const MISSION_TOPOLOGIES = {
     techStack: ["EventStore", "GraphQL", "CQRS"],
     operationalClass: "ENTERPRISE CLINICAL OPERATING SYSTEM",
     insight: {
-      problem: "Maintaining strict HIPAA compliance, audit trails, and multi-practice data synchronization across offline-prone dental clinics.",
-      decision: "Architected an append-only event-sourced clinical core with CQRS read projections and local offline sync relays.",
-      tradeoff: "Complete immutable medical auditability and offline resilience; required event schema migration discipline.",
-      context: "Multi-location medical practices, electronic dental health records, and HIPAA-compliant SaaS."
+      problem: "Clinics overwrite the same row and lose who changed what.",
+      decision: "Write events. Read from a projection. Sync when the line comes back.",
+      tradeoff: "You own schema versions. You keep an audit trail.",
+      context: "A practice that cannot guess who saw a chart."
     },
     decisionLedger: [
       {
@@ -581,10 +581,10 @@ const MISSION_TOPOLOGIES = {
     techStack: ["Redis", "FHIR v4"],
     operationalClass: "PATIENT WORKFLOW PLATFORM",
     insight: {
-      problem: "Fragmented patient health data locked inside legacy EHR systems preventing real-time recovery tracking.",
-      decision: "Built an interoperable FHIR v4 event bus with Redis Pub/Sub stream routing and kinematic computer vision workers.",
-      tradeoff: "Seamless interoperability with hospital networks; required strict FHIR v4 resource translation bridges.",
-      context: "Sports medicine telemetry, orthopedic rehabilitation, and remote patient monitoring."
+      problem: "Rehab notes live in one system. Motion lives in another.",
+      decision: "A shared event bus. Pose on camera. Feedback in the same hour.",
+      tradeoff: "You translate hospital shapes. The coach sees the session.",
+      context: "A clinic that wants a loop, not a weekly PDF."
     },
     decisionLedger: [
       {
@@ -737,10 +737,10 @@ const MISSION_TOPOLOGIES = {
     techStack: ["Neo4j", "Kafka"],
     operationalClass: "SYSTEMS ARCHITECTURE ONTOLOGY",
     insight: {
-      problem: "Traditional static resumes fail to convey complex architectural trade-offs, scope, and direct evidence of engineering decisions.",
-      decision: "Constructed an interactive vector-graph ontology connecting skills, case study proofs, ADRs, and live operational code proofs.",
-      tradeoff: "Rich interactive architectural exploration; required graph node taxonomy curation.",
-      context: "Interactive engineering portfolios, skill taxonomy systems, and technical knowledge management."
+      problem: "A resume cannot hold a trade-off.",
+      decision: "A graph of skills, cases, and notes you can open.",
+      tradeoff: "You curate the nodes. The reader gets a path, not a PDF.",
+      context: "This site."
     },
     decisionLedger: [
       {
@@ -1767,58 +1767,27 @@ export default function SystemsIntelligenceCanvas() {
               {activeNode && (
                 <>
                   {(inspectorTab === 'overview' || ['4pillar', 'ledger', 'evolution', 'lessons'].includes(inspectorTab)) && (
-                    <div className="grid grid-cols-1 gap-2 font-mono text-xs mt-2">
+                    <div className="grid grid-cols-1 gap-2 font-sans text-xs mt-2">
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-cyan-electric font-bold uppercase tracking-wider block text-[8px]">Purpose</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeNode.detail || "Purpose Pending"}</p>
+                        <span className="kicker text-cyan-electric/80 block">Situation</span>
+                        <p className="text-slate-300 leading-snug">{activeNode.insight?.problem || activeNode.detail}</p>
                       </div>
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-cyan-electric font-bold uppercase tracking-wider block text-[8px]">Responsibilities</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeNode.insight?.context || "Responsibilities Pending"}</p>
+                        <span className="kicker text-cyan-electric/80 block">Choice</span>
+                        <p className="text-slate-300 leading-snug">{activeNode.insight?.decision}</p>
                       </div>
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-cyan-electric font-bold uppercase tracking-wider block text-[8px]">Connected Systems</span>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {(() => {
-                            const connectedLinks = currentLinks.filter(l => l.from === activeNode.id || l.to === activeNode.id);
-                            const connectedIds = Array.from(new Set(connectedLinks.map(l => l.from === activeNode.id ? l.to : l.from)));
-                            if (connectedIds.length === 0) return <span className="text-slate-500 italic">No connected systems</span>;
-                            return connectedIds.map(id => {
-                              const targetNode = currentNodes.find(n => n.id === id);
-                              return (
-                                <span key={id} className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 text-[8px]">
-                                  {targetNode?.label || id}
-                                </span>
-                              );
-                            });
-                          })()}
-                        </div>
+                        <span className="kicker text-cyan-electric/80 block">Cost</span>
+                        <p className="text-slate-300 leading-snug">{activeNode.insight?.tradeoff}</p>
                       </div>
                     </div>
                   )}
 
                   {inspectorTab === 'engineering' && (
-                    <div className="grid grid-cols-1 gap-2 font-mono text-xs mt-2">
+                    <div className="grid grid-cols-1 gap-2 font-sans text-xs mt-2">
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-amber-400 font-bold uppercase tracking-wider block text-[8px]">Engineering Decisions</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeNode.insight?.decision || "Decisions Pending"}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-amber-400 font-bold uppercase tracking-wider block text-[8px]">Trade-offs</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeNode.insight?.tradeoff || "Trade-offs Pending"}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-amber-400 font-bold uppercase tracking-wider block text-[8px]">Dependencies</span>
-                        <p className="font-sans text-slate-500 text-xs leading-snug italic">
-                           {(() => {
-                            const connectedLinks = currentLinks.filter(l => l.from === activeNode.id);
-                            if (connectedLinks.length === 0) return "Dependencies Pending";
-                            return "Depends on: " + Array.from(new Set(connectedLinks.map(l => {
-                                const target = currentNodes.find(n => n.id === l.to);
-                                return target ? target.label : l.to;
-                            }))).join(", ");
-                           })()}
-                        </p>
+                        <span className="kicker text-amber-300/80 block">Then</span>
+                        <p className="text-slate-300 leading-snug">{activeNode.insight?.context}</p>
                       </div>
                     </div>
                   )}
@@ -1930,7 +1899,7 @@ export default function SystemsIntelligenceCanvas() {
             >
               <div className="font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between flex-wrap sm:flex-nowrap gap-y-1 border-b border-obsidian-border/60 pb-2 relative pr-10">
                 <span className="flex items-center gap-1.5 truncate">
-                  <BookOpen size={12} /> Tech Spec: {selectedTech.name}
+                  <BookOpen size={12} /> {selectedTech.name}
                 </span>
                 <button type="button"
                   onClick={(e) => {
@@ -1946,12 +1915,9 @@ export default function SystemsIntelligenceCanvas() {
               </div>
 
               <div className="space-y-1.5 font-sans text-sm text-slate-300">
-                <p><span className="font-sans text-xs text-amber-300 font-bold uppercase">What it is: </span>{selectedTech.what}</p>
-                <p><span className="font-sans text-xs text-cyan-electric font-bold uppercase">Why it exists: </span>{selectedTech.why}</p>
-                <p><span className="font-sans text-xs text-emerald-300 font-bold uppercase">Typical use: </span>{selectedTech.useCase}</p>
-                <p className="pt-1  text-slate-400 text-xs">
-                  <span className="font-sans text-xs text-violet-400 font-bold uppercase">Portfolio Context: </span>{selectedTech.portfolioContext}
-                </p>
+                <p><span className="kicker text-amber-300/80">Situation </span>{selectedTech.what}</p>
+                <p><span className="kicker text-cyan-electric/80">Choice </span>{selectedTech.why}</p>
+                <p><span className="kicker text-emerald-300/80">Cost </span>{selectedTech.useCase}</p>
               </div>
             </motion.div>
           )}
@@ -1960,12 +1926,11 @@ export default function SystemsIntelligenceCanvas() {
         {/* Default Unselected Prompt Banner */}
         {!selectedMissionId && !hoveredNode && !selectedNode && !hoveredLink && !selectedTech && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 w-11/12 max-w-md text-center p-2.5 rounded-xl border border-obsidian-border/80 bg-slate-950/85 backdrop-blur-md pointer-events-none space-y-0.5 shadow-xl">
-            <div className="font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-center gap-1.5">
-              <Compass size={13} className="animate-spin" style={{ animationDuration: "12s" }} />
-              Engineering Workspace Active
+            <div className="kicker text-slate-400 flex items-center justify-center gap-1.5">
+              <Compass size={13} /> Open a system
             </div>
             <p className="font-sans text-xs text-slate-400 leading-tight">
-              Select a flagship topology above, click nodes or tech chips to inspect ADR decision ledgers, or hover connections.
+              Click a node for situation, choice, and cost.
             </p>
           </div>
         )}

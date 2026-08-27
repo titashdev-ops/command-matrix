@@ -14,7 +14,7 @@ import { useRef } from "react";
 import { CASE_STUDIES, getEngineeringIntelligence } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
-import BriefCover from "./BriefCover";
+import BriefCover, { briefFromMission } from "./BriefCover";
 import { modalReveal, overlayFade } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
@@ -142,32 +142,13 @@ const PROJECT_ACCENTS = {
   }
 };
 
-function DossierCover({ project, accent, intel }) {
-  const situation =
-    project.engineeringReview?.technicalProblem ||
-    project.businessProblem?.business ||
-    project.missionObjective;
-  const choice =
-    project.decisionLedger?.[0]?.decision ||
-    intel.primaryEngineeringPattern;
-  const cost =
-    project.decisionLedger?.[0]?.tradeoff ||
-    project.decisionLedger?.[0]?.tradeOffs;
-  const lede =
-    project.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
-    project.businessImpact;
-
+function DossierCover({ project, accent }) {
+  const brief = briefFromMission(project);
   return (
     <BriefCover
-      kicker={project.domain}
-      status={project.implementationStatus}
-      title={project.projectName}
-      lede={lede}
-      situation={situation}
-      choice={choice}
-      cost={cost}
+      {...brief}
       layoutId={`case-title-${project.missionId}`}
-      className={cn("mb-10", accent.border?.replace("border-", "border-") && "shadow-[0_0_90px_rgba(0,240,255,0.1)]")}
+      className="mb-10"
     />
   );
 }
@@ -236,7 +217,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
       <div className="flex-1 overflow-y-auto custom-scrollbar overscroll-contain p-4 sm:p-6 md:p-10 lg:p-12 relative">
         <div className="max-w-5xl mx-auto space-y-10 sm:space-y-16 pb-16">
           {viewMode === "investigation" && (
-            <DossierCover project={activeProject} accent={accent} intel={intel} />
+            <DossierCover project={activeProject} accent={accent} />
           )}
           {viewMode === "review" ? (
             <EngineeringReviewPanel mission={activeProject} />

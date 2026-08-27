@@ -1,36 +1,22 @@
 import React from "react";
 import { AlertTriangle, CheckCircle2, Lock, GitBranch } from "lucide-react";
-import BriefCover from "./BriefCover";
+import BriefCover, { briefFromMission } from "./BriefCover";
 
 export default function EngineeringReviewPanel({ mission }) {
   if (!mission) return null;
 
   const review = mission.engineeringReview || {};
   const ledger = mission.decisionLedger?.length ? mission.decisionLedger : review.decisionLedger || [];
+  const rest = ledger.slice(1, 4);
   const constraints = review.hardConstraints || [];
   const risks = review.riskReview || {};
   const evolution = review.evolutionReview || [];
-  const situation =
-    review.technicalProblem ||
-    mission.businessProblem?.business ||
-    mission.missionObjective;
-  const choice = ledger[0]?.decision || mission.engineeringIntelligence?.primaryEngineeringPattern;
-  const cost = ledger[0]?.tradeoff || ledger[0]?.tradeOffs;
-  const lede =
-    mission.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
-    mission.businessImpact;
-  const status = mission.implementationStatus || "Documented";
+  const brief = briefFromMission(mission);
 
   return (
     <div className="space-y-8 text-slate-100">
       <BriefCover
-        kicker="Review"
-        status={status}
-        title={mission.projectName}
-        lede={lede}
-        situation={situation}
-        choice={choice}
-        cost={cost}
+        {...brief}
         note="What I would defend."
         className="border-amber-400/25 shadow-[0_0_80px_rgba(251,191,36,0.08)]"
       />
@@ -53,12 +39,12 @@ export default function EngineeringReviewPanel({ mission }) {
         </section>
       )}
 
-      {ledger.length > 0 && (
+      {rest.length > 0 && (
         <section className="space-y-3">
           <div className="kicker text-slate-500 flex items-center gap-2">
-            <GitBranch size={12} /> Choices
+            <GitBranch size={12} /> Also chosen
           </div>
-          {ledger.slice(0, 4).map((dec) => (
+          {rest.map((dec) => (
             <div
               key={dec.decision}
               className="rounded-xl border border-obsidian-border/80 bg-slate-950/60 p-4 sm:p-5"
@@ -72,9 +58,7 @@ export default function EngineeringReviewPanel({ mission }) {
               <p className="text-sm text-slate-300 leading-relaxed">{dec.reason}</p>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {dec.alternative && (
-                  <p className="text-xs text-slate-500">
-                    Not chosen: {dec.alternative}
-                  </p>
+                  <p className="text-xs text-slate-500">Not chosen: {dec.alternative}</p>
                 )}
                 {(dec.tradeoff || dec.tradeOffs) && (
                   <p className="text-xs text-amber-200/80">Cost: {dec.tradeoff || dec.tradeOffs}</p>
@@ -118,12 +102,8 @@ export default function EngineeringReviewPanel({ mission }) {
           <div className="kicker text-slate-500 mb-3">How it moved</div>
           <ul className="space-y-2">
             {evolution.slice(0, 4).map((evo) => (
-              <li
-                key={evo.phase}
-                className="pl-3 border-l border-amber-400/30 text-sm text-slate-300"
-              >
-                <span className="font-semibold text-white">{evo.phase}.</span>{" "}
-                {evo.architectureState}
+              <li key={evo.phase} className="pl-3 border-l border-amber-400/30 text-sm text-slate-300">
+                <span className="font-semibold text-white">{evo.phase}.</span> {evo.architectureState}
               </li>
             ))}
           </ul>

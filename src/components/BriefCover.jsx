@@ -6,6 +6,29 @@ import { coverReveal, springSoft } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
+export function briefFromMission(mission) {
+  if (!mission) return {};
+  const ledger = mission.decisionLedger?.length
+    ? mission.decisionLedger
+    : mission.engineeringReview?.decisionLedger || [];
+  const first = ledger[0] || {};
+  return {
+    status: mission.implementationStatus || "Documented",
+    kicker: mission.domain,
+    title: mission.projectName,
+    lede:
+      mission.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
+      mission.businessImpact,
+    situation:
+      mission.engineeringReview?.technicalProblem ||
+      mission.businessProblem?.business ||
+      mission.missionObjective,
+    choice: first.decision || mission.engineeringIntelligence?.primaryEngineeringPattern,
+    cost: first.tradeoff || first.tradeOffs,
+    consequence: mission.businessImpact,
+  };
+}
+
 function Cell({ label, children, delay = 0 }) {
   if (!children) return null;
   return (
@@ -29,6 +52,7 @@ export default function BriefCover({
   situation,
   choice,
   cost,
+  consequence,
   note,
   layoutId,
   titleId,
@@ -74,6 +98,12 @@ export default function BriefCover({
             <Cell label="Choice" delay={0.1}>{choice}</Cell>
             <Cell label="Cost" delay={0.16}>{cost}</Cell>
           </div>
+        )}
+        {consequence && (
+          <p className="font-sans text-sm text-slate-400 leading-relaxed pt-1">
+            <span className="kicker text-slate-500 mr-2">Then</span>
+            {consequence}
+          </p>
         )}
       </div>
     </motion.section>

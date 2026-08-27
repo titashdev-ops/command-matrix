@@ -11,7 +11,7 @@ export default function EvidenceCard({
 }) {
   const { openAdrs, playClickSound } = useSystemCommand();
   const { frame, chosen, notChosen, consequence } = comparison;
-  const cost = [notChosen, consequence].filter(Boolean).join(" — ");
+  const cost = notChosen || undefined;
 
   return (
     <div className="space-y-2">
@@ -22,6 +22,7 @@ export default function EvidenceCard({
         lede={frame}
         choice={chosen}
         cost={cost}
+        consequence={consequence}
       />
       {relatedAdr && (
         <button
