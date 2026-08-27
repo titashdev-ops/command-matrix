@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { CASE_STUDIES, getEngineeringIntelligence } from "../data/missions";
+import { CASE_STUDIES } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
 import BriefCover, { briefFromMission } from "./BriefCover";
@@ -158,7 +158,6 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
   const [viewMode, setViewMode] = useState("investigation"); // 'investigation' | 'review'
 
   const accent = PROJECT_ACCENTS[activeProject.missionId] || PROJECT_ACCENTS["ops-dronly"];
-  const intel = getEngineeringIntelligence(activeProject);
 
   const handleLinkClick = (url) => {
     playClickSound();
@@ -202,7 +201,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
             </button>
           </div>
           <span className={cn("font-sans text-xs sm:text-xs uppercase tracking-widest px-2 py-1 rounded border whitespace-nowrap hidden md:inline-block", accent.text, accent.bg, accent.border)}>
-            {activeProject.classification}
+            {activeProject.implementationStatus}
           </span>
           <button type="button" 
             onClick={() => { playClickSound(); onClose(); }}
@@ -232,9 +231,9 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
 
 function IndexView({ onSelectProject, onClose }) {
   const { playClickSound } = useSystemCommand();
-  const [activeTab, setActiveTab] = React.useState("ENTERPRISE SYSTEMS");
+  const [activeTab, setActiveTab] = React.useState("Fleet");
 
-  const familyOrder = ["ENTERPRISE SYSTEMS", "HEALTHCARE SYSTEMS INITIATIVE", "DENTAL SYSTEMS", "INTERNAL SYSTEMS", "FUTURE OPERATIONS"];
+  const familyOrder = ["Fleet", "Motion", "Clinic", "Graph", "Next"];
   
   const familyGroups = CASE_STUDIES.reduce((acc, proj) => {
     const family = proj.family || "OTHER";
@@ -262,7 +261,7 @@ function IndexView({ onSelectProject, onClose }) {
         </div>
         <button type="button" 
           onClick={() => { playClickSound(); onClose(); }}
-          aria-label="Close Mission Control"
+          aria-label="Close archive"
           className="self-end sm:self-center relative after:absolute after:content-[''] after:-inset-3 min-h-[32px] min-w-[32px] sm:min-h-[auto] sm:min-w-[auto] p-2 rounded-lg border border-obsidian-border bg-obsidian-surface text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
         >
           <X size={20} />
@@ -272,7 +271,7 @@ function IndexView({ onSelectProject, onClose }) {
       <div className="shrink-0 mb-4 sm:mb-6 p-3.5 sm:p-5 rounded-xl border border-obsidian-border/80 bg-obsidian-surface/40 backdrop-blur-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-cyan-electric/10 to-transparent pointer-events-none blur-xl" />
         <p className="lede relative z-10 max-w-2xl">
-          Four named systems first. The rest is supporting work. Open a cover, then the brief.
+          Four named systems first. The rest is supporting work.
         </p>
       </div>
 
@@ -324,7 +323,7 @@ function IndexView({ onSelectProject, onClose }) {
                       {heroProject.missionId.toUpperCase()}
                     </span>
                     <div className="flex items-center gap-3">
-                      <span className="font-mono text-xs text-slate-500 hidden sm:inline-block">{heroProject.classification}</span>
+                      <span className="font-sans text-xs text-slate-500 hidden sm:inline-block">{heroProject.implementationStatus}</span>
                       <ArrowUpRight size={16} className="text-slate-600 group-hover:text-slate-200 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
                     </div>
                   </div>
@@ -335,45 +334,31 @@ function IndexView({ onSelectProject, onClose }) {
                     <p className="font-sans text-xs text-slate-400 mb-4 sm:mb-6 leading-relaxed max-w-2xl">
                       {heroProject.missionObjective}
                     </p>
-                    <div className="flex flex-wrap items-center gap-4 sm:gap-6  pt-3 sm:pt-4 mb-4">
+                    <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-3 sm:pt-4 mb-4">
                       <div className="flex flex-col gap-0.5 sm:gap-1">
-                        <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">Status</span>
-                        <span className="font-sans text-xs text-slate-300 flex items-center gap-1.5">
-                          <div className={cn("w-1.5 h-1.5 rounded-full shrink-0", heroAccent.bg.replace('/10', ''), heroAccent.glow)} /> {heroProject.implementationStatus}
-                        </span>
+                        <span className="kicker text-slate-500">Status</span>
+                        <span className="font-sans text-xs text-slate-300">{heroProject.implementationStatus}</span>
                       </div>
                       <div className="flex flex-col gap-0.5 sm:gap-1">
-                        <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">Client</span>
-                        <span className="font-sans text-xs text-slate-300">{heroProject.client}</span>
-                      </div>
-                      <div className="flex flex-col gap-0.5 sm:gap-1">
-                        <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">Complexity</span>
-                        <span className="font-sans text-xs text-amber-400">
-                          {getEngineeringIntelligence(heroProject).complexityIndicator.split(' ')[0]} {getEngineeringIntelligence(heroProject).complexityIndicator.split(' ')[1]}
-                        </span>
+                        <span className="kicker text-slate-500">Theme</span>
+                        <span className="font-sans text-xs text-slate-300">{heroProject.family}</span>
                       </div>
                     </div>
-
-                    {/* Standardized Intelligence Brief Preview */}
                     {(() => {
-                      const heroIntel = getEngineeringIntelligence(heroProject);
+                      const brief = briefFromMission(heroProject);
                       return (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-3  bg-obsidian-surface/40 p-3 rounded-lg border border-obsidian-border/50">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3 bg-obsidian-surface/40 p-3 rounded-lg border border-obsidian-border/50">
                           <div>
-                            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider block mb-0.5">Pattern</span>
-                            <span className="font-sans text-sm text-slate-300 font-semibold block truncate">{heroIntel.primaryEngineeringPattern}</span>
+                            <span className="kicker text-slate-500 block mb-0.5">Situation</span>
+                            <span className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">{brief.situation}</span>
                           </div>
                           <div>
-                            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider block mb-0.5">Architecture</span>
-                            <span className="font-sans text-sm text-cyan-electric font-semibold block truncate">{heroIntel.architectureStyle}</span>
+                            <span className="kicker text-slate-500 block mb-0.5">Choice</span>
+                            <span className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">{brief.choice}</span>
                           </div>
                           <div>
-                            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider block mb-0.5">AI Engine</span>
-                            <span className="font-sans text-sm text-violet-400 font-semibold block truncate">{heroIntel.aiCapability}</span>
-                          </div>
-                          <div>
-                            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider block mb-0.5">Deployment SLA</span>
-                            <span className="font-sans text-sm text-amber-400 font-medium block truncate">{heroIntel.deploymentMaturity}</span>
+                            <span className="kicker text-slate-500 block mb-0.5">Cost</span>
+                            <span className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">{brief.cost}</span>
                           </div>
                         </div>
                       );
@@ -384,11 +369,10 @@ function IndexView({ onSelectProject, onClose }) {
                 {/* Subordinate Projects */}
                 {subProjects.length > 0 ? (
                   <div className="lg:col-span-1 flex flex-col justify-start">
-                    <h4 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 mb-2">Related Operations</h4>
+                    <h4 className="kicker text-slate-500 mb-2">Also here</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3">
                       {subProjects.map(proj => {
                         const accent = PROJECT_ACCENTS[proj.missionId] || PROJECT_ACCENTS["ops-dronly"];
-                        const intel = getEngineeringIntelligence(proj);
                         return (
                           <button type="button"
                             key={proj.missionId}
@@ -406,11 +390,11 @@ function IndexView({ onSelectProject, onClose }) {
                               {proj.missionObjective}
                             </p>
                             <div className="ml-3.5 flex flex-wrap gap-1 items-center">
-                              <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-obsidian border border-obsidian-border text-slate-300">
-                                {intel.primaryEngineeringPattern.split('&')[0]}
+                              <span className="font-sans text-[10px] px-1.5 py-0.5 rounded bg-obsidian border border-obsidian-border text-slate-300">
+                                {proj.family}
                               </span>
-                              <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-obsidian border border-obsidian-border text-cyan-electric">
-                                {intel.domain}
+                              <span className="font-sans text-[10px] px-1.5 py-0.5 rounded bg-obsidian border border-obsidian-border text-cyan-electric">
+                                {proj.implementationStatus}
                               </span>
                             </div>
                           </button>

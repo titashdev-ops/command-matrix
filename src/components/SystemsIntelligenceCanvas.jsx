@@ -109,7 +109,7 @@ const MISSION_TOPOLOGIES = {
   "ops-dronly": {
     id: "ops-dronly",
     title: "ops.dronly.in",
-    subtitle: "Distributed UAV Telemetry & Spatial C2 Topology",
+    subtitle: "Fleet telemetry",
     accentColor: "cyan",
     hexColor: "#00f0ff",
     textClass: "text-cyan-electric",
@@ -219,9 +219,9 @@ const MISSION_TOPOLOGIES = {
         isCore: true, 
         detail: "Ingests 50k telemetry pings/sec with <2ms jitter across distributed UAV clusters.",
         insight: {
-          problem: "High-volume concurrent packet bursts causing buffer bloat at central ingestion.",
-          decision: "Implemented zero-allocation byte buffer pools with gRPC streaming worker pools.",
-          tradeoff: "Achieved 99.99% ingress SLA under load; required custom binary Protocol Buffer schemas.",
+          problem: "Positions arrive faster than a table wants.",
+          decision: "Stream them. Cache the hot path.",
+          tradeoff: "You own packet order.",
           context: "Core command-and-control telemetry server in mission-critical robotics."
         }
       },
@@ -232,9 +232,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Low-latency bi-directional UDP/gRPC gateway operating on edge gateways.",
         insight: {
-          problem: "Unstable cellular connections dropping TCP handshakes during flight.",
-          decision: "Deployed lightweight UDP edge proxies with HTTP/2 gRPC streaming backhauls.",
-          tradeoff: "Zero connection setup overhead; requires client-side packet sequence deduplication.",
+          problem: "The cell drops mid-flight.",
+          decision: "UDP at the edge. gRPC on the way back.",
+          tradeoff: "You reassemble. You do not handshake.",
           context: "Edge network gateways for cellular IoT devices and aerial robotics."
         }
       },
@@ -245,9 +245,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Hierarchical hexagonal spatial indexing for real-time airspace collision avoidance.",
         insight: {
-          problem: "O(N^2) pairwise distance calculations between thousands of active drones.",
-          decision: "Indexed coordinate lat/lng pairs into Uber H3 Resolution-9 hexagonal spatial buckets.",
-          tradeoff: "Reduced collision checking to O(1) hash lookups; added minor spatial coordinate quantization.",
+          problem: "Pairwise distance does not scale.",
+          decision: "Hex buckets. Look up the neighbors.",
+          tradeoff: "The grid is a little coarse.",
           context: "Urban air mobility, drone geofencing, and proximity-based fleet routing."
         }
       },
@@ -258,9 +258,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Sub-100ms camera feed passthrough with H.264 hardware encoding.",
         insight: {
-          problem: "High video latency (>500ms) making remote manual tele-operation impossible.",
-          decision: "Utilized WebRTC peer-to-peer data channels with hardware-accelerated H.264 RTP stream passthrough.",
-          tradeoff: "Sub-100ms glass-to-glass latency; requires STUN/TURN traversal servers for strict firewalls.",
+          problem: "HLS is too late if someone is still flying.",
+          decision: "WebRTC for the loop.",
+          tradeoff: "You need a path through NAT.",
           context: "Live FPV tele-operation, robotic vision streams, and surveillance dashboards."
         }
       },
@@ -271,9 +271,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Automatic failover circuit breaker tripping at 95% channel saturation.",
         insight: {
-          problem: "Cascading server crashes when network partitions cause message backlog spalls.",
-          decision: "Integrated Netflix Hystrix-style sliding window circuit breakers with graceful packet shedding.",
-          tradeoff: "Guaranteed 100% core uptime; non-essential telemetry pings are shed during peak outages.",
+          problem: "A backlog can take the core with it.",
+          decision: "Shed the extra pings. Keep the loop.",
+          tradeoff: "Some ticks never land.",
           context: "Resilient enterprise systems, distributed microservices, and fail-safe networks."
         }
       },
@@ -284,9 +284,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Partitioned hypertable time-series store for trajectory replay and diagnostics.",
         insight: {
-          problem: "Rapid DB storage inflation from storing billions of raw GPS coordinate logs.",
-          decision: "Leveraged TimescaleDB compressed hypertables with chunk-level columnar compression.",
-          tradeoff: "Achieved 74% disk space reduction and sub-second analytical queries; write re-indexes are constrained.",
+          problem: "Raw GPS fills a disk.",
+          decision: "Compress the chunks. Replay the path.",
+          tradeoff: "Writes wait on the index.",
           context: "Flight trajectory replay, telemetry audit compliance, and predictive maintenance."
         }
       }
@@ -353,7 +353,7 @@ const MISSION_TOPOLOGIES = {
   "prodent-os": {
     id: "prodent-os",
     title: "Prodent OS",
-    subtitle: "Connected Clinic Event Network",
+    subtitle: "Clinic events",
     accentColor: "violet",
     hexColor: "#a78bfa",
     textClass: "text-violet-400",
@@ -442,9 +442,9 @@ const MISSION_TOPOLOGIES = {
         isCore: true, 
         detail: "Immutable append-only event store for clinical audit trails and state projections.",
         insight: {
-          problem: "Accidental medical data overwrites in traditional SQL CRUD databases.",
-          decision: "Used Event Sourcing where state is derived exclusively from an append-only event stream.",
-          tradeoff: "Absolute zero-data-loss auditability; read views must be reprojected via CQRS queues.",
+          problem: "A row overwrite loses who changed what.",
+          decision: "Write events. Read a projection.",
+          tradeoff: "You version the schema.",
           context: "HIPAA audit ledgers, medical treatment logs, and clinical history timelines."
         }
       },
@@ -455,9 +455,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Zero-knowledge encryption for PHI data streams with strict RBAC enforcement.",
         insight: {
-          problem: "Unauthorized staff or third parties accessing Protected Health Information (PHI).",
-          decision: "Enforced field-level zero-knowledge encryption before events hit the storage wire.",
-          tradeoff: "Air-tight privacy compliance; server-side text searching requires encrypted index hashes.",
+          problem: "A shared clinic cannot leak a chart.",
+          decision: "Encrypt the field before it hits the wire.",
+          tradeoff: "Search needs a hash, not the text.",
           context: "Healthcare security compliance, HIPAA & GDPR privacy enforcement."
         }
       },
@@ -468,9 +468,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "3D real-time odontogram state reducer with optimistic UI synchronization.",
         insight: {
-          problem: "Laggy UI when dentist inputs rapid multi-tooth procedure codes during surgery.",
-          decision: "Built a local client-side state reducer with optimistic UI updates & WebSocket sync.",
-          tradeoff: "Instant sub-10ms UI responsiveness; conflict resolution is needed if two hygienists edit simultaneously.",
+          problem: "The chart cannot wait on the server.",
+          decision: "Reduce locally. Sync when you can.",
+          tradeoff: "Two hygienists can collide.",
           context: "3D medical imaging, dental odontogram charts, and interactive surgical tools."
         }
       },
@@ -481,9 +481,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Automated radiograph image ingestion with GPU-accelerated contrast normalization.",
         insight: {
-          problem: "Large 100MB+ dental X-ray files overwhelming practice network bandwidth.",
-          decision: "Built an asynchronous edge image pipeline with GPU contrast normalization & progressive WebP chunks.",
-          tradeoff: "X-rays load in under 200ms; required GPU worker pool configuration.",
+          problem: "An X-ray is too big for the waiting room.",
+          decision: "Chunk it. Normalize at the edge.",
+          tradeoff: "You need a GPU worker.",
           context: "PACS medical imaging, dental radiograph storage, and diagnostic vision tools."
         }
       },
@@ -494,9 +494,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Tenant isolation gateway providing dynamic database schema partitioning.",
         insight: {
-          problem: "Preventing cross-clinic data leaks in a shared multi-tenant SaaS cloud.",
-          decision: "Implemented schema-per-tenant isolation driven by cryptographically signed JWT tenant keys.",
-          tradeoff: "100% mathematical data isolation between clinics; migration scripts must run across N tenant schemas.",
+          problem: "Two clinics cannot share a row.",
+          decision: "A key per practice. A schema per key.",
+          tradeoff: "Migrations run N times.",
           context: "Enterprise healthcare SaaS platforms, multi-tenant B2B architectures."
         }
       },
@@ -507,9 +507,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Offline-first clinic local node relay with automatic peer reconciliations.",
         insight: {
-          problem: "Internet outages halting surgeries and patient check-ins at local practices.",
-          decision: "Deployed an offline-first SQLite/CRDT local sync relay running on practice hardware.",
-          tradeoff: "Clinics operate 100% normally without internet; background reconciliation runs on reconnect.",
+          problem: "The line goes down mid-appointment.",
+          decision: "A local copy. Reconcile later.",
+          tradeoff: "Conflicts wait for reconnect.",
           context: "Offline-first medical software, remote health clinics, and disaster-proof systems."
         }
       }
@@ -566,8 +566,8 @@ const MISSION_TOPOLOGIES = {
 
   "sports-physio": {
     id: "sports-physio",
-    title: "Healthcare Initiative",
-    subtitle: "Patient Workflow Architecture & FHIR Bus",
+    title: "Motion",
+    subtitle: "Rehab loop",
     accentColor: "amber",
     hexColor: "#fbbf24",
     textClass: "text-amber-400",
@@ -633,9 +633,9 @@ const MISSION_TOPOLOGIES = {
         isCore: true, 
         detail: "Interoperable clinical message broker streaming FHIR v4 compliant health records.",
         insight: {
-          problem: "Hospital EHR systems speak incompatible proprietary data formats.",
-          decision: "Standardized all internal domain events onto official HL7 FHIR v4 JSON resource specifications.",
-          tradeoff: "Universal interoperability across hospitals; increased JSON payload verbosity.",
+          problem: "Hospitals do not speak the same shape.",
+          decision: "One event shape for everyone.",
+          tradeoff: "The payload gets fatter.",
           context: "Hospital software integrations, health telemetry exchanges, and patient portals."
         }
       },
@@ -646,9 +646,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "High-frequency wearable telemetry for heart-rate variability and kinematic tracking.",
         insight: {
-          problem: "Noisy Bluetooth wearable sensors dropping biometric telemetry samples.",
-          decision: "Engineered a client-side Kalman filter smoothing pipeline before streaming to Redis.",
-          tradeoff: "Clean, high-fidelity kinematic telemetry; minor 50ms filtering window delay.",
+          problem: "A wristband drops samples.",
+          decision: "Smooth on the phone. Then stream.",
+          tradeoff: "You pay ~50ms.",
           context: "Wearable health monitoring, athletic performance tracking, and biomechanics."
         }
       },
@@ -659,9 +659,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Rules-based automated engine evaluating recovery trajectory against clinical benchmarks.",
         insight: {
-          problem: "Physiotherapists missing subtle joint over-extension anomalies during home rehab.",
-          decision: "Created an automated rule engine evaluating joint angle delta against clinical safety corridors.",
-          tradeoff: "Instant notification when patient risks re-injury; rules must be vetted by medical boards.",
+          problem: "A coach cannot watch every joint.",
+          decision: "A rule for the corridor. A ping if they leave it.",
+          tradeoff: "A clinician has to own the rule.",
           context: "Automated clinical alert systems, patient risk scoring, and rehab monitoring."
         }
       },
@@ -672,9 +672,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Computer vision kinematic range-of-motion angle quantification worker.",
         insight: {
-          problem: "Inaccurate self-reported patient exercise compliance logs.",
-          decision: "Utilized MediaPipe pose estimation to quantify joint flexion angles directly from smartphone cameras.",
-          tradeoff: "Objective mathematical flexion tracking; requires adequate patient room lighting.",
+          problem: "Self-report lies.",
+          decision: "Pose on the camera. Count the angle.",
+          tradeoff: "The room has to be lit.",
           context: "Computer-vision physiotherapy, joint angle quantification, and digital health."
         }
       },
@@ -685,9 +685,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Bidirectional converter translating HL7 v2 messages to modern FHIR streams.",
         insight: {
-          problem: "Legacy hospital mainframes only emitting TCP HL7 v2 MLLP pipe-delimited text.",
-          decision: "Constructed a microservice bridge converting legacy HL7 v2 MLLP packets into FHIR v4 JSON.",
-          tradeoff: "Enables modern web apps to talk to 20-year-old hospital systems; requires complex message parsing.",
+          problem: "The hospital still speaks HL7 v2.",
+          decision: "Translate into the event bus.",
+          tradeoff: "The parser is the job.",
           context: "Enterprise healthcare integration, hospital IT infrastructure, and EHR sync."
         }
       },
@@ -698,9 +698,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "End-to-end encrypted mobile client receiving real-time clinical exercise plans.",
         insight: {
-          problem: "Low patient adherence to printed physical therapy paper handouts.",
-          decision: "Delivered interactive 3D motion-guided rehab routines with live biofeedback progress rings.",
-          tradeoff: "Doubled patient exercise compliance; required cross-platform mobile rendering optimization.",
+          problem: "Paper handouts do not get done.",
+          decision: "Show the motion. Count the set.",
+          tradeoff: "The phone has to keep up.",
           context: "Patient engagement apps, remote care management, and mobile health."
         }
       }
@@ -723,7 +723,7 @@ const MISSION_TOPOLOGIES = {
   "career-os": {
     id: "career-os",
     title: "Career OS",
-    subtitle: "Capability Knowledge Graph & Skill Taxonomy",
+    subtitle: "Skills as a graph",
     accentColor: "emerald",
     hexColor: "#34d399",
     textClass: "text-emerald-glow",
@@ -789,9 +789,9 @@ const MISSION_TOPOLOGIES = {
         isCore: true, 
         detail: "High-dimensional vector embedding space connecting engineering domain competencies.",
         insight: {
-          problem: "Keyword matching misses semantic relationships between system design disciplines.",
-          decision: "Mapped engineering skills into a vector embedding space clustered by domain proximity.",
-          tradeoff: "Proximity queries reveal cross-domain skill synergy; vector distances must be calibrated.",
+          problem: "Keywords miss the neighbor skill.",
+          decision: "Put skills near each other in a space.",
+          tradeoff: "You have to tune the distances.",
           context: "Skill taxonomy mapping, competency evaluation, and developer portfolios."
         }
       },
@@ -802,9 +802,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Structured mapping linking engineering decisions directly to live proof assets.",
         insight: {
-          problem: "Claims of architectural expertise without verifiable evidence.",
-          decision: "Linked every Architectural Decision Record (ADR) directly to live running web artifacts.",
-          tradeoff: "100% verifiable engineering proof; requires maintaining live interactive code sandboxes.",
+          problem: "A claim without a note is a claim.",
+          decision: "Link the choice to the case.",
+          tradeoff: "You keep the links honest.",
           context: "Architectural documentation, ADR indexes, and technical audit logs."
         }
       },
@@ -815,9 +815,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Dynamic dependency graph mapping case studies to architectural artifacts.",
         insight: {
-          problem: "Siloed portfolio projects hiding the underlying system architecture.",
-          decision: "Modeled project architecture as directed acyclic graphs connecting frontend, backend, and DB.",
-          tradeoff: "Complete system visibility; graph visualization requires careful layout math.",
+          problem: "A case study hides the joints.",
+          decision: "Draw the graph. Open a node.",
+          tradeoff: "Layout is work.",
           context: "Interactive system diagrams, software cartography, and documentation."
         }
       },
@@ -828,9 +828,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Quantifies technical scope, architectural ownership, and systemic business impact.",
         insight: {
-          problem: "Subjective evaluation of engineering seniority and architectural scope.",
-          decision: "Quantified technical ownership using systemic metrics: SLA uptime, throughput, & complexity.",
-          tradeoff: "Clear objective evidence of senior impact; metrics require periodic updates.",
+          problem: "Seniority is usually a vibe.",
+          decision: "Show the scope of the choice.",
+          tradeoff: "The numbers here are teaching notes.",
           context: "Technical leadership evaluation, career progression frameworks, and talent assessment."
         }
       },
@@ -841,9 +841,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Calculates throughput improvements, latency drops, and availability metrics.",
         insight: {
-          problem: "Abstract engineering descriptions lacking concrete business value numbers.",
-          decision: "Embedded benchmark metrics (e.g., 50k pings/sec, <2ms latency, 99.99% SLA) into graph nodes.",
-          tradeoff: "Immediate quantifiable proof of engineering value; requires benchmark data collection.",
+          problem: "Abstract work hides the cost.",
+          decision: "Show latency and dollars as a model.",
+          tradeoff: "Not a measured SLA.",
           context: "System benchmarking, performance profiling, and ROI measurement."
         }
       },
@@ -854,9 +854,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Generates context-aware technical briefs for engineering leadership.",
         insight: {
-          problem: "Recruiters and CTOs have different time horizons when evaluating candidate experience.",
-          decision: "Created multi-tiered summary views allowing quick 30-second scans or deep technical inspection.",
-          tradeoff: "Accommodates both quick scans and deep technical audits; requires adaptive layout rendering.",
+          problem: "A recruiter and a CTO want different depths.",
+          decision: "A cover first. The rest on open.",
+          tradeoff: "Two layouts, one source.",
           context: "Executive briefing tools, interactive resumes, and technical documentation."
         }
       }
@@ -879,7 +879,7 @@ const MISSION_TOPOLOGIES = {
   "personal-os": {
     id: "personal-os",
     title: "Personal OS",
-    subtitle: "Personal Intelligence Graph & Local Context Agent",
+    subtitle: "Notes on this machine",
     accentColor: "rose",
     hexColor: "#fb7185",
     textClass: "text-rose-400",
@@ -944,9 +944,9 @@ const MISSION_TOPOLOGIES = {
         isCore: true, 
         detail: "Local private LLM orchestrator running on dedicated hardware for deep contextual synthesis.",
         insight: {
-          problem: "Data leaks when sending confidential thoughts to public AI cloud endpoints.",
-          decision: "Deployed an open-source Llama3/Mistral model locally via Ollama with zero external API calls.",
-          tradeoff: "Complete data privacy and offline autonomy; requires local workstation GPU compute.",
+          problem: "A public model sees the journal.",
+          decision: "Run it on this machine.",
+          tradeoff: "You need a GPU here.",
           context: "Air-gapped enterprise AI, confidential research, and private knowledge synthesis."
         }
       },
@@ -957,9 +957,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Encrypted local LanceDB vector store holding personal engineering journal entries.",
         insight: {
-          problem: "Searching years of unstructured markdown notes and technical journals.",
-          decision: "Embedded all personal notes into an encrypted local vector store for semantic similarity lookup.",
-          tradeoff: "Sub-10ms semantic search across thousands of private notes; requires local index builds.",
+          problem: "Years of notes are not searchable.",
+          decision: "Embed them locally.",
+          tradeoff: "You rebuild the index.",
           context: "Personal knowledge management, second-brain PKM, and semantic memory."
         }
       },
@@ -970,9 +970,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Synthesizes daily commit logs, ADR updates, and architectural notes into a knowledge graph.",
         insight: {
-          problem: "Loss of daily engineering insights and decision context over time.",
-          decision: "Built a background daemon that parses git commit messages & markdown notes into structured graphs.",
-          tradeoff: "Automated passive documentation; parser must handle varying markdown note structures.",
+          problem: "The day's choice evaporates.",
+          decision: "Parse commits and notes into a graph.",
+          tradeoff: "Markdown is messy.",
           context: "Automated developer logging, engineering history tracking, and knowledge bases."
         }
       },
@@ -983,9 +983,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Dynamic priority scheduler structuring deep work blocks based on cognitive load.",
         insight: {
-          problem: "Context switching and decision fatigue during complex system architecture tasks.",
-          decision: "Created an AI scheduler that groups high-focus deep work tasks based on cognitive load scores.",
-          tradeoff: "Maximized deep engineering focus hours; requires discipline to follow generated schedules.",
+          problem: "Context switch kills the afternoon.",
+          decision: "Group the hard work.",
+          tradeoff: "You still have to sit down.",
           context: "Cognitive load optimization, deep work scheduling, and productivity systems."
         }
       },
@@ -996,9 +996,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Hardware security key authorization protecting context access.",
         insight: {
-          problem: "Physical theft of local workstation exposing unencrypted private vector DB files.",
-          decision: "Protected vector store encryption keys with YubiKey hardware-bound zero-knowledge tokens.",
-          tradeoff: "Impossible to access data without physical security key; key loss requires secure backup phrases.",
+          problem: "A stolen laptop is the vault.",
+          decision: "A hardware key. No key, no notes.",
+          tradeoff: "Lose the key, lose the path.",
           context: "Hardware security, zero-knowledge encryption, and high-security workstation storage."
         }
       },
@@ -1009,9 +1009,9 @@ const MISSION_TOPOLOGIES = {
         isCore: false, 
         detail: "Encrypted peer-to-peer device state replication across local workstations.",
         insight: {
-          problem: "Synchronizing private notes between desktop and laptop without cloud servers.",
-          decision: "Implemented peer-to-peer encrypted delta synchronization over local Wi-Fi via Syncthing protocol.",
-          tradeoff: "Zero cloud involvement; devices must be on the same local network to sync.",
+          problem: "Two machines. No cloud.",
+          decision: "Encrypt the delta over the LAN.",
+          tradeoff: "They have to be in the same room.",
           context: "Peer-to-peer file synchronization, local-first software, and air-gapped backups."
         }
       }

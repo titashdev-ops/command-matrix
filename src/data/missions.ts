@@ -65,7 +65,7 @@ export interface EngineeringReviewModel {
 
 export interface MissionIntelligence {
   missionId: string;
-  family: "ENTERPRISE SYSTEMS" | "HEALTHCARE SYSTEMS INITIATIVE" | "DENTAL SYSTEMS" | "INTERNAL SYSTEMS" | "FUTURE OPERATIONS";
+  family: "Fleet" | "Motion" | "Clinic" | "Graph" | "Next";
   projectName: string;
   client: string;
   domain: string;
@@ -139,7 +139,7 @@ export function getEngineeringIntelligence(mission: MissionIntelligence): Engine
 export const CASE_STUDIES: MissionIntelligence[] = [
   {
     missionId: "ops-dronly",
-    family: "ENTERPRISE SYSTEMS",
+    family: "Fleet",
     projectName: "ops.dronly.in",
     client: "Dronly Operations",
     domain: "UAV Telemetry & Command",
@@ -306,7 +306,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   },
   {
     missionId: "sports-physio",
-    family: "HEALTHCARE SYSTEMS INITIATIVE",
+    family: "Motion",
     projectName: "Healthcare Systems Initiative",
     client: "High-Performance Athletics & Clinical Health Networks",
     domain: "Clinical HealthTech & Biomechanics",
@@ -473,7 +473,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   },
   {
     missionId: "prodent-os",
-    family: "DENTAL SYSTEMS",
+    family: "Clinic",
     projectName: "Prodent OS",
     client: "Enterprise Dental & Clinical Networks",
     domain: "Healthcare Infrastructure & Clinical EMR",
@@ -632,7 +632,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   },
   {
     missionId: "career-os",
-    family: "INTERNAL SYSTEMS",
+    family: "Graph",
     projectName: "Career OS",
     client: "Internal R&D",
     domain: "Knowledge Graph / AI",
@@ -784,7 +784,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   },
   {
     missionId: "personal-os",
-    family: "INTERNAL SYSTEMS",
+    family: "Graph",
     projectName: "Personal OS",
     client: "Internal Tooling",
     domain: "Distributed Systems & Local-First",
@@ -930,7 +930,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   },
   {
     missionId: "future-entrepreneurship",
-    family: "FUTURE OPERATIONS",
+    family: "Next",
     projectName: "Entrepreneurial Initiatives",
     client: "New Ventures",
     domain: "Venture Ideation & B2B Automation",
@@ -1058,7 +1058,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   },
   {
     missionId: "future-research",
-    family: "FUTURE OPERATIONS",
+    family: "Next",
     projectName: "Research & Concept Work",
     client: "Internal R&D",
     domain: "Applied AI & Spatial Computing",
