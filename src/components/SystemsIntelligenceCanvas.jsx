@@ -1109,9 +1109,7 @@ export default function SystemsIntelligenceCanvas() {
   const { 
     playClickSound, 
     setIsEnterpriseExplorerOpen, 
-    openAdrs, 
-    setIsStressTesterOpen, 
-    setIsDiagnosticsOpen 
+    openAdrs
   } = useSystemCommand();
 
   const [hoveredNode, setHoveredNode] = useState(null);

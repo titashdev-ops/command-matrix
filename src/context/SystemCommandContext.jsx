@@ -3,15 +3,9 @@ import { buildSafeMailtoPayload, safeAudioContextTrigger, playTactileClickSound,
 
 const SystemCommandContext = createContext(null);
 
-function demoHealthFromLoad(load, errors, loadDivisor, errorWeight) {
-  return Math.max(12, Math.min(99.9, 100 - load / loadDivisor - errors * errorWeight));
-}
-
 export function SystemCommandProvider({ children }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isDiagnosticsOpen, setIsDiagnosticsOpen] = useState(false);
   const [isEnterpriseExplorerOpen, setIsEnterpriseExplorerOpen] = useState(false);
-  const [isStressTesterOpen, setIsStressTesterOpen] = useState(false);
   const [isAdrsOpen, setIsAdrsOpen] = useState(false);
   const [targetAdrId, setTargetAdrId] = useState(null);
   const [isFlagshipsOpen, setIsFlagshipsOpen] = useState(false);
@@ -66,25 +60,14 @@ export function SystemCommandProvider({ children }) {
 
   const [liveTelemetryData, setLiveTelemetryData] = useState({
     tick: 0,
-    serviceNowHealth: 99.2,
-    salesforceHealth: 98.7,
-    sapHealth: 74.3,
     mode: "CLIENT_DEMO",
   });
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.shiftKey && e.key.toLowerCase() === "d") {
-        playTactileClickSound();
-        setIsDiagnosticsOpen((prev) => !prev);
-      }
       if (e.shiftKey && e.key.toLowerCase() === "e") {
         playTactileClickSound();
         setIsEnterpriseExplorerOpen((prev) => !prev);
-      }
-      if (e.shiftKey && e.key.toLowerCase() === "s") {
-        playTactileClickSound();
-        setIsStressTesterOpen((prev) => !prev);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -94,17 +77,10 @@ export function SystemCommandProvider({ children }) {
   // Client-side demo heartbeat. No server. Numbers are synthetic HUD motion.
   useEffect(() => {
     const id = window.setInterval(() => {
-      const sap = { load: Math.floor(Math.random() * 40) + 40, errors: Math.floor(Math.random() * 5) };
-      const salesforce = { load: Math.floor(Math.random() * 30) + 50, errors: Math.floor(Math.random() * 3) };
-      const servicenow = { load: Math.floor(Math.random() * 60) + 20, errors: Math.floor(Math.random() * 10) };
-
       setLiveTelemetryData((prev) => ({
         ...prev,
         tick: prev.tick + 1,
         mode: "CLIENT_DEMO",
-        sapHealth: demoHealthFromLoad(sap.load, sap.errors, 2, 5),
-        salesforceHealth: demoHealthFromLoad(salesforce.load, salesforce.errors, 3, 2),
-        serviceNowHealth: demoHealthFromLoad(servicenow.load, servicenow.errors, 4, 1),
       }));
 
       setActiveSpatialCoordinates((prev) => ({
@@ -193,18 +169,6 @@ export function SystemCommandProvider({ children }) {
       playTactileClickSound();
       setIsContactOpen(false);
     },
-    isDiagnosticsOpen,
-    setIsDiagnosticsOpen,
-    openDiagnostics: () => {
-      triggerAudioPulse();
-      playTactileClickSound();
-      setIsDiagnosticsOpen(true);
-    },
-    closeDiagnostics: () => {
-      triggerAudioPulse();
-      playTactileClickSound();
-      setIsDiagnosticsOpen(false);
-    },
     isEnterpriseExplorerOpen,
     setIsEnterpriseExplorerOpen,
     openEnterpriseExplorer: () => {
@@ -216,23 +180,6 @@ export function SystemCommandProvider({ children }) {
       triggerAudioPulse();
       playTactileClickSound();
       setIsEnterpriseExplorerOpen(false);
-    },
-    isStressTesterOpen,
-    setIsStressTesterOpen,
-    openStressTester: () => {
-      triggerAudioPulse();
-      playTactileClickSound();
-      setIsStressTesterOpen(true);
-    },
-    closeStressTester: () => {
-      triggerAudioPulse();
-      playTactileClickSound();
-      setIsStressTesterOpen(false);
-    },
-    toggleStressTester: () => {
-      triggerAudioPulse();
-      playTactileClickSound();
-      setIsStressTesterOpen((prev) => !prev);
     },
     isAdrsOpen,
     setIsAdrsOpen,
@@ -276,11 +223,6 @@ export function SystemCommandProvider({ children }) {
       triggerAudioPulse();
       playTactileClickSound();
       setIsAdrsOpen(false);
-    },
-    toggleDiagnostics: () => {
-      triggerAudioPulse();
-      playTactileClickSound();
-      setIsDiagnosticsOpen((prev) => !prev);
     },
     activeFilter: activeIncidentFilter,
     setActiveFilter: (filter) => {

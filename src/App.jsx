@@ -13,10 +13,8 @@ import CursorFollower from "./components/CursorFollower";
 const SpatialCanvasBackground = React.lazy(() => import("./SpatialCanvasBackground"));
 import ContactModal from "./components/ContactModal";
 import GlobalSearchModal from "./components/GlobalSearchModal";
-import DiagnosticsOverlay from "./components/DiagnosticsOverlay";
 import EnterpriseArchitectureExplorer from "./components/EnterpriseArchitectureExplorer";
 import EngineeringDecisionsModal from "./components/EngineeringDecisionsModal";
-import TelemetryStressTesterModal from "./components/TelemetryStressTesterModal";
 import ResumeModal from "./components/ResumeModal";
 import FlagshipProjectsModal from "./components/FlagshipProjectsModal";
 
@@ -149,10 +147,8 @@ export default function App() {
 
             <ContactModal />
             <GlobalSearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} />
-            <DiagnosticsOverlay />
             <EnterpriseArchitectureExplorer />
             <EngineeringDecisionsModal />
-            <TelemetryStressTesterModal />
             <ResumeModal />
             <FlagshipProjectsModal />
           </div>
