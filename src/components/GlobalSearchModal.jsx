@@ -53,12 +53,12 @@ const FEATURED = [
 
 const ARCHIVE_RAIL = ["Work", "Records", "Maps", "Docs"];
 
-function FeaturedTile({ result, index, isSelected, onClick, onHover, wide = false }) {
+function FeaturedTile({ result, isSelected, onClick, onHover, wide = false, resultRef }) {
   const Icon = result.icon;
   return (
     <button
       type="button"
-      ref={(el) => {}}
+      ref={resultRef}
       onClick={onClick}
       onMouseEnter={onHover}
       className={cn(
@@ -315,11 +315,11 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
                       <FeaturedTile
                         key={result.id}
                         result={result}
-                        index={index}
                         isSelected={index === selectedIndex}
                         onClick={() => handleResultClick(result)}
                         onHover={() => setSelectedIndex(index)}
                         wide
+                        resultRef={(el) => (resultRefs.current[index] = el)}
                       />
                     ))}
                     <div className="grid gap-2">
@@ -329,10 +329,10 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
                           <FeaturedTile
                             key={result.id}
                             result={result}
-                            index={nextIndex}
                             isSelected={nextIndex === selectedIndex}
                             onClick={() => handleResultClick(result)}
                             onHover={() => setSelectedIndex(nextIndex)}
+                            resultRef={(el) => (resultRefs.current[nextIndex] = el)}
                           />
                         );
                       })}
@@ -347,10 +347,10 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
                       <FeaturedTile
                         key={result.id}
                         result={result}
-                        index={nextIndex}
                         isSelected={nextIndex === selectedIndex}
                         onClick={() => handleResultClick(result)}
                         onHover={() => setSelectedIndex(nextIndex)}
+                        resultRef={(el) => (resultRefs.current[nextIndex] = el)}
                       />
                     );
                   })}
