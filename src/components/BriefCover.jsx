@@ -8,6 +8,7 @@ const cn = (...inputs) => twMerge(clsx(inputs));
 
 export function briefFromMission(mission) {
   if (!mission) return {};
+  const authored = mission.brief || {};
   const ledger = mission.decisionLedger?.length
     ? mission.decisionLedger
     : mission.engineeringReview?.decisionLedger || [];
@@ -17,15 +18,20 @@ export function briefFromMission(mission) {
     kicker: mission.domain,
     title: mission.projectName,
     lede:
+      authored.lede ||
       mission.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
       mission.businessImpact,
     situation:
+      authored.situation ||
       mission.engineeringReview?.technicalProblem ||
       mission.businessProblem?.business ||
       mission.missionObjective,
-    choice: first.decision || mission.engineeringIntelligence?.primaryEngineeringPattern,
-    cost: first.tradeoff || first.tradeOffs,
-    consequence: mission.businessImpact,
+    choice:
+      authored.choice ||
+      first.decision ||
+      mission.engineeringIntelligence?.primaryEngineeringPattern,
+    cost: authored.cost || first.tradeoff || first.tradeOffs,
+    consequence: authored.consequence || mission.businessImpact,
   };
 }
 
