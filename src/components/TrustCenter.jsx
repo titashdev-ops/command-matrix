@@ -126,187 +126,160 @@ export default function TrustCenter() {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden md:flex-row">
-        <div className="w-full shrink-0 border-b border-obsidian-border/60 bg-obsidian/45 p-3 md:w-72 md:border-b-0 md:border-r md:p-4">
-          <div className="flex gap-2 overflow-x-auto md:flex-col md:overflow-visible">
-            {TRUST_SECTIONS.map((section) => {
-              const isActive = activeSection === section.id;
-              return (
-                <SectionButton
-                  key={section.id}
-                  section={section}
-                  isActive={isActive}
-                  onClick={() => setActiveSection(section.id)}
-                />
-              );
-            })}
-          </div>
+        <div className="w-full shrink-0 border-b border-obsidian-border/60 bg-obsidian/45 overflow-x-auto overflow-y-hidden p-3 flex flex-row gap-2 md:w-72 md:flex-col md:overflow-y-auto md:overflow-x-hidden md:border-b-0 md:border-r md:p-4">
+          {TRUST_SECTIONS.map((section) => {
+            const isActive = activeSection === section.id;
+            const Icon = section.icon;
+            return (
+              <button type="button"
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors font-sans text-sm tracking-wide",
+                  isActive
+                    ? "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20"
+                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-transparent"
+                )}
+              >
+                <Icon size={14} />
+                <span>{section.label}</span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="relative flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_left,rgba(148,163,184,0.08),transparent_35%)] p-4 sm:p-6">
-          <div className="relative z-10 space-y-5">
-            {activeSection === "benchmarks" && (
-              <SectionShell title={copy.title} lede={copy.lede} accent={copy.accent}>
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <EvidenceCard
-                    title="WebRTC vs HLS"
-                    status="Simulation"
-                    comparison={{
-                      frame: "An operator needs a live-feeling viewport. This is a comparison, not a field test.",
-                      chosen: "WebRTC for the loop.",
-                      notChosen: "HLS. Fine for playback, too slow if someone is still flying.",
-                      consequence: "The model stays in the sub-second range. Treat it as a teaching note, not a measured SLA.",
-                    }}
-                    relatedAdr="adr-001"
-                  />
-                  <EvidenceCard
-                    title="Vectors vs generation"
-                    status="Simulation"
-                    comparison={{
-                      frame: "Retrieval has to stay cheap next to the model.",
-                      chosen: "A vector store at the edge of the prompt.",
-                      notChosen: "Stuffing the whole graph into context.",
-                      consequence: "In this model, lookup is small versus generation. Numbers here are teaching artifacts.",
-                    }}
-                    relatedAdr="adr-003"
-                  />
-                  <EvidenceCard
-                    title="Ingress under burst"
-                    status="Simulation"
-                    comparison={{
-                      frame: "Positions arrive faster than a naive table can take them.",
-                      chosen: "Streaming ingress with a hot cache.",
-                      notChosen: "Polling a cold relational table.",
-                      consequence: "The bottleneck moves to storage IOPS. Not a measured ingest profile.",
-                    }}
-                    relatedAdr="adr-004"
-                  />
-                </div>
-              </SectionShell>
-            )}
+        <div className="flex-1 overflow-y-auto p-6 bg-obsidian/20 relative">
+          {activeSection === "benchmarks" && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <EvidenceCard
+                  title="WebRTC vs HLS"
+                  status="Simulation"
+                  comparison={{
+                    frame: "An operator needs a live-feeling viewport. This is a comparison, not a field test.",
+                    chosen: "WebRTC for the loop.",
+                    notChosen: "HLS. Fine for playback, too slow if someone is still flying.",
+                    consequence: "The model stays in the sub-second range. Treat it as a teaching note, not a measured SLA.",
+                  }}
+                  relatedAdr="adr-001"
+                />
+                <EvidenceCard
+                  title="Vectors vs generation"
+                  status="Simulation"
+                  comparison={{
+                    frame: "Retrieval has to stay cheap next to the model.",
+                    chosen: "A vector store at the edge of the prompt.",
+                    notChosen: "Stuffing the whole graph into context.",
+                    consequence: "In this model, lookup is small versus generation. Numbers here are teaching artifacts.",
+                  }}
+                  relatedAdr="adr-003"
+                />
+                <EvidenceCard
+                  title="Ingress under burst"
+                  status="Simulation"
+                  comparison={{
+                    frame: "Positions arrive faster than a naive table can take them.",
+                    chosen: "Streaming ingress with a hot cache.",
+                    notChosen: "Polling a cold relational table.",
+                    consequence: "The bottleneck moves to storage IOPS. Not a measured ingest profile.",
+                  }}
+                  relatedAdr="adr-004"
+                />
+              </div>
+            </div>
+          )}
 
-            {activeSection === "adrs" && (
-              <SectionShell title={copy.title} lede={copy.lede} accent={copy.accent}>
-                <div className="flex items-center justify-between gap-4 rounded-xl border border-obsidian-border/70 bg-slate-950/60 p-4">
-                  <div>
-                    <p className="font-display text-base font-bold text-white tracking-[-0.02em]">Open the record ledger</p>
-                    <p className="mt-1 max-w-xl font-sans text-sm text-slate-400">Each card shows the choice, the constraint, and the cost of that path.</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={openAdrs}
-                    className="rounded-lg border border-obsidian-border bg-obsidian-surface px-3 py-2 text-xs font-sans text-cyan-electric transition-colors duration-200 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                  >
-                    Open records
-                  </button>
-                </div>
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {ADR_RECORDS.map((adr) => (
-                    <EvidenceCard
-                      key={adr.id}
-                      title={adr.title}
-                      status={adr.currentStatus || "Documented"}
-                      comparison={{
-                        frame: adr.problem,
-                        chosen: adr.decision,
-                        notChosen: (adr.rejectedAlternatives || []).map((a) => a.name).join(" · "),
-                        consequence: adr.consequences,
-                      }}
-                      relatedAdr={adr.id}
-                    />
-                  ))}
-                </div>
-              </SectionShell>
-            )}
-
-            {activeSection === "reports" && (
-              <SectionShell title={copy.title} lede={copy.lede} accent={copy.accent}>
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <EvidenceCard
-                    title="Clinic records"
-                    status="Simulation"
-                    comparison={{
-                      frame: "A clinic cannot guess who saw what.",
-                      chosen: "Short tokens, field encryption, an audit trail.",
-                      notChosen: "Long-lived session cookies on a shared workstation.",
-                      consequence: "The model isolates a record. It is not a certified clinic.",
-                    }}
-                    relatedAdr="adr-005"
-                  />
-                  <div className="rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5">
-                    <p className="kicker text-emerald-400/80">Notes</p>
-                    <h3 className="mt-2 font-display text-xl font-bold tracking-[-0.03em] text-white">Short notes only</h3>
-                    <p className="mt-2 font-sans text-sm text-slate-400">
-                      The public surface stays small. Deeper model detail lives in the archive, not in the room.
-                    </p>
-                  </div>
-                </div>
-              </SectionShell>
-            )}
-
-            {activeSection === "diagrams" && (
-              <SectionShell title={copy.title} lede={copy.lede} accent={copy.accent}>
-                <button
-                  type="button"
-                  onClick={openEnterpriseExplorer}
-                  className="relative w-full overflow-hidden rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-6 text-left transition-colors duration-200 hover:border-cyan-electric/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                >
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,240,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(167,139,250,0.08),transparent_30%)]" />
-                  <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                      <Network size={24} className="text-cyan-electric mb-3" />
-                      <p className="font-display text-2xl font-bold tracking-[-0.03em] text-white">Open the system map</p>
-                      <p className="mt-1 max-w-2xl font-sans text-sm text-slate-400">A spatial view of the case-study systems. Click a node for a short note.</p>
-                    </div>
-                    <span className="inline-flex w-fit items-center gap-2 rounded-full border border-cyan-electric/20 bg-cyan-electric/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-cyan-electric">
-                      Explore
-                      <ArrowRight size={12} />
-                    </span>
-                  </div>
+          {activeSection === "adrs" && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-sans text-sm tracking-wide text-slate-400">Records</h3>
+                <button type="button" onClick={openAdrs} className="px-3 py-1 bg-obsidian-surface hover:bg-slate-800 border border-obsidian-border text-xs font-sans text-cyan-electric rounded transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]">
+                  Open records
                 </button>
-              </SectionShell>
-            )}
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {ADR_RECORDS.map((adr) => (
+                  <EvidenceCard
+                    key={adr.id}
+                    title={adr.title}
+                    status={adr.currentStatus || "Documented"}
+                    comparison={{
+                      frame: adr.problem,
+                      chosen: adr.decision,
+                      notChosen: (adr.rejectedAlternatives || []).map((a) => a.name).join(" · "),
+                      consequence: adr.consequences,
+                    }}
+                    relatedAdr={adr.id}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
-            {activeSection === "resume" && (
-              <SectionShell title={copy.title} lede={copy.lede} accent={copy.accent}>
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <button
-                    type="button"
-                    onClick={openResume}
-                    className="group flex flex-col items-start justify-between gap-8 rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5 text-left transition-colors duration-200 hover:border-cyan-electric/30 hover:bg-cyan-electric/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                  >
-                    <FileText size={24} className="text-cyan-electric" />
-                    <div>
-                      <span className="font-display text-lg font-bold tracking-[-0.03em] text-white">Resume</span>
-                      <span className="mt-1 block text-xs text-slate-500">Open the file.</span>
-                    </div>
-                  </button>
-                  <a
-                    href="https://linkedin.com/in/titashneogi"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col items-start justify-between gap-8 rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5 text-left transition-colors duration-200 hover:border-cyan-electric/30 hover:bg-cyan-electric/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                  >
-                    <LinkIcon size={24} className="text-[#0a66c2]" />
-                    <div>
-                      <span className="font-display text-lg font-bold tracking-[-0.03em] text-white">LinkedIn</span>
-                      <span className="mt-1 block text-xs text-slate-500">Open the profile.</span>
-                    </div>
-                  </a>
-                  <button
-                    type="button"
-                    onClick={openContact}
-                    className="group flex flex-col items-start justify-between gap-8 rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5 text-left transition-colors duration-200 hover:border-emerald-400/30 hover:bg-emerald-400/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                  >
-                    <Mail size={24} className="text-emerald-400" />
-                    <div>
-                      <span className="font-display text-lg font-bold tracking-[-0.03em] text-white">Contact</span>
-                      <span className="mt-1 block text-xs text-slate-500">Open the brief.</span>
-                    </div>
-                  </button>
-                </div>
-              </SectionShell>
-            )}
-          </div>
+          {activeSection === "reports" && (
+            <div className="space-y-4">
+              <h3 className="font-sans text-sm tracking-wide text-slate-400 mb-4">Notes</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <EvidenceCard
+                  title="Clinic records"
+                  status="Simulation"
+                  comparison={{
+                    frame: "A clinic cannot guess who saw what.",
+                    chosen: "Short tokens, field encryption, an audit trail.",
+                    notChosen: "Long-lived session cookies on a shared workstation.",
+                    consequence: "The model isolates a record. It is not a certified clinic.",
+                  }}
+                  relatedAdr="adr-005"
+                />
+              </div>
+            </div>
+          )}
+
+          {activeSection === "diagrams" && (
+            <div className="space-y-4">
+              <h3 className="font-sans text-sm tracking-wide text-slate-400 mb-4">Diagrams</h3>
+              <button
+                type="button"
+                onClick={openEnterpriseExplorer}
+                className="w-full p-8 text-left rounded-xl border border-obsidian-border/70 bg-obsidian/60 hover:border-cyan-electric/40 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+              >
+                <Network size={24} className="text-cyan-electric mb-3" />
+                <p className="font-display text-lg font-bold text-white">Open the system map</p>
+                <p className="mt-1 font-sans text-sm text-slate-400">A spatial view of the case-study systems. Click a node for a short note.</p>
+              </button>
+            </div>
+          )}
+
+          {activeSection === "resume" && (
+            <div className="space-y-4">
+              <h3 className="font-sans text-sm tracking-wide text-slate-400 mb-4">Resume</h3>
+              <div className="flex flex-wrap gap-4">
+                <button type="button"
+                  onClick={openResume}
+                  className="flex flex-col items-center justify-center gap-3 p-6 border border-obsidian-border/60 rounded-lg bg-obsidian-surface hover:bg-slate-800 transition-colors duration-200 cursor-pointer w-44 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px]"
+                >
+                  <FileText size={24} className="text-cyan-electric" />
+                  <span className="font-sans text-xs text-slate-300">Resume</span>
+                </button>
+                <a
+                  href="https://linkedin.com/in/titashneogi"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex flex-col items-center justify-center gap-3 p-6 border border-obsidian-border/60 rounded-lg bg-obsidian-surface hover:bg-slate-800 transition-colors duration-200 cursor-pointer w-44 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px]"
+                >
+                  <LinkIcon size={24} className="text-[#0a66c2]" />
+                  <span className="font-sans text-xs text-slate-300">LinkedIn</span>
+                </a>
+                <button type="button"
+                  onClick={openContact}
+                  className="flex flex-col items-center justify-center gap-3 p-6 border border-obsidian-border/60 rounded-lg bg-obsidian-surface hover:bg-slate-800 transition-colors duration-200 cursor-pointer w-44 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px]"
+                >
+                  <Mail size={24} className="text-emerald-400" />
+                  <span className="font-sans text-xs text-slate-300">Contact</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

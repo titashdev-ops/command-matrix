@@ -269,13 +269,6 @@ function IndexView({ onSelectProject, onClose }) {
         </button>
       </div>
 
-      <div className="shrink-0 mb-4 sm:mb-6 p-3.5 sm:p-5 rounded-xl border border-obsidian-border/80 bg-obsidian-surface/40 backdrop-blur-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-cyan-electric/10 to-transparent pointer-events-none blur-xl" />
-        <p className="lede relative z-10 max-w-2xl">
-          Four named systems first. The rest is supporting work.
-        </p>
-      </div>
-
       {/* Tabs - Scrollable on mobile */}
       <div className="shrink-0 flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6 border-b border-obsidian-border/50 pb-3 sm:pb-4 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap">
         {familyOrder.map(family => {
@@ -313,8 +306,9 @@ function IndexView({ onSelectProject, onClose }) {
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Hero Project */}
-                <div className={cn("lg:col-span-2 flex flex-col items-start text-left p-5 sm:p-8 rounded-xl border border-obsidian-border bg-obsidian-surface/60 transition-all group hover:shadow-lg relative overflow-hidden min-h-[220px]", heroAccent.hoverBorder, heroAccent.boxShadow)}>
-                  <div className={`absolute top-0 right-0 h-48 w-48 bg-gradient-to-bl ${heroAccent.from} to-transparent opacity-10 pointer-events-none blur-2xl group-hover:opacity-20 transition-opacity`} />
+                <div className={cn("lg:col-span-2 flex flex-col items-start text-left p-6 sm:p-10 rounded-2xl border border-obsidian-border bg-obsidian-surface/60 transition-all group hover:shadow-lg relative overflow-hidden min-h-[260px]", heroAccent.hoverBorder, heroAccent.boxShadow)}>
+                  <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                  <div className={`absolute top-0 right-0 h-56 w-56 bg-gradient-to-bl ${heroAccent.from} to-transparent opacity-20 pointer-events-none blur-2xl group-hover:opacity-35 transition-opacity`} />
                   <button type="button"
                     className="absolute inset-0 w-full h-full text-left z-10 min-h-[44px] sm:min-h-[auto]"
                     onClick={() => { playClickSound(); onSelectProject(heroProject); }}
@@ -329,41 +323,22 @@ function IndexView({ onSelectProject, onClose }) {
                     </div>
                   </div>
                   <div className="relative pointer-events-none w-full z-20">
-                    <h4 className={cn("font-sans text-xl sm:text-2xl font-bold tracking-wide mb-2 sm:mb-3 transition-colors", heroAccent.hoverText, "text-slate-200")}>
+                    <h4 className={cn("font-display text-2xl sm:text-4xl font-extrabold tracking-[-0.04em] mb-3 sm:mb-4 transition-colors", heroAccent.hoverText, "text-white")}>
                       {heroProject.projectName}
                     </h4>
-                    <p className="font-sans text-xs text-slate-400 mb-4 sm:mb-6 leading-relaxed max-w-2xl">
-                      {heroProject.missionObjective}
+                    <p className="lede max-w-2xl mb-4 sm:mb-6">
+                      {heroProject.executiveSummary?.split(". ").slice(0, 1).join(". ")}.
                     </p>
-                    <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-3 sm:pt-4 mb-4">
-                      <div className="flex flex-col gap-0.5 sm:gap-1">
+                    <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
+                      <div className="flex flex-col gap-0.5">
                         <span className="kicker text-slate-500">Status</span>
                         <span className="font-sans text-xs text-slate-300">{heroProject.implementationStatus}</span>
                       </div>
-                      <div className="flex flex-col gap-0.5 sm:gap-1">
+                      <div className="flex flex-col gap-0.5">
                         <span className="kicker text-slate-500">Theme</span>
                         <span className="font-sans text-xs text-slate-300">{heroProject.family}</span>
                       </div>
                     </div>
-                    {(() => {
-                      const brief = briefFromMission(heroProject);
-                      return (
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3 bg-obsidian-surface/40 p-3 rounded-lg border border-obsidian-border/50">
-                          <div>
-                            <span className="kicker text-slate-500 block mb-0.5">Situation</span>
-                            <span className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">{brief.situation}</span>
-                          </div>
-                          <div>
-                            <span className="kicker text-slate-500 block mb-0.5">Choice</span>
-                            <span className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">{brief.choice}</span>
-                          </div>
-                          <div>
-                            <span className="kicker text-slate-500 block mb-0.5">Cost</span>
-                            <span className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">{brief.cost}</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
                   </div>
                 </div>
                 

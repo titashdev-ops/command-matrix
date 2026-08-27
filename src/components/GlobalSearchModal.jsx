@@ -8,7 +8,7 @@ import { useSpatial, TABS } from "../SpatialContext";
 import { useModal } from "../hooks/useModal";
 import { CASE_STUDIES } from "../data/missions";
 import { ADR_RECORDS } from "../data/adrs";
-import { overlayFade, modalReveal } from "../lib/motion";
+import { overlayFade, modalReveal, galleryReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 

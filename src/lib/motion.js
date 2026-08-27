@@ -91,3 +91,21 @@ export const ledgerReveal = {
   },
 };
 
+export const noteReveal = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: { duration: 0.35, ease: easeLux },
+  },
+};
+
+export const mapReveal = {
+  initial: { opacity: 0, y: 24, clipPath: "inset(12% 8% 0 8%)" },
+  animate: {
+    opacity: 1,
+    y: 0,
+    clipPath: "inset(0% 0% 0 0%)",
+    transition: { duration: 0.55, ease: easeLux },
+  },
+};
+

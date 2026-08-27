@@ -8,7 +8,7 @@ import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { modalReveal, overlayFade } from "../lib/motion";
+import { modalReveal, overlayFade, ledgerReveal } from "../lib/motion";
 import BriefCover from "./BriefCover";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
@@ -50,14 +50,14 @@ export default function EngineeringDecisionsModal() {
           animate={modalReveal.animate}
           exit={modalReveal.exit}
           transition={modalReveal.transition}
-          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-xl border border-obsidian-border bg-obsidian-surface/95 shadow-2xl overscroll-contain"
+          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border border-emerald-glow/25 bg-obsidian-surface/95 shadow-[0_0_80px_rgba(52,211,153,0.08)] overscroll-contain"
         >
           {/* Header */}
           <div className="flex shrink-0 items-center justify-between border-b border-obsidian-border/60 bg-obsidian/80 p-3 sm:p-4 md:px-6 backdrop-blur-md">
             <div className="flex items-center gap-4">
               <div>
-                <div className="font-display text-sm sm:text-base font-bold tracking-tight text-white">Decision records</div>
-                <div className="font-sans text-xs text-slate-500">Architecture choices, written down</div>
+                <div className="font-display text-lg sm:text-xl font-extrabold tracking-[-0.03em] text-white">Ledger</div>
+                <div className="font-sans text-xs text-slate-500">Picks, written down</div>
               </div>
 
               {/* View Mode Toggle */}
@@ -67,7 +67,7 @@ export default function EngineeringDecisionsModal() {
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1 rounded font-sans text-xs font-bold tracking-wider transition-all",
                     viewMode === "RECORDS"
-                      ? "bg-cyan-electric/20 text-cyan-electric border border-cyan-electric/40"
+                      ? "bg-emerald-glow/15 text-emerald-glow border border-emerald-glow/40"
                       : "text-slate-400 hover:text-white"
                   )}
                 >
