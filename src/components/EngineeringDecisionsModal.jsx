@@ -8,7 +8,8 @@ import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { modalReveal, coverReveal, overlayFade } from "../lib/motion";
+import { modalReveal, overlayFade } from "../lib/motion";
+import BriefCover from "./BriefCover";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -145,39 +146,18 @@ export default function EngineeringDecisionsModal() {
                 {activeAdr && (
                   <motion.div
                     key={activeAdr.id}
-                    {...coverReveal}
                     className="max-w-4xl space-y-8"
                   >
-                    <div className="relative overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/70 p-6 sm:p-8">
-                      <div className="dossier-sheen hidden md:block" aria-hidden="true" />
-                      <div className="relative z-10 space-y-4">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="kicker rounded-full border border-emerald-glow/30 bg-emerald-glow/10 px-2.5 py-1 text-emerald-glow">
-                            {activeAdr.currentStatus === "Verified" ? "Documented" : (activeAdr.currentStatus || "Documented")}
-                          </span>
-                          <span className="kicker text-slate-500">{activeAdr.date}</span>
-                        </div>
-                        <h2 id="adr-title" className="font-display text-2xl sm:text-4xl font-extrabold tracking-[-0.035em] text-white">
-                          {activeAdr.title}
-                        </h2>
-                        <p className="lede">{activeAdr.problem}</p>
-                        <div className="grid sm:grid-cols-2 gap-3 pt-2">
-                          <div className="rounded-xl border border-emerald-glow/25 bg-emerald-glow/5 p-4">
-                            <div className="kicker text-emerald-glow/80 mb-2">Decision</div>
-                            <p className="text-sm text-slate-200">{activeAdr.decision}</p>
-                          </div>
-                          <div className="rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
-                            <div className="kicker text-amber-300/80 mb-2">Trade-off</div>
-                            <p className="text-sm text-slate-300">{activeAdr.tradeoffs}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <section className="space-y-2">
-                      <h3 className="kicker text-slate-500">Context</h3>
-                      <p className="text-sm text-slate-300 leading-relaxed">{activeAdr.context}</p>
-                    </section>
+                    <BriefCover
+                      titleId="adr-title"
+                      status={activeAdr.currentStatus === "Verified" ? "Documented" : (activeAdr.currentStatus || "Documented")}
+                      kicker={activeAdr.date}
+                      title={activeAdr.title}
+                      lede={activeAdr.problem}
+                      situation={activeAdr.context}
+                      choice={activeAdr.decision}
+                      cost={activeAdr.tradeoffs}
+                    />
 
                     {(activeAdr.rejectedAlternatives || []).length > 0 && (
                       <section>

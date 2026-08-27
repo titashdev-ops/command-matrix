@@ -15,8 +15,10 @@ function Block({ icon: Icon, kicker, title, children }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
-      className="rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5 sm:p-7"
+      className="relative overflow-hidden rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5 sm:p-7"
     >
+      <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+      <div className="relative z-10">
       <div className="flex items-center gap-2 mb-4">
         <Icon size={14} className="text-cyan-electric" />
         <span className="kicker text-cyan-electric/80">
@@ -25,6 +27,7 @@ function Block({ icon: Icon, kicker, title, children }) {
       </div>
       <h3 className="font-sans text-lg sm:text-xl font-bold text-white mb-3">{title}</h3>
       {children}
+      </div>
     </motion.section>
   );
 }
@@ -44,7 +47,7 @@ export default function InvestigationFlow({ mission }) {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <Block icon={AlertTriangle} kicker="01 · Situation" title="Why this existed">
+      <Block icon={AlertTriangle} kicker="Situation" title="Why this existed">
         <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
           {mission.businessProblem?.business || mission.missionObjective}
         </p>
@@ -62,7 +65,7 @@ export default function InvestigationFlow({ mission }) {
         )}
       </Block>
 
-      <Block icon={CheckCircle2} kicker="02 · Decision" title="What was chosen">
+      <Block icon={CheckCircle2} kicker="Choice" title="What was chosen">
         <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
           {primaryDecision?.decision || mission.engineeringIntelligence?.primaryEngineeringPattern || "See architecture notes."}
         </p>
@@ -81,7 +84,7 @@ export default function InvestigationFlow({ mission }) {
         )}
       </Block>
 
-      <Block icon={Network} kicker="03 · System" title="How it is shaped">
+      <Block icon={Network} kicker="Shape" title="How it is shaped">
         <p className="font-mono text-xs sm:text-sm text-cyan-electric/90 leading-relaxed">
           {mission.architecture}
         </p>
@@ -94,7 +97,7 @@ export default function InvestigationFlow({ mission }) {
         )}
       </Block>
 
-      <Block icon={BookOpen} kicker="04 · Aftermath" title="What it taught">
+      <Block icon={BookOpen} kicker="Aftermath" title="What it taught">
         <p className="text-sm text-slate-300 leading-relaxed">{mission.businessImpact}</p>
         {mission.lessonsLearned?.length > 0 && (
           <ul className="mt-4 space-y-2">

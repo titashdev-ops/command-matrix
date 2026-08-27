@@ -14,7 +14,8 @@ import { useRef } from "react";
 import { CASE_STUDIES, getEngineeringIntelligence } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
-import { coverReveal, modalReveal, overlayFade } from "../lib/motion";
+import BriefCover from "./BriefCover";
+import { modalReveal, overlayFade } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -142,72 +143,32 @@ const PROJECT_ACCENTS = {
 };
 
 function DossierCover({ project, accent, intel }) {
-  const problem =
+  const situation =
     project.engineeringReview?.technicalProblem ||
     project.businessProblem?.business ||
     project.missionObjective;
-  const decision =
+  const choice =
     project.decisionLedger?.[0]?.decision ||
     intel.primaryEngineeringPattern;
-  const status = project.implementationStatus;
-  const why =
+  const cost =
+    project.decisionLedger?.[0]?.tradeoff ||
+    project.decisionLedger?.[0]?.tradeOffs;
+  const lede =
     project.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
     project.businessImpact;
 
   return (
-    <motion.section
-      {...coverReveal}
-      className="relative overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/75 p-6 sm:p-10 mb-10 shadow-[0_0_90px_rgba(0,240,255,0.1)]"
-    >
-      <div className="dossier-sheen" aria-hidden="true" />
-      <div className={`absolute -right-10 -top-10 h-64 w-64 rounded-full blur-3xl opacity-50 ${accent.bg}`} />
-      <div className="relative z-10 grid gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:items-end">
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={cn("font-mono text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full border", accent.text, accent.bg, accent.border)}>
-              {status}
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-500">
-              {project.domain}
-            </span>
-          </div>
-          <motion.h3
-            layoutId={`case-title-${project.missionId}`}
-            className="font-display text-3xl sm:text-5xl font-extrabold tracking-[-0.035em] text-white drop-shadow-[0_0_30px_rgba(0,240,255,0.16)]"
-          >
-            {project.projectName}
-          </motion.h3>
-          <p className="lede max-w-2xl">
-            {why}
-          </p>
-        </div>
-        <div className="hidden lg:block text-right">
-          <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-slate-500 mb-2">Status</div>
-          <div className={cn("font-display text-4xl font-extrabold tracking-[-0.04em]", accent.text)}>
-            {status}
-          </div>
-        </div>
-      </div>
-      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-8">
-        {[
-          { label: "Problem", value: problem },
-          { label: "Decision", value: decision },
-          { label: "Why it matters", value: why },
-        ].map((cell) => (
-          <div
-            key={cell.label}
-            className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4 backdrop-blur-md"
-          >
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-electric/80 mb-2">
-              {cell.label}
-            </div>
-            <div className="font-sans text-xs sm:text-sm text-slate-200 leading-relaxed line-clamp-4">
-              {cell.value}
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.section>
+    <BriefCover
+      kicker={project.domain}
+      status={project.implementationStatus}
+      title={project.projectName}
+      lede={lede}
+      situation={situation}
+      choice={choice}
+      cost={cost}
+      layoutId={`case-title-${project.missionId}`}
+      className={cn("mb-10", accent.border?.replace("border-", "border-") && "shadow-[0_0_90px_rgba(0,240,255,0.1)]")}
+    />
   );
 }
 

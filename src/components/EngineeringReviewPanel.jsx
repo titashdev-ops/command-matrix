@@ -1,16 +1,6 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { AlertTriangle, CheckCircle2, Lock, GitBranch } from "lucide-react";
-import { coverReveal } from "../lib/motion";
-
-function Cell({ label, children }) {
-  return (
-    <div className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4">
-      <div className="kicker text-amber-300/80 mb-2">{label}</div>
-      <div className="font-sans text-sm text-slate-200 leading-relaxed">{children}</div>
-    </div>
-  );
-}
+import BriefCover from "./BriefCover";
 
 export default function EngineeringReviewPanel({ mission }) {
   if (!mission) return null;
@@ -20,46 +10,30 @@ export default function EngineeringReviewPanel({ mission }) {
   const constraints = review.hardConstraints || [];
   const risks = review.riskReview || {};
   const evolution = review.evolutionReview || [];
-  const problem =
+  const situation =
     review.technicalProblem ||
     mission.businessProblem?.business ||
     mission.missionObjective;
-  const decision = ledger[0]?.decision || "See the brief.";
-  const why =
+  const choice = ledger[0]?.decision || mission.engineeringIntelligence?.primaryEngineeringPattern;
+  const cost = ledger[0]?.tradeoff || ledger[0]?.tradeOffs;
+  const lede =
     mission.executiveSummary?.split(". ").slice(0, 1).join(". ") ||
     mission.businessImpact;
   const status = mission.implementationStatus || "Documented";
 
   return (
     <div className="space-y-8 text-slate-100">
-      <motion.section
-        {...coverReveal}
-        className="relative overflow-hidden rounded-2xl border border-amber-400/25 bg-slate-950/75 p-6 sm:p-8 shadow-[0_0_80px_rgba(251,191,36,0.08)]"
-      >
-        <div className="dossier-sheen hidden md:block" aria-hidden="true" />
-        <div className="relative z-10 space-y-5">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="kicker rounded-full border border-amber-400/40 bg-amber-400/10 px-2.5 py-1 text-amber-300">
-              {status}
-            </span>
-            <span className="kicker text-slate-500">Review</span>
-          </div>
-          <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-[-0.035em] text-white">
-            {mission.projectName}
-          </h2>
-          <p className="lede max-w-2xl">
-            {why}
-          </p>
-          <p className="font-sans text-sm text-slate-500">
-            What I would defend. Not a live SLA.
-          </p>
-        </div>
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6">
-          <Cell label="Problem">{problem}</Cell>
-          <Cell label="Decision">{decision}</Cell>
-          <Cell label="Status">{status} · {mission.classification}</Cell>
-        </div>
-      </motion.section>
+      <BriefCover
+        kicker="Review"
+        status={status}
+        title={mission.projectName}
+        lede={lede}
+        situation={situation}
+        choice={choice}
+        cost={cost}
+        note="What I would defend."
+        className="border-amber-400/25 shadow-[0_0_80px_rgba(251,191,36,0.08)]"
+      />
 
       {constraints.length > 0 && (
         <section>
@@ -102,8 +76,8 @@ export default function EngineeringReviewPanel({ mission }) {
                     Not chosen: {dec.alternative}
                   </p>
                 )}
-                {dec.tradeoff && (
-                  <p className="text-xs text-amber-200/80">Trade-off: {dec.tradeoff}</p>
+                {(dec.tradeoff || dec.tradeOffs) && (
+                  <p className="text-xs text-amber-200/80">Cost: {dec.tradeoff || dec.tradeOffs}</p>
                 )}
               </div>
             </div>
@@ -118,11 +92,22 @@ export default function EngineeringReviewPanel({ mission }) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {risks.currentLimitations && (
-              <Cell label="Limits">{risks.currentLimitations}</Cell>
+              <div className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4">
+                <div className="kicker text-amber-300/80 mb-2">Limits</div>
+                <div className="font-sans text-sm text-slate-200 leading-relaxed">{risks.currentLimitations}</div>
+              </div>
             )}
-            {risks.technicalDebt && <Cell label="Debt">{risks.technicalDebt}</Cell>}
+            {risks.technicalDebt && (
+              <div className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4">
+                <div className="kicker text-amber-300/80 mb-2">Debt</div>
+                <div className="font-sans text-sm text-slate-200 leading-relaxed">{risks.technicalDebt}</div>
+              </div>
+            )}
             {risks.mitigationStrategy && (
-              <Cell label="Mitigation">{risks.mitigationStrategy}</Cell>
+              <div className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4">
+                <div className="kicker text-amber-300/80 mb-2">Mitigation</div>
+                <div className="font-sans text-sm text-slate-200 leading-relaxed">{risks.mitigationStrategy}</div>
+              </div>
             )}
           </div>
         </section>

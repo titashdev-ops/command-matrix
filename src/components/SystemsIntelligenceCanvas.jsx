@@ -1687,15 +1687,15 @@ export default function SystemsIntelligenceCanvas() {
                   {inspectorTab === '4pillar' && activeTopology?.insight && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs mt-2">
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-amber-400 font-bold uppercase tracking-wider block text-[8px]">1. Problem</span>
+                        <span className="text-amber-400 font-bold tracking-wide block text-[10px]">Situation</span>
                         <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.problem}</p>
                       </div>
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-cyan-electric font-bold uppercase tracking-wider block text-[8px]">2. Decision</span>
+                        <span className="text-cyan-electric font-bold tracking-wide block text-[10px]">Choice</span>
                         <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.decision}</p>
                       </div>
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-rose-400 font-bold uppercase tracking-wider block text-[8px]">3. Trade-off</span>
+                        <span className="text-rose-400 font-bold tracking-wide block text-[10px]">Cost</span>
                         <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.tradeoff}</p>
                       </div>
                       <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
@@ -1715,13 +1715,13 @@ export default function SystemsIntelligenceCanvas() {
                             <span className="text-[8px] text-slate-500 uppercase">{adr.selected.split(' ')[0]}</span>
                           </div>
                           <p className="font-sans text-xs text-slate-300">
-                            <span className="text-cyan-electric font-sans text-[8px] uppercase font-bold">Problem: </span>{adr.problem}
+                            <span className="text-cyan-electric font-sans text-[10px] tracking-wide font-semibold">Situation </span>{adr.problem}
                           </p>
                           <p className="font-sans text-xs text-slate-300">
-                            <span className="text-amber-300 font-sans text-[8px] uppercase font-bold">Selected: </span>{adr.selected}
+                            <span className="text-amber-300 font-sans text-[10px] tracking-wide font-semibold">Choice </span>{adr.selected}
                           </p>
                           <p className="font-mono text-xs text-slate-400  pt-1">
-                            <span className="text-emerald-glow font-sans text-[8px] uppercase font-bold">Outcome: </span>{adr.outcome}
+                            <span className="text-emerald-glow font-sans text-[10px] tracking-wide font-semibold">Cost </span>{adr.outcome}
                           </p>
                         </div>
                       ))}

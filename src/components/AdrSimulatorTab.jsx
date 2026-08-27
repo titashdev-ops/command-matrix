@@ -392,7 +392,7 @@ export default function AdrSimulatorTab() {
       <div className="flex flex-col gap-4 border-b border-obsidian-border/60 pb-5">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
           <div>
-            <p className="kicker text-cyan-electric/80 mb-2">A path, not a lab</p>
+            <p className="kicker text-cyan-electric/80 mb-2">Situation · Choice · Cost</p>
             <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-[-0.03em] text-white">
               {activeScenario.title}
             </h2>
