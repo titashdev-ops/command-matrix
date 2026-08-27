@@ -295,7 +295,7 @@ const MISSION_TOPOLOGIES = {
     links: [
       { 
         from: "grpc-broker", to: "c2-core", 
-        relation: "Dispatches Ingress", 
+        relation: "Ingress", 
         type: "Ingress Pipeline",
         reason: "Translates raw UDP telemetry pings into multiplexed gRPC byte streams.",
         significance: "Bypasses TCP connection setup overhead while enforcing type-safe Protocol Buffer schemas.",
@@ -303,7 +303,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "h3-spatial", to: "c2-core", 
-        relation: "Provides Indexing", 
+        relation: "Index", 
         type: "Spatial Partitioning",
         reason: "Supplies Resolution-9 spatial keys to evaluate airborne collision bounds in real time.",
         significance: "Transforms O(N^2) distance calculations into O(1) grid cell lookup queries.",
@@ -311,7 +311,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "c2-core", to: "webrtc-stream", 
-        relation: "Routes Media Sync", 
+        relation: "Sync", 
         type: "Media Synchronization",
         reason: "Synchronizes telemetry timestamps with WebRTC RTP video frame presentation clocks.",
         significance: "Guarantees that telemetry metrics match camera frame visual positioning precisely.",
@@ -319,7 +319,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "c2-core", to: "circuit-breaker", 
-        relation: "Monitors Saturation", 
+        relation: "Shed", 
         type: "Resilience Guard",
         reason: "Continuously measures channel queue pressure and trips fallback if bandwidth exceeds 95%.",
         significance: "Protects central C2 server from memory exhaustion during extreme cellular burst spikes.",
@@ -327,7 +327,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "c2-core", to: "timescale-db", 
-        relation: "Persists Telemetry", 
+        relation: "Store", 
         type: "Storage Partitioning",
         reason: "Pushes compressed telemetry chunks into hypertable stores for historical trajectory replay.",
         significance: "Achieves 74% disk compression and sub-second analytical queries across 100M+ pings.",
@@ -335,7 +335,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "grpc-broker", to: "h3-spatial", 
-        relation: "Queries Edge Bounds", 
+        relation: "Bounds", 
         type: "Edge Spatial Query",
         reason: "Directly queries local spatial indices at the edge to reduce central roundtrip latency.",
         significance: "Allows edge gateways to evaluate immediate drone proximity before central dispatch.",
@@ -517,7 +517,7 @@ const MISSION_TOPOLOGIES = {
     links: [
       { 
         from: "hipaa-audit", to: "event-store", 
-        relation: "Encrypts PHI", 
+        relation: "Lock", 
         type: "Zero-Knowledge Enforcer",
         reason: "Applies field-level zero-knowledge encryption before events are persisted.",
         significance: "Guarantees Protected Health Information (PHI) is unreadable even if storage drives are compromised.",
@@ -525,7 +525,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "dental-chart", to: "event-store", 
-        relation: "Dispatches Events", 
+        relation: "Log", 
         type: "Clinical Event Dispatch",
         reason: "Emits procedure code events directly to the event store.",
         significance: "Triggers optimistic 3D odontogram updates in sub-10ms.",
@@ -533,7 +533,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "event-store", to: "dicom-pipe", 
-        relation: "Triggers Processing", 
+        relation: "Work", 
         type: "Async Worker Trigger",
         reason: "Emits DICOM ingestion events that kick off GPU contrast normalization workers.",
         significance: "Processes 100MB+ dental X-rays asynchronously into 200ms WebP progressive tiles.",
@@ -541,7 +541,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "event-store", to: "multi-tenant", 
-        relation: "Isolates Tenancy", 
+        relation: "Isolate", 
         type: "Tenant Boundary",
         reason: "Routes persistent event streams to practice-specific isolated database schemas.",
         significance: "Prevents cross-clinic data leakage in shared SaaS cloud environments.",
@@ -549,7 +549,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         from: "event-store", to: "sync-relays", 
-        relation: "Replicates Local", 
+        relation: "Pair", 
         type: "Offline Replication",
         reason: "Pushes state log projections to local clinic hardware relays for offline redundancy.",
         significance: "Allows clinic surgeries to proceed normally without internet access.",
@@ -706,11 +706,11 @@ const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { from: "biometric-ingest", to: "fhir-bus", relation: "Streams Metrics", type: "Biometric Ingestion", reason: "Pushes filtered heart-rate & kinematic sensor pings to FHIR bus.", significance: "Standardizes wearable metrics into FHIR Observation resources.", tradeoff: "Minor 50ms Kalman filter smoothing delay." },
-      { from: "cds-engine", to: "fhir-bus", relation: "Evaluates Safety", type: "Clinical Safety Guard", reason: "Flags joint over-extension anomalies against safety corridors.", significance: "Alerts clinicians instantly when patient risks re-injury.", tradeoff: "Rule thresholds must be validated by medical boards." },
-      { from: "fhir-bus", to: "rehab-tracker", relation: "Feeds Kinematics", type: "Pose Processing", reason: "Routes pose estimation keypoints to quantify joint flexion angles.", significance: "Provides objective mathematical range-of-motion metrics.", tradeoff: "Requires adequate lighting for mobile camera vision." },
-      { from: "fhir-bus", to: "ehr-bridge", relation: "Syncs Records", type: "EHR Sync Bridge", reason: "Translates modern FHIR observation events back to hospital mainframes.", significance: "Connects web apps with 20-year-old legacy hospital software.", tradeoff: "Requires parsing complex legacy HL7 v2 pipe messages." },
-      { from: "fhir-bus", to: "patient-portal", relation: "Pushes Feedback", type: "Live Biofeedback", reason: "Broadcasts exercise guidance & updated care plans to mobile.", significance: "Doubles patient exercise adherence via visual feedback.", tradeoff: "Requires cross-platform rendering optimizations." }
+      { from: "biometric-ingest", to: "fhir-bus", relation: "Stream", type: "Biometric Ingestion", reason: "Pushes filtered heart-rate & kinematic sensor pings to FHIR bus.", significance: "Standardizes wearable metrics into FHIR Observation resources.", tradeoff: "Minor 50ms Kalman filter smoothing delay." },
+      { from: "cds-engine", to: "fhir-bus", relation: "Guard", type: "Clinical Safety Guard", reason: "Flags joint over-extension anomalies against safety corridors.", significance: "Alerts clinicians instantly when patient risks re-injury.", tradeoff: "Rule thresholds must be validated by medical boards." },
+      { from: "fhir-bus", to: "rehab-tracker", relation: "Pose", type: "Pose Processing", reason: "Routes pose estimation keypoints to quantify joint flexion angles.", significance: "Provides objective mathematical range-of-motion metrics.", tradeoff: "Requires adequate lighting for mobile camera vision." },
+      { from: "fhir-bus", to: "ehr-bridge", relation: "Sync", type: "EHR Sync Bridge", reason: "Translates modern FHIR observation events back to hospital mainframes.", significance: "Connects web apps with 20-year-old legacy hospital software.", tradeoff: "Requires parsing complex legacy HL7 v2 pipe messages." },
+      { from: "fhir-bus", to: "patient-portal", relation: "Loop", type: "Live Biofeedback", reason: "Broadcasts exercise guidance & updated care plans to mobile.", significance: "Doubles patient exercise adherence via visual feedback.", tradeoff: "Requires cross-platform rendering optimizations." }
     ],
     events: [
       "FHIR v4 resource bundle validated",
@@ -862,11 +862,11 @@ const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { from: "arch-index", to: "skill-matrix", relation: "Validates Competency", type: "Skill Validation", reason: "Connects ADR decision records to underlying domain skills.", significance: "Proves theoretical knowledge with concrete decision records.", tradeoff: "Requires updating ADR links as projects evolve." },
-      { from: "project-graph", to: "skill-matrix", relation: "Provides Proof", type: "Code Evidence", reason: "Maps live running codebases as evidence of domain mastery.", significance: "Replaces self-reported skill ratings with verifiable code.", tradeoff: "Requires hosting live interactive application sandboxes." },
-      { from: "skill-matrix", to: "seniority-eval", relation: "Infers Scope", type: "Scope Assessment", reason: "Evaluates systemic architectural ownership and leadership level.", significance: "Provides objective evidence of senior engineering impact.", tradeoff: "Requires periodic metric calibration." },
-      { from: "skill-matrix", to: "impact-analyzer", relation: "Quantifies ROI", type: "Impact Quantification", reason: "Measures latency drops, throughput scaling, and SLA numbers.", significance: "Translates software design choices into business ROI.", tradeoff: "Requires empirical benchmark data collection." },
-      { from: "skill-matrix", to: "export-engine", relation: "Formats Brief", type: "Executive Summary", reason: "Compiles knowledge graph metrics into context-rich technical briefs.", significance: "Enables fast 30-second CTO scans or deep technical audits.", tradeoff: "Requires maintaining adaptive summary views." }
+      { from: "arch-index", to: "skill-matrix", relation: "Proof", type: "Skill Validation", reason: "Connects ADR decision records to underlying domain skills.", significance: "Proves theoretical knowledge with concrete decision records.", tradeoff: "Requires updating ADR links as projects evolve." },
+      { from: "project-graph", to: "skill-matrix", relation: "Proof", type: "Code Evidence", reason: "Maps live running codebases as evidence of domain mastery.", significance: "Replaces self-reported skill ratings with verifiable code.", tradeoff: "Requires hosting live interactive application sandboxes." },
+      { from: "skill-matrix", to: "seniority-eval", relation: "Scope", type: "Scope Assessment", reason: "Evaluates systemic architectural ownership and leadership level.", significance: "Provides objective evidence of senior engineering impact.", tradeoff: "Requires periodic metric calibration." },
+      { from: "skill-matrix", to: "impact-analyzer", relation: "Worth", type: "Impact Quantification", reason: "Measures latency drops, throughput scaling, and SLA numbers.", significance: "Translates software design choices into business ROI.", tradeoff: "Requires empirical benchmark data collection." },
+      { from: "skill-matrix", to: "export-engine", relation: "Cover", type: "Executive Summary", reason: "Compiles knowledge graph metrics into context-rich technical briefs.", significance: "Enables fast 30-second CTO scans or deep technical audits.", tradeoff: "Requires maintaining adaptive summary views." }
     ],
     events: [
       "Capability graph embeddings re-indexed",
@@ -1017,11 +1017,11 @@ const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { from: "vector-vault", to: "context-agent", relation: "Retrieves Context", type: "Semantic Vector Memory", reason: "Feeds semantically retrieved vector memory chunks into local LLM prompts.", significance: "Provides context-aware responses from private journals.", tradeoff: "Requires local vector index maintenance." },
-      { from: "journal-sync", to: "context-agent", relation: "Pushes Syntheses", type: "Commit Parser", reason: "Parses daily git commit messages to update long-term agent memory.", significance: "Passively documents engineering evolution without manual input.", tradeoff: "Requires commit message structure consistency." },
-      { from: "context-agent", to: "task-synthesizer", relation: "Schedules Focus", type: "Cognitive Scheduler", reason: "Transforms project deadlines into optimized deep work blocks.", significance: "Reduces context switching during complex system design.", tradeoff: "Requires discipline to follow generated focus blocks." },
-      { from: "context-agent", to: "zk-auth", relation: "Authenticates Access", type: "Hardware Security Guard", reason: "Verifies YubiKey hardware tokens before unlocking private memory.", significance: "Guarantees zero access if physical workstation is stolen.", tradeoff: "Key loss requires secure recovery passphrase phrase entry." },
-      { from: "context-agent", to: "offline-sync", relation: "Replicates Local", type: "P2P Mesh Replication", reason: "Pushes encrypted delta updates to local P2P devices.", significance: "Syncs desktop and laptop notes with zero cloud servers.", tradeoff: "Devices must share a local network to sync." }
+      { from: "vector-vault", to: "context-agent", relation: "Memory", type: "Semantic Vector Memory", reason: "Feeds semantically retrieved vector memory chunks into local LLM prompts.", significance: "Provides context-aware responses from private journals.", tradeoff: "Requires local vector index maintenance." },
+      { from: "journal-sync", to: "context-agent", relation: "Journal", type: "Commit Parser", reason: "Parses daily git commit messages to update long-term agent memory.", significance: "Passively documents engineering evolution without manual input.", tradeoff: "Requires commit message structure consistency." },
+      { from: "context-agent", to: "task-synthesizer", relation: "Focus", type: "Cognitive Scheduler", reason: "Transforms project deadlines into optimized deep work blocks.", significance: "Reduces context switching during complex system design.", tradeoff: "Requires discipline to follow generated focus blocks." },
+      { from: "context-agent", to: "zk-auth", relation: "Key", type: "Hardware Security Guard", reason: "Verifies YubiKey hardware tokens before unlocking private memory.", significance: "Guarantees zero access if physical workstation is stolen.", tradeoff: "Key loss requires secure recovery passphrase phrase entry." },
+      { from: "context-agent", to: "offline-sync", relation: "Pair", type: "P2P Mesh Replication", reason: "Pushes encrypted delta updates to local P2P devices.", significance: "Syncs desktop and laptop notes with zero cloud servers.", tradeoff: "Devices must share a local network to sync." }
     ],
     events: [
       "Local vector memory vault indexed (0 remote calls)",
@@ -1098,10 +1098,10 @@ const AMBIENT_NODES = [
 ];
 
 const AMBIENT_LINKS = [
-  { from: "amb-1", to: "amb-3", relation: "Streams Ingress", type: "Telemetry Stream", reason: "Feeds raw edge telemetry into central event core.", significance: "Decouples packet ingress from central analytics.", tradeoff: "Requires buffer queue management." },
-  { from: "amb-2", to: "amb-3", relation: "Dispatches Commands", type: "RPC Dispatch", reason: "Routes edge C2 commands through event router.", significance: "Provides unified audit logs for commands.", tradeoff: "Slight network delay over direct RPC." },
-  { from: "amb-3", to: "amb-4", relation: "Indexes Knowledge", type: "Metadata Indexing", reason: "Pushes system event metadata into knowledge graph.", significance: "Builds real-time operational knowledge graph.", tradeoff: "Graph index updates must be throttled." },
-  { from: "amb-3", to: "amb-5", relation: "Persists Events", type: "Audit Log Writer", reason: "Writes immutable event logs to store.", significance: "Guarantees 100% auditability for medical events.", tradeoff: "Append-only logs require chunk retention rules." }
+  { from: "amb-1", to: "amb-3", relation: "Ingress", type: "Telemetry Stream", reason: "Feeds raw edge telemetry into central event core.", significance: "Decouples packet ingress from central analytics.", tradeoff: "Requires buffer queue management." },
+  { from: "amb-2", to: "amb-3", relation: "Command", type: "RPC Dispatch", reason: "Routes edge C2 commands through event router.", significance: "Provides unified audit logs for commands.", tradeoff: "Slight network delay over direct RPC." },
+  { from: "amb-3", to: "amb-4", relation: "Index", type: "Metadata Indexing", reason: "Pushes system event metadata into knowledge graph.", significance: "Builds real-time operational knowledge graph.", tradeoff: "Graph index updates must be throttled." },
+  { from: "amb-3", to: "amb-5", relation: "Log", type: "Audit Log Writer", reason: "Writes immutable event logs to store.", significance: "Guarantees 100% auditability for medical events.", tradeoff: "Append-only logs require chunk retention rules." }
 ];
 
 export default function SystemsIntelligenceCanvas() {
@@ -1221,7 +1221,7 @@ export default function SystemsIntelligenceCanvas() {
     }
   };
 
-  const activeNode = hoveredNode || selectedNode;
+  const activeNode = selectedNode;
 
   // Phase 9: Focus Mode - compute connected node IDs for the active node
   const connectedNodeIds = useMemo(() => {
@@ -1446,33 +1446,14 @@ export default function SystemsIntelligenceCanvas() {
         <AnimatePresence>
           {hoveredLink && (
             <motion.div
-              initial={{ opacity: 0, y: 5, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 5, scale: 0.95 }}
-              className="absolute top-4 left-1/2 -translate-x-1/2 z-40 max-w-sm w-11/12 p-3 rounded-lg border border-cyan-electric/70 bg-slate-950/98 shadow-2xl backdrop-blur-2xl font-sans text-xs space-y-1.5 pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute top-4 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
             >
-              <div className="flex items-center justify-between text-cyan-electric border-b border-obsidian-border/60 pb-1 font-bold uppercase tracking-wider">
-                <span className="flex items-center gap-1">
-                  <Workflow size={11} /> {hoveredLink.type || "Vector Connection"}
-                </span>
-                <span className="text-slate-400 font-normal">{hoveredLink.relation}</span>
-              </div>
-              <p className="text-slate-300 font-sans text-xs leading-tight">
-                <span className="font-bold text-cyan-electric uppercase font-sans text-[8px]">Reason: </span>
-                {hoveredLink.reason || hoveredLink.detail}
-              </p>
-              {hoveredLink.significance && (
-                <p className="text-slate-300 font-sans text-xs leading-tight">
-                  <span className="font-bold text-emerald-glow uppercase font-sans text-[8px]">Significance: </span>
-                  {hoveredLink.significance}
-                </p>
-              )}
-              {hoveredLink.tradeoff && (
-                <p className="text-slate-400 font-mono text-xs leading-tight pt-1 ">
-                  <span className="font-bold text-rose-400 uppercase font-sans text-[8px]">Trade-off Accepted: </span>
-                  {hoveredLink.tradeoff}
-                </p>
-              )}
+              <span className="kicker rounded-full border border-cyan-electric/30 bg-slate-950/90 px-3 py-1 text-cyan-electric">
+                {hoveredLink.relation}
+              </span>
             </motion.div>
           )}
         </AnimatePresence>

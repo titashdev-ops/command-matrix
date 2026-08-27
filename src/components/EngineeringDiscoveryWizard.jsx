@@ -380,17 +380,17 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-5">
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
-                    <Building2 size={16} className="text-amber-400" /> Architectural Context
+                  <h3 className="text-base font-bold text-white font-sans">
+                    A little more
                   </h3>
                   <p className="text-xs text-slate-400 mt-1 font-sans">
-                    Define the system boundaries, scale requirements, and constraints.
+                    Enough to write the note. Nothing else.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label htmlFor="currentArch" className="font-sans text-xs tracking-wide text-slate-400">Current architecture</label>
+                    <label htmlFor="currentArch" className="font-sans text-xs tracking-wide text-slate-400">What you have</label>
                     <input
                       id="currentArch"
                       type="text"
@@ -398,11 +398,11 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                       value={wizardState.currentArch}
                       onChange={(e) => setWizardState(prev => ({ ...prev, currentArch: sanitizeInput(e.target.value, 150) }))}
                       className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="e.g. Monolith, Event-Driven Microservices"
+                      placeholder="A monolith. A few services."
                     />
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="targetScale" className="font-sans text-xs tracking-wide text-slate-400">Target scale</label>
+                    <label htmlFor="targetScale" className="font-sans text-xs tracking-wide text-slate-400">How big</label>
                     <input
                       id="targetScale"
                       type="text"
@@ -410,14 +410,14 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                       value={wizardState.targetScale}
                       onChange={(e) => setWizardState(prev => ({ ...prev, targetScale: sanitizeInput(e.target.value, 150) }))}
                       className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="e.g. 50k RPS, 100M rows/day"
+                      placeholder="Tens of clinics. One fleet."
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="primaryConstraint" className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">
-                    Primary Operational Constraint
+                  <label htmlFor="primaryConstraint" className="font-sans text-xs tracking-wide text-slate-400">
+                    The bind
                   </label>
                   <input
                     id="primaryConstraint"
@@ -426,12 +426,12 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     value={wizardState.primaryConstraint}
                     onChange={(e) => setWizardState(prev => ({ ...prev, primaryConstraint: sanitizeInput(e.target.value, 200) }))}
                     className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                    placeholder="e.g. Sub-50ms P99 Latency, Strict HIPAA Isolation"
+                    placeholder="It has to stay private. It has to feel instant."
                   />
                 </div>
                 
                 <div className="space-y-1">
-                  <label htmlFor="integrations" className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">Core Integrations / Dependencies</label>
+                  <label htmlFor="integrations" className="font-sans text-xs tracking-wide text-slate-400">What it talks to</label>
                   <input
                     id="integrations"
                     type="text"
@@ -439,13 +439,13 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     value={wizardState.integrations}
                     onChange={(e) => setWizardState(prev => ({ ...prev, integrations: sanitizeInput(e.target.value, 150) }))}
                     className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                    placeholder="e.g. Kafka, Postgres, legacy mainframe"
+                    placeholder="Postgres. A hospital feed. Nothing yet."
                   />
                 </div>
 
                 <div className="pt-2  grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label htmlFor="wizName" className="font-sans text-xs tracking-wide text-slate-400">Name *</label>
+                    <label htmlFor="wizName" className="font-sans text-xs tracking-wide text-slate-400">Your name</label>
                     <input
                       id="wizName"
                       required aria-required="true"
@@ -454,11 +454,11 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                       value={wizardState.name}
                       onChange={(e) => setWizardState(prev => ({ ...prev, name: sanitizeInput(e.target.value, 100) }))}
                       className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="e.g. Alex Rivera"
+                      placeholder="Alex"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label htmlFor="wizEmail" className="font-sans text-xs tracking-wide text-slate-400">Email *</label>
+                    <label htmlFor="wizEmail" className="font-sans text-xs tracking-wide text-slate-400">Where to reply</label>
                     <input
                       id="wizEmail"
                       required aria-required="true"
@@ -467,7 +467,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                       value={wizardState.email}
                       onChange={(e) => setWizardState(prev => ({ ...prev, email: sanitizeInput(e.target.value, 150) }))}
                       className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="alex@company.com"
+                      placeholder="alex@studio.com"
                     />
                   </div>
                 </div>
