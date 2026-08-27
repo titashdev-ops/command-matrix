@@ -480,77 +480,29 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                 )}
               </motion.div>
             )}
-            {/* STEP 3: Engineering Opportunity Summary */}
             {step === 3 && (
               <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5">
-                <div className="p-4 rounded-xl bg-slate-900/90 border border-amber-400/40 shadow-xl space-y-4">
-                  <div className="flex items-center justify-between border-b border-amber-400/20 pb-3">
-                    <div className="flex items-center gap-2">
-                      <FileText size={18} className="text-amber-400" />
-                      <div>
-                        <div className="kicker text-amber-400 font-semibold">
-                          The note
-                        </div>
-                        <h4 className="text-sm font-bold text-white font-sans">
-                          {currentProblem.title}
-                        </h4>
-                      </div>
-                    </div>
-                    <span className="font-sans text-xs px-2.5 py-1 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold">
-                      {currentService.timeframe}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-sans text-slate-300">
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                      <span className="kicker text-cyan-electric block">
-                        What's stuck
-                      </span>
-                      <p className="text-slate-300 leading-relaxed text-sm">
+                <div className="relative overflow-hidden p-5 rounded-xl bg-slate-900/90 border border-amber-400/40 space-y-4">
+                  <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                  <div className="relative z-10">
+                    <div className="kicker text-amber-400 mb-2">The note</div>
+                    <h4 className="font-display text-2xl font-extrabold tracking-[-0.035em] text-white mb-4">
+                      {currentProblem.title}
+                    </h4>
+                    <div className="space-y-3 font-sans text-sm text-slate-300 leading-relaxed">
+                      <p>
+                        <span className="kicker text-slate-500 mr-2">Stuck</span>
                         {currentProblem.desc}
                       </p>
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                      <span className="kicker text-rose-400 block">
-                        What can go wrong
-                      </span>
-                      <ul className="space-y-1 text-slate-300 text-sm list-disc pl-3">
-                        {currentProblem.typicalRisks.map((r, i) => (
-                          <li key={i}>{r}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                      <span className="font-sans text-xs text-emerald-400 font-bold uppercase block">
-                        3. Core Engineering Opportunities
-                      </span>
-                      <ul className="space-y-1 text-slate-300 text-sm list-disc pl-3">
-                        {currentService.outcomes.map((o, i) => (
-                          <li key={i}>{o}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                      <span className="font-sans text-xs text-violet-400 font-bold uppercase block">
-                        4. AI & Architectural Opportunities
-                      </span>
-                      <p className="text-slate-300 leading-relaxed text-sm">
-                        Deploy deterministic schema-constrained parsing, automated observability, and zero-hallucination agentic safeguards.
+                      <p>
+                        <span className="kicker text-slate-500 mr-2">The bind</span>
+                        {wizardState.primaryConstraint || currentService.tagline}
+                      </p>
+                      <p>
+                        <span className="kicker text-slate-500 mr-2">Path</span>
+                        {currentService.title}. {currentService.timeframe}.
                       </p>
                     </div>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-amber-400/10 border border-amber-400/30 font-sans space-y-1">
-                    <span className="font-sans text-xs text-amber-300 font-bold uppercase block flex items-center gap-1">
-                      <CheckCircle2 size={12} /> 5. Suggested Next Step & Deliverable
-                    </span>
-                    <p className="text-slate-300 text-xs">
-                      <strong>Recommended Offering:</strong> {currentService.title}.<br />
-                      <strong>Primary Deliverable:</strong> {currentService.deliverable}.
-                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -577,7 +529,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                   onClick={handleNext}
                   className="px-5 py-2.5 rounded-lg border border-cyan-electric/50 bg-cyan-electric/20 text-cyan-electric font-sans text-xs font-bold hover:bg-cyan-electric/30 transition-all duration-200 flex items-center gap-2 shadow-cyan-glow min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
                 >
-                  Continue to {step === 1 ? "Context" : "Summary"} <ChevronRight size={16} />
+                  Continue to {step === 1 ? "who you are" : "the note"} <ChevronRight size={16} />
                 </button>
               ) : (
                 <div className="flex items-center gap-2">
@@ -587,7 +539,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     className="px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-sans text-xs font-bold hover:bg-slate-700 transition-colors duration-200 flex items-center gap-1.5 min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
                   >
                     {copiedSummary ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                    {copiedSummary ? "Copied Brief!" : "Copy Summary"}
+                    {copiedSummary ? "Copied" : "Copy the note"}
                   </button>
 
                   <button
@@ -595,7 +547,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     onClick={handleSubmit}
                     className="px-5 py-2.5 rounded-lg border border-amber-400/60 bg-amber-400/20 text-amber-300 font-sans text-xs font-bold hover:bg-amber-400/30 transition-all duration-200 flex items-center gap-2 shadow-lg min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
                   >
-                    <Mail size={15} /> SUBMIT DISCOVERY BRIEF
+                    <Mail size={15} /> Open mail
                   </button>
                 </div>
               )}

@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
-import { coverReveal, galleryReveal, ledgerReveal, springSoft } from "../lib/motion";
+import { coverReveal, galleryReveal, ledgerReveal, noteReveal, springSoft } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -55,7 +55,7 @@ const TONES = {
     wrap: "border border-obsidian-border/80 shadow-none",
     chip: "border-obsidian-border bg-obsidian text-slate-300",
     cell: "text-slate-500",
-    motion: coverReveal,
+    motion: noteReveal,
     labels: ["Situation", "Choice", "Cost"],
   },
 };

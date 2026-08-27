@@ -58,7 +58,6 @@ export default function TrustCenter() {
         <div className="flex-1 overflow-y-auto p-6 bg-obsidian/20 relative">
           {activeSection === "benchmarks" && (
             <div className="space-y-4">
-              <h3 className="font-sans text-sm tracking-wide text-slate-400 mb-4">Comparisons</h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <EvidenceCard
                   title="WebRTC vs HLS"
