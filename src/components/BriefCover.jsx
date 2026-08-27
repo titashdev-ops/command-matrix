@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
-import { coverReveal, springSoft } from "../lib/motion";
+import { coverReveal, galleryReveal, ledgerReveal, springSoft } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -29,7 +29,38 @@ export function briefFromMission(mission) {
   };
 }
 
-function Cell({ label, children, delay = 0 }) {
+const TONES = {
+  gallery: {
+    wrap: "border border-cyan-electric/25 shadow-[0_0_90px_rgba(0,240,255,0.12)]",
+    chip: "border-cyan-electric/30 bg-cyan-electric/10 text-cyan-electric",
+    cell: "text-cyan-electric/70",
+    motion: galleryReveal,
+    labels: ["Situation", "Choice", "Cost"],
+  },
+  judgment: {
+    wrap: "border border-amber-400/30 shadow-[0_0_80px_rgba(251,191,36,0.12)]",
+    chip: "border-amber-400/40 bg-amber-400/10 text-amber-300",
+    cell: "text-amber-300/80",
+    motion: coverReveal,
+    labels: ["The bind", "What I picked", "What I gave up"],
+  },
+  ledger: {
+    wrap: "border border-emerald-glow/25 shadow-[0_0_70px_rgba(52,211,153,0.1)]",
+    chip: "border-emerald-glow/30 bg-emerald-glow/10 text-emerald-glow",
+    cell: "text-emerald-glow/80",
+    motion: ledgerReveal,
+    labels: ["Why", "Pick", "Price"],
+  },
+  note: {
+    wrap: "border border-obsidian-border/80 shadow-none",
+    chip: "border-obsidian-border bg-obsidian text-slate-300",
+    cell: "text-slate-500",
+    motion: coverReveal,
+    labels: ["Situation", "Choice", "Cost"],
+  },
+};
+
+function Cell({ label, children, delay = 0, toneClass }) {
   if (!children) return null;
   return (
     <motion.div
@@ -38,7 +69,7 @@ function Cell({ label, children, delay = 0 }) {
       transition={{ ...springSoft, delay }}
       className="rounded-xl border border-obsidian-border/70 bg-obsidian/55 p-4 backdrop-blur-md"
     >
-      <div className="kicker text-cyan-electric/70 mb-2">{label}</div>
+      <div className={cn("kicker mb-2", toneClass)}>{label}</div>
       <div className="font-sans text-sm text-slate-200 leading-relaxed">{children}</div>
     </motion.div>
   );
@@ -58,12 +89,15 @@ export default function BriefCover({
   titleId,
   className,
   compact = false,
+  tone = "gallery",
 }) {
+  const t = TONES[tone] || TONES.gallery;
   return (
     <motion.section
-      {...coverReveal}
+      {...t.motion}
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-cyan-electric/20 bg-slate-950/70 shadow-[0_0_70px_rgba(0,240,255,0.08)]",
+        "relative overflow-hidden rounded-2xl bg-slate-950/70",
+        t.wrap,
         compact ? "p-4 sm:p-5" : "p-6 sm:p-8",
         className
       )}
@@ -72,7 +106,7 @@ export default function BriefCover({
       <div className="relative z-10 space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           {status && (
-            <span className="kicker rounded-full border border-cyan-electric/30 bg-cyan-electric/10 px-2.5 py-1 text-cyan-electric">
+            <span className={cn("kicker rounded-full border px-2.5 py-1", t.chip)}>
               {status}
             </span>
           )}
@@ -94,9 +128,9 @@ export default function BriefCover({
         {note && <p className="font-sans text-sm text-slate-500">{note}</p>}
         {(situation || choice || cost) && (
           <div className={cn("grid gap-3", compact ? "sm:grid-cols-2" : "sm:grid-cols-3", !compact && "pt-2")}>
-            <Cell label="Situation" delay={0.04}>{situation}</Cell>
-            <Cell label="Choice" delay={0.1}>{choice}</Cell>
-            <Cell label="Cost" delay={0.16}>{cost}</Cell>
+            <Cell label={t.labels[0]} delay={0.04} toneClass={t.cell}>{situation}</Cell>
+            <Cell label={t.labels[1]} delay={0.1} toneClass={t.cell}>{choice}</Cell>
+            <Cell label={t.labels[2]} delay={0.16} toneClass={t.cell}>{cost}</Cell>
           </div>
         )}
         {consequence && (

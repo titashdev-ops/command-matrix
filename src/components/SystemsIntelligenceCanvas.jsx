@@ -214,7 +214,7 @@ const MISSION_TOPOLOGIES = {
     nodes: [
       { 
         id: "c2-core", 
-        label: "C2 Telemetry Ingestion", 
+        label: "Ingest", 
         x: 50, y: 35, 
         isCore: true, 
         detail: "Ingests 50k telemetry pings/sec with <2ms jitter across distributed UAV clusters.",
@@ -227,7 +227,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "grpc-broker", 
-        label: "gRPC Edge Broker", 
+        label: "Edge", 
         x: 22, y: 18, 
         isCore: false, 
         detail: "Low-latency bi-directional UDP/gRPC gateway operating on edge gateways.",
@@ -240,7 +240,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "h3-spatial", 
-        label: "Spatial Indexer (H3)", 
+        label: "Hexes", 
         x: 78, y: 18, 
         isCore: false, 
         detail: "Hierarchical hexagonal spatial indexing for real-time airspace collision avoidance.",
@@ -253,7 +253,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "webrtc-stream", 
-        label: "WebRTC Video Pipeline", 
+        label: "Viewport", 
         x: 18, y: 68, 
         isCore: false, 
         detail: "Sub-100ms camera feed passthrough with H.264 hardware encoding.",
@@ -266,7 +266,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "circuit-breaker", 
-        label: "Failover Circuit Breaker", 
+        label: "Shed", 
         x: 82, y: 68, 
         isCore: false, 
         detail: "Automatic failover circuit breaker tripping at 95% channel saturation.",
@@ -279,7 +279,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "timescale-db", 
-        label: "Timescale Telemetry DB", 
+        label: "Replay", 
         x: 50, y: 82, 
         isCore: false, 
         detail: "Partitioned hypertable time-series store for trajectory replay and diagnostics.",
@@ -437,7 +437,7 @@ const MISSION_TOPOLOGIES = {
     nodes: [
       { 
         id: "event-store", 
-        label: "Clinical Event Store", 
+        label: "Events", 
         x: 50, y: 35, 
         isCore: true, 
         detail: "Immutable append-only event store for clinical audit trails and state projections.",
@@ -450,7 +450,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "hipaa-audit", 
-        label: "HIPAA Audit Guard", 
+        label: "Lock", 
         x: 20, y: 20, 
         isCore: false, 
         detail: "Zero-knowledge encryption for PHI data streams with strict RBAC enforcement.",
@@ -463,7 +463,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "dental-chart", 
-        label: "Dental Charting Engine", 
+        label: "Chart", 
         x: 80, y: 20, 
         isCore: false, 
         detail: "3D real-time odontogram state reducer with optimistic UI synchronization.",
@@ -476,7 +476,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "dicom-pipe", 
-        label: "DICOM Image Pipeline", 
+        label: "X-ray", 
         x: 18, y: 68, 
         isCore: false, 
         detail: "Automated radiograph image ingestion with GPU-accelerated contrast normalization.",
@@ -489,7 +489,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "multi-tenant", 
-        label: "Multi-Tenant Router", 
+        label: "Tenants", 
         x: 82, y: 68, 
         isCore: false, 
         detail: "Tenant isolation gateway providing dynamic database schema partitioning.",
@@ -502,7 +502,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "sync-relays", 
-        label: "Clinic Local Sync Relay", 
+        label: "Offline", 
         x: 50, y: 82, 
         isCore: false, 
         detail: "Offline-first clinic local node relay with automatic peer reconciliations.",
@@ -628,7 +628,7 @@ const MISSION_TOPOLOGIES = {
     nodes: [
       { 
         id: "fhir-bus", 
-        label: "FHIR v4 Event Bus", 
+        label: "Bus", 
         x: 50, y: 35, 
         isCore: true, 
         detail: "Interoperable clinical message broker streaming FHIR v4 compliant health records.",
@@ -641,7 +641,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "biometric-ingest", 
-        label: "Biometric Ingestion", 
+        label: "Wearable", 
         x: 22, y: 18, 
         isCore: false, 
         detail: "High-frequency wearable telemetry for heart-rate variability and kinematic tracking.",
@@ -654,7 +654,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "cds-engine", 
-        label: "Clinical Decision Support", 
+        label: "Corridor", 
         x: 78, y: 18, 
         isCore: false, 
         detail: "Rules-based automated engine evaluating recovery trajectory against clinical benchmarks.",
@@ -667,7 +667,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "rehab-tracker", 
-        label: "Physio Rehab Tracker", 
+        label: "Pose", 
         x: 18, y: 68, 
         isCore: false, 
         detail: "Computer vision kinematic range-of-motion angle quantification worker.",
@@ -680,7 +680,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "ehr-bridge", 
-        label: "Enterprise EHR Bridge", 
+        label: "Translate", 
         x: 82, y: 68, 
         isCore: false, 
         detail: "Bidirectional converter translating HL7 v2 messages to modern FHIR streams.",
@@ -693,7 +693,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "patient-portal", 
-        label: "Patient Mobile Portal", 
+        label: "Practice", 
         x: 50, y: 82, 
         isCore: false, 
         detail: "End-to-end encrypted mobile client receiving real-time clinical exercise plans.",
@@ -784,7 +784,7 @@ const MISSION_TOPOLOGIES = {
     nodes: [
       { 
         id: "skill-matrix", 
-        label: "Skill Vector Matrix", 
+        label: "Skills", 
         x: 50, y: 35, 
         isCore: true, 
         detail: "High-dimensional vector embedding space connecting engineering domain competencies.",
@@ -797,7 +797,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "arch-index", 
-        label: "Architectural Index", 
+        label: "Notes", 
         x: 22, y: 20, 
         isCore: false, 
         detail: "Structured mapping linking engineering decisions directly to live proof assets.",
@@ -810,7 +810,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "project-graph", 
-        label: "Project Evidence Graph", 
+        label: "Cases", 
         x: 78, y: 20, 
         isCore: false, 
         detail: "Dynamic dependency graph mapping case studies to architectural artifacts.",
@@ -823,7 +823,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "seniority-eval", 
-        label: "Seniority Evaluator", 
+        label: "Scope", 
         x: 18, y: 68, 
         isCore: false, 
         detail: "Quantifies technical scope, architectural ownership, and systemic business impact.",
@@ -836,7 +836,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "impact-analyzer", 
-        label: "Impact Metrics Analyzer", 
+        label: "Model", 
         x: 82, y: 68, 
         isCore: false, 
         detail: "Calculates throughput improvements, latency drops, and availability metrics.",
@@ -849,7 +849,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "export-engine", 
-        label: "Portfolio Exporter", 
+        label: "Cover", 
         x: 50, y: 82, 
         isCore: false, 
         detail: "Generates context-aware technical briefs for engineering leadership.",
@@ -939,7 +939,7 @@ const MISSION_TOPOLOGIES = {
     nodes: [
       { 
         id: "context-agent", 
-        label: "Contextual Agent Core", 
+        label: "Local model", 
         x: 50, y: 35, 
         isCore: true, 
         detail: "Local private LLM orchestrator running on dedicated hardware for deep contextual synthesis.",
@@ -952,7 +952,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "vector-vault", 
-        label: "Private Vector Vault", 
+        label: "Vault", 
         x: 22, y: 18, 
         isCore: false, 
         detail: "Encrypted local LanceDB vector store holding personal engineering journal entries.",
@@ -965,7 +965,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "journal-sync", 
-        label: "Automated Journal Sync", 
+        label: "Journal", 
         x: 78, y: 18, 
         isCore: false, 
         detail: "Synthesizes daily commit logs, ADR updates, and architectural notes into a knowledge graph.",
@@ -978,7 +978,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "task-synthesizer", 
-        label: "Focus Synthesizer", 
+        label: "Focus", 
         x: 18, y: 68, 
         isCore: false, 
         detail: "Dynamic priority scheduler structuring deep work blocks based on cognitive load.",
@@ -991,7 +991,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "zk-auth", 
-        label: "Zero-Knowledge Vault", 
+        label: "Key", 
         x: 82, y: 68, 
         isCore: false, 
         detail: "Hardware security key authorization protecting context access.",
@@ -1004,7 +1004,7 @@ const MISSION_TOPOLOGIES = {
       },
       { 
         id: "offline-sync", 
-        label: "Offline Sync Manager", 
+        label: "Pair", 
         x: 50, y: 82, 
         isCore: false, 
         detail: "Encrypted peer-to-peer device state replication across local workstations.",

@@ -158,6 +158,7 @@ export default function EngineeringDecisionsModal() {
                       choice={activeAdr.decision}
                       cost={activeAdr.tradeoffs}
                       consequence={activeAdr.consequences}
+                      tone="ledger"
                     />
 
                     {(activeAdr.rejectedAlternatives || []).length > 0 && (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Shield, FileText, Activity, Database, Briefcase, Mail, Link as LinkIcon, Network } from "lucide-react";
+import { FileText, Activity, Database, Briefcase, Mail, Link as LinkIcon, Network } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ADR_RECORDS } from "../data/adrs";
@@ -22,13 +22,13 @@ export default function TrustCenter() {
 
   return (
     <div className="flex flex-col h-[75vh] min-h-[500px] border border-obsidian-border/60 rounded-xl overflow-hidden bg-obsidian-surface shadow-2xl">
-      <div className="flex flex-col border-b border-obsidian-border/60 p-6 bg-obsidian/80">
-        <div className="flex items-center gap-3 mb-2">
-          <Shield className="text-emerald-400" size={24} />
-          <h2 className="text-xl font-display font-bold text-slate-100 tracking-[-0.03em]">Evidence</h2>
+      <div className="relative overflow-hidden flex flex-col border-b border-obsidian-border/60 p-6 bg-obsidian/80">
+        <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+        <div className="relative z-10 flex items-center gap-3 mb-2">
+          <h2 className="text-2xl font-display font-extrabold text-slate-100 tracking-[-0.04em]">Comparisons</h2>
         </div>
-        <p className="font-sans text-sm text-slate-400">
-          Short comparisons and notes. Simulations are labeled.
+        <p className="relative z-10 font-sans text-sm text-slate-400">
+          Side by side. Simulations are labeled.
         </p>
       </div>
 

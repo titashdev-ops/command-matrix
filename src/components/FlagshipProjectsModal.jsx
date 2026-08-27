@@ -149,6 +149,7 @@ function DossierCover({ project, accent }) {
       {...brief}
       layoutId={`case-title-${project.missionId}`}
       className="mb-10"
+      tone="gallery"
     />
   );
 }
@@ -252,8 +253,8 @@ function IndexView({ onSelectProject, onClose }) {
       {/* Header */}
       <div className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
         <div>
-          <h2 id="case-studies-title" className="font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight mb-1 sm:mb-2 flex items-center gap-3">
-            <Layout className="text-cyan-electric shrink-0" size={24} /> Case archive
+          <h2 id="case-studies-title" className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-[-0.04em] mb-1 sm:mb-2">
+            Gallery
           </h2>
           <div className="font-sans text-sm text-slate-500">
             Named systems. Simulations are labeled.

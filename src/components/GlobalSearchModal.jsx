@@ -38,12 +38,12 @@ const SEARCH_DATA = [
     path: "ADR_MODAL",
     payload: adr
   })),
-  { id: "nav-benchmarks", title: "Evidence", lede: "Comparisons and notes. Simulations are labeled.", category: "Docs", icon: Activity, path: "TRUST_CENTER" },
-  { id: "nav-discovery", title: "Start a brief", lede: "A short intake that opens mail.", category: "Tools", icon: Terminal, path: "DISCOVERY_WIZARD" },
-  { id: "nav-vector", title: "Work", lede: "Named case studies on the home surface.", category: "Maps", icon: Map, path: "VECTOR" },
-  { id: "nav-pointcloud", title: "Evidence", lede: "The archive of records and comparisons.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
+  { id: "nav-benchmarks", title: "Comparisons", lede: "Side by side. Simulations are labeled.", category: "Docs", icon: Activity, path: "TRUST_CENTER" },
+  { id: "nav-discovery", title: "Write a note", lede: "A short intake that opens mail.", category: "Tools", icon: Terminal, path: "DISCOVERY_WIZARD" },
+  { id: "nav-vector", title: "Work", lede: "Named systems on the home surface.", category: "Maps", icon: Map, path: "VECTOR" },
+  { id: "nav-pointcloud", title: "Comparisons", lede: "The gallery of notes and records.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
   { id: "nav-airspace", title: "Engage", lede: "Resume and contact.", category: "Maps", icon: Database, path: "AIRSPACE" },
-  { id: "nav-archexplorer", title: "Architecture", lede: "A map of the case-study systems.", category: "Tools", icon: Code, path: "ARCH_EXPLORER" },
+  { id: "nav-archexplorer", title: "Map", lede: "A spatial view of the systems.", category: "Tools", icon: Code, path: "ARCH_EXPLORER" },
 ];
 
 const FEATURED = [
@@ -194,7 +194,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Find a case study or record…"
+                placeholder="Find a case…"
                 value={query}
                 onChange={(e) => { setQuery(e.target.value); setSelectedIndex(0); }}
                 className="w-full bg-transparent px-4 py-2 font-sans text-sm text-slate-200 placeholder-slate-500 focus:outline-none"
@@ -226,10 +226,38 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
             )}
             
             {!query && (
-              <div className="max-h-[60vh] overflow-y-auto p-3">
-                <p className="px-2 pb-2 font-sans text-xs tracking-wide text-slate-500">Featured</p>
-                <div className="space-y-1">
-                  {FEATURED.map((result, index) => renderRow(result, index))}
+              <div className="max-h-[60vh] overflow-y-auto p-4">
+                <p className="kicker text-slate-500 px-1 pb-3">Open first</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {FEATURED.map((result, index) => {
+                    const Icon = result.icon;
+                    const isSelected = index === selectedIndex;
+                    return (
+                      <button type="button"
+                        key={result.id}
+                        ref={el => resultRefs.current[index] = el}
+                        onClick={() => handleResultClick(result)}
+                        onMouseEnter={() => setSelectedIndex(index)}
+                        className={cn(
+                          "relative overflow-hidden text-left rounded-xl border p-4 transition-colors duration-200 min-h-[96px]",
+                          isSelected
+                            ? "border-cyan-electric/40 bg-cyan-electric/10"
+                            : "border-obsidian-border/70 bg-obsidian/50 hover:border-cyan-electric/25"
+                        )}
+                      >
+                        <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                        <div className="relative z-10 flex items-start gap-3">
+                          <Icon size={16} className={isSelected ? "text-cyan-electric" : "text-slate-500"} />
+                          <div className="min-w-0">
+                            <div className="font-display text-sm font-bold tracking-[-0.02em] text-white">{result.title}</div>
+                            {result.lede && (
+                              <p className="mt-1 font-sans text-xs text-slate-500 leading-relaxed line-clamp-2">{result.lede}</p>
+                            )}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

@@ -17,6 +17,7 @@ export default function EvidenceCard({
     <div className="space-y-2">
       <BriefCover
         compact
+        tone="note"
         status={status}
         title={title}
         lede={frame}

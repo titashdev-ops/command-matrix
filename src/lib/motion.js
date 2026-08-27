@@ -71,3 +71,23 @@ export const coverReveal = {
     transition: springBounce,
   },
 };
+
+export const galleryReveal = {
+  initial: { opacity: 0, y: 28, scale: 0.985 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { ...springBounce, delay: 0.05 },
+  },
+};
+
+export const ledgerReveal = {
+  initial: { opacity: 0, x: -12 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: springPrecise,
+  },
+};
+

@@ -18,6 +18,7 @@ export default function EngineeringReviewPanel({ mission }) {
       <BriefCover
         {...brief}
         note="What I would defend."
+        tone="judgment"
         className="border-amber-400/25 shadow-[0_0_80px_rgba(251,191,36,0.08)]"
       />
 

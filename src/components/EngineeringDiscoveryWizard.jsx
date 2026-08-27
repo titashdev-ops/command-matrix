@@ -16,69 +16,69 @@ const cn = (...inputs) => twMerge(clsx(inputs));
 export const SERVICES_LIST = [
   {
     id: "arch-review-diligence",
-    title: "Architecture Review & Due Diligence",
-    tagline: "Rigorous technical audit of codebase health, scaling limits, and bottlenecks.",
-    outcomes: ["Sub-100ms P99 latency target", "Scaling ceiling analysis", "Security & HIPAA readiness"],
-    deliverable: "Executive Technical Audit Report + Code-level Remediation Map",
-    timeframe: "1-2 Weeks"
+    title: "Look over the system",
+    tagline: "Where it will bend. What I would change first.",
+    outcomes: ["The ceiling", "The weak joint", "What to do next"],
+    deliverable: "A short written pass on the system.",
+    timeframe: "1–2 weeks"
   },
   {
     id: "systems-design-prototyping",
-    title: "Systems Design & Prototyping",
-    tagline: "Architect and validate distributed event streams and high-frequency byte proxies.",
-    outcomes: ["Zero premature infrastructure lock-in", "Sub-2ms ingestion jitter", "100% immutable append-only logs"],
-    deliverable: "Production-ready Infrastructure Blueprint + Interactive Prototype",
-    timeframe: "2-3 Weeks"
+    title: "Sketch a path",
+    tagline: "A shape you can try before you pour concrete.",
+    outcomes: ["A working slice", "The trade-off named", "No premature lock-in"],
+    deliverable: "A prototype and the note behind it.",
+    timeframe: "2–3 weeks"
   },
   {
     id: "ai-sprint",
-    title: "AI Strategy & Integration",
-    tagline: "Evaluate on-device vs cloud LLMs, vector-graph hybrid DBs, and schema validation.",
-    outcomes: ["Zero LLM hallucination guarantees", "Air-gapped private search option", "99.8% structural extraction accuracy"],
-    deliverable: "Working AI Pipeline Prototype + Benchmarking Analysis",
-    timeframe: "1 Week"
+    title: "Try a model",
+    tagline: "On-device or in the cloud. Structured output, not a demo chat.",
+    outcomes: ["A pipeline you can kick", "Where it lies", "Whether it stays private"],
+    deliverable: "A small working extract.",
+    timeframe: "1 week"
   },
   {
     id: "workflow-assessment",
-    title: "Operational Workflow Optimization",
-    tagline: "Optimize multi-system integrations across enterprise and custom APIs.",
-    outcomes: ["99.99% service availability SLA", "Sub-24h incident resolution times", "Automated ticket routing"],
-    deliverable: "Enterprise Data Routing Topology + Incident Automation Pipeline",
-    timeframe: "1-2 Weeks"
+    title: "Untangle a workflow",
+    tagline: "Two systems that should talk. The path between them.",
+    outcomes: ["The handoff", "What breaks first", "A simpler route"],
+    deliverable: "A map of the path and the snag.",
+    timeframe: "1–2 weeks"
   }
 ];
 
 export const TECHNICAL_PROBLEMS = [
   {
     id: "concurrency",
-    title: "High-Concurrency Telemetry Streaming",
-    desc: "Ingesting 50k+ events/sec over cellular links with low jitter and zero packet loss.",
-    domain: "Distributed Systems",
-    typicalRisks: ["Head-of-line TCP blocking", "DOM frame stutter", "Write lock contention"],
+    title: "Too many ticks at once",
+    desc: "Positions, frames, or events arriving faster than the view can take them.",
+    domain: "Streaming",
+    typicalRisks: ["The tree re-renders every tick", "The cell drops", "The write lock holds"],
     suggestedService: "systems-design-prototyping"
   },
   {
     id: "compliance",
-    title: "Security & Immutable Audit Trails",
-    desc: "Zero-tamper audit trails, field encryption, and compliance readiness.",
-    domain: "Healthcare & Fintech",
-    typicalRisks: ["PHI data exposure", "Data loss during partition", "Weak auth posture"],
+    title: "Who changed the chart",
+    desc: "A clinic or ledger that cannot lose the trail.",
+    domain: "Trust",
+    typicalRisks: ["A row overwrite", "A shared login", "A missing trail"],
     suggestedService: "arch-review-diligence"
   },
   {
     id: "ai-rag",
-    title: "AI Knowledge Engines & Deterministic Output",
-    desc: "Extracting structured knowledge from raw documents without hallucination.",
-    domain: "AI/ML Integrations",
-    typicalRisks: ["LLM schema drift", "Missing relational hierarchy", "Cloud API privacy leaks"],
+    title: "Notes that become a graph",
+    desc: "Unstructured text in. A structure you can defend out.",
+    domain: "Language",
+    typicalRisks: ["The model invents a field", "The graph forgets why", "The cloud sees the journal"],
     suggestedService: "ai-sprint"
   },
   {
     id: "scale",
-    title: "System Feasibility & Scale Limits",
-    desc: "Validating market feasibility and codebase health before investing capital.",
-    domain: "Stealth & Scaling Startups",
-    typicalRisks: ["Premature cloud lock-in", "Hidden technical debt", "Unvalidated API limits"],
+    title: "Will this hold",
+    desc: "A system that looks fine at ten users and lies at a thousand.",
+    domain: "Fit",
+    typicalRisks: ["Lock-in too early", "Debt nobody named", "An API limit you have not met"],
     suggestedService: "arch-review-diligence"
   }
 ];
@@ -297,14 +297,11 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                 <Compass size={18} />
               </div>
               <div>
-                <div id="wizard-title" className="font-mono text-xs sm:text-sm font-bold tracking-wider text-white flex items-center gap-2">
-                  ENGINEERING DISCOVERY WIZARD
-                  <span className="text-xs px-2 py-0.5 rounded border border-amber-400/40 bg-amber-400/10 text-amber-300 font-normal hidden sm:inline-block">
-                    Guided Intake
-                  </span>
+                <div id="wizard-title" className="font-display text-base sm:text-lg font-extrabold tracking-[-0.03em] text-white">
+                  Write a note
                 </div>
-                <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">
-                  Step {step} of 3: {step === 1 ? "Problem & Domain" : step === 2 ? "Context & Contact" : "Opportunity Summary"}
+                <div className="font-sans text-xs text-slate-500">
+                  {step === 1 ? "What's stuck" : step === 2 ? "Who you are" : "The note"}
                 </div>
               </div>
             </div>
@@ -332,11 +329,11 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
             {step === 1 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-5">
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans flex items-center gap-2">
-                    <AlertTriangle size={16} className="text-amber-400" /> What technical problem are you looking to solve?
+                  <h3 className="text-base font-bold text-white font-sans">
+                    What's stuck?
                   </h3>
                   <p className="text-xs text-slate-400 mt-1 font-sans">
-                    Select the statement that best aligns with your team's current engineering objectives.
+                    Pick the closest sentence. This becomes the subject of the note.
                   </p>
                 </div>
 
@@ -491,8 +488,8 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     <div className="flex items-center gap-2">
                       <FileText size={18} className="text-amber-400" />
                       <div>
-                        <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-amber-400 font-bold">
-                          GENERATED ASSESSMENT SUMMARY
+                        <div className="kicker text-amber-400 font-semibold">
+                          The note
                         </div>
                         <h4 className="text-sm font-bold text-white font-sans">
                           {currentProblem.title}
@@ -500,14 +497,14 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                       </div>
                     </div>
                     <span className="font-sans text-xs px-2.5 py-1 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold">
-                      {currentService.timeframe} ENGAGEMENT
+                      {currentService.timeframe}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-sans text-slate-300">
                     <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                      <span className="font-sans text-xs text-cyan-electric font-bold uppercase block">
-                        1. Problem Understanding
+                      <span className="kicker text-cyan-electric block">
+                        What's stuck
                       </span>
                       <p className="text-slate-300 leading-relaxed text-sm">
                         {currentProblem.desc}
@@ -515,8 +512,8 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     </div>
 
                     <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
-                      <span className="font-sans text-xs text-rose-400 font-bold uppercase block">
-                        2. Identified System Risks
+                      <span className="kicker text-rose-400 block">
+                        What can go wrong
                       </span>
                       <ul className="space-y-1 text-slate-300 text-sm list-disc pl-3">
                         {currentProblem.typicalRisks.map((r, i) => (
