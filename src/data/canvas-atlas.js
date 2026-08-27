@@ -2,88 +2,76 @@
 // Phase 8: Micro-Educational Technology Library (~35-40 words each)
 export const MICRO_EDUCATION_DB = {
   "gRPC": {
-    name: "gRPC Framework",
-    what: "High-performance, open-source universal RPC framework developed by Google using Protocol Buffers.",
-    why: "Provides low-latency, multiplexed HTTP/2 streaming with strict type-safe binary schemas.",
-    useCase: "Inter-microservice communication, high-frequency IoT telemetry, and UAV C2 command pipelines.",
-    portfolioContext: "Powers sub-2ms UAV telemetry packet ingress at edge gateways in ops.dronly.in."
+    name: "gRPC",
+    what: "Typed streams over HTTP/2.",
+    why: "Small packets. Many at once.",
+    useCase: "You reassemble. You do not handshake.",
   },
   "TimescaleDB": {
-    name: "TimescaleDB Hypertables",
-    what: "PostgreSQL-native time-series database engineered for fast analytics & automated compression.",
-    why: "Combines strict relational SQL flexibility with automatic chunk-based hypertable partitioning.",
-    useCase: "High-volume IoT metrics, financial tick data, and trajectory telemetry archives.",
-    portfolioContext: "Powers post-flight spatial trajectory replay and flight path diagnostics in C2."
+    name: "TimescaleDB",
+    what: "Postgres that partitions time.",
+    why: "Replay without a warehouse.",
+    useCase: "Writes wait on the index.",
   },
   "H3": {
-    name: "H3 Hexagonal Spatial Index",
-    what: "Hexagonal hierarchical spatial indexing system created by Uber for geospatial partitioning.",
-    why: "Guarantees equal neighbor distances across grid cells, preventing spatial coordinate distortion.",
-    useCase: "Spatial collision detection, proximity queries, and dynamic geofencing.",
-    portfolioContext: "Enables real-time airspace boundary indexing and UAV proximity collision warnings."
+    name: "H3",
+    what: "Hex cells instead of a radius search.",
+    why: "Neighbors are even. Lookup is a hash.",
+    useCase: "The grid is a little coarse.",
   },
   "WebRTC": {
-    name: "WebRTC Live Media Streaming",
-    what: "Open standard providing web browsers and mobile apps with real-time peer-to-peer media streaming.",
-    why: "Delivers sub-100ms camera feed passthrough without plugins or heavy server encoding overhead.",
-    useCase: "Live drone video feeds, tele-robotics, surgical vision feeds, and collaborative audio.",
-    portfolioContext: "Streams live sub-100ms drone camera feeds with hardware H.264 acceleration."
+    name: "WebRTC",
+    what: "A camera that does not wait for a file.",
+    why: "The operator has to feel present.",
+    useCase: "You need a path through NAT.",
   },
   "EventStore": {
-    name: "Event Sourcing / EventStore",
-    what: "Database paradigm that persists state changes as an immutable append-only sequence of events.",
-    why: "Provides a complete zero-loss audit trail, time-travel state recovery, and clean decoupling.",
-    useCase: "Healthcare records, clinical charting, financial ledgers, and compliance platforms.",
-    portfolioContext: "Core engine in Prodent OS for medical auditability and offline-first clinic sync."
+    name: "Event store",
+    what: "Append. Never overwrite.",
+    why: "Who changed the chart.",
+    useCase: "You version the schema.",
   },
   "GraphQL": {
-    name: "GraphQL Query Gateway",
-    what: "Query language for APIs that empowers client applications to request exactly the data needed.",
-    why: "Eliminates over-fetching, enables declarative data fetching, and strongly types API graphs.",
-    useCase: "Client-facing dashboards, complex multi-entity domain graphs, and mobile apps.",
-    portfolioContext: "Serves as the flexible API gateway query layer across multi-tenant dental clinic graphs."
+    name: "GraphQL",
+    what: "Ask for the graph you need.",
+    why: "The clinic is many shapes, one query.",
+    useCase: "The schema is a contract.",
   },
   "FHIR v4": {
-    name: "FHIR v4 Standard",
-    what: "Fast Healthcare Interoperability Resources standard defining electronic health record specifications.",
-    why: "Replaces legacy HL7 v2 messages with modern RESTful JSON/XML health record schemas.",
-    useCase: "Hospital EHR integration, patient portals, and wearable health data exchange.",
-    portfolioContext: "Standardizes patient recovery telemetry, kinematic metrics, and clinical alerts."
+    name: "FHIR",
+    what: "A hospital's idea of a record.",
+    why: "So a wearable can talk to a chart.",
+    useCase: "You translate. You do not invent.",
   },
   "Redis": {
-    name: "Redis Pub/Sub & Memory Cache",
-    what: "In-memory data structure store used as a real-time message broker, cache, and pub/sub engine.",
-    why: "Delivers sub-millisecond message delivery across microservices with ultra-low CPU overhead.",
-    useCase: "Live chat systems, session state distribution, and real-time event broadcasting.",
-    portfolioContext: "Streams continuous biometric telemetry and range-of-motion updates to patient portals."
+    name: "Redis",
+    what: "Memory that broadcasts.",
+    why: "The portal wants this second, not this minute.",
+    useCase: "If it restarts, the moment is gone.",
   },
   "Neo4j": {
-    name: "Neo4j Graph Database",
-    what: "Native graph database designed to store, index, and query highly connected domain data.",
-    why: "Traverses complex multi-hop relationship paths with constant-time graph traversal performance.",
-    useCase: "Knowledge graphs, skill taxonomy mapping, enterprise dependencies, and fraud graphs.",
-    portfolioContext: "Maps skills, architectural decision records (ADRs), and code proofs in Career OS."
+    name: "Neo4j",
+    what: "A graph you can walk.",
+    why: "Skills sit next to work, not in a table.",
+    useCase: "You pay for the hops.",
   },
   "Ollama": {
-    name: "Ollama Local Agent Core",
-    what: "Framework for running open-source large language models locally on edge hardware.",
-    why: "Guarantees 100% data privacy, air-gapped security, and zero third-party API dependencies.",
-    useCase: "Private executive assistant, confidential document parsing, and local context synthesis.",
-    portfolioContext: "Powers Personal OS air-gapped journal parsing and automated task priority scheduling."
+    name: "Ollama",
+    what: "A model that stays on the machine.",
+    why: "The journal never leaves the desk.",
+    useCase: "The hardware is the ceiling.",
   },
   "Kafka": {
-    name: "Apache Kafka",
-    what: "Distributed event streaming platform capable of handling trillions of events daily.",
-    why: "Provides high-throughput log compaction, durable partition persistence, and pub/sub scale.",
-    useCase: "Enterprise event buses, log aggregation, and real-time stream processing pipelines.",
-    portfolioContext: "Reference architecture pattern for decoupled event streaming and distributed buffer queues."
+    name: "Kafka",
+    what: "A log everyone can subscribe to.",
+    why: "Clinics should not share a write lock.",
+    useCase: "You own ordering.",
   },
   "CQRS": {
-    name: "CQRS Pattern",
-    what: "Command Query Responsibility Segregation separating read and write data operations.",
-    why: "Allows independent scaling of write stores (high integrity) and read views (fast retrieval).",
-    useCase: "High-scale financial applications, complex domain models, and audit-heavy software.",
-    portfolioContext: "Combined with Event Sourcing to power fast clinical charting read models."
+    name: "CQRS",
+    what: "Write one way. Read another.",
+    why: "The chart and the search are not the same job.",
+    useCase: "The read view lags.",
   }
 };
 
@@ -276,54 +264,12 @@ export const MISSION_TOPOLOGIES = {
     ],
     // Phase 4: Relationship Intelligence with rich Explanations
     links: [
-      { 
-        from: "grpc-broker", to: "c2-core", 
-        relation: "Ingress", 
-        type: "Ingress Pipeline",
-        reason: "Translates raw UDP telemetry pings into multiplexed gRPC byte streams.",
-        significance: "Bypasses TCP connection setup overhead while enforcing type-safe Protocol Buffer schemas.",
-        tradeoff: "Requires client-side sliding window reassembly and sequence deduplication." 
-      },
-      { 
-        from: "h3-spatial", to: "c2-core", 
-        relation: "Index", 
-        type: "Spatial Partitioning",
-        reason: "Supplies Resolution-9 spatial keys to evaluate airborne collision bounds in real time.",
-        significance: "Transforms O(N^2) distance calculations into O(1) grid cell lookup queries.",
-        tradeoff: "Introduces minor 0.5m coordinate quantization at cell boundary borders." 
-      },
-      { 
-        from: "c2-core", to: "webrtc-stream", 
-        relation: "Sync", 
-        type: "Media Synchronization",
-        reason: "Synchronizes telemetry timestamps with WebRTC RTP video frame presentation clocks.",
-        significance: "Guarantees that telemetry metrics match camera frame visual positioning precisely.",
-        tradeoff: "Requires STUN/TURN NAT traversal infrastructure." 
-      },
-      { 
-        from: "c2-core", to: "circuit-breaker", 
-        relation: "Shed", 
-        type: "Resilience Guard",
-        reason: "Continuously measures channel queue pressure and trips fallback if bandwidth exceeds 95%.",
-        significance: "Protects central C2 server from memory exhaustion during extreme cellular burst spikes.",
-        tradeoff: "Non-essential telemetry metrics are shed during active network partitions." 
-      },
-      { 
-        from: "c2-core", to: "timescale-db", 
-        relation: "Store", 
-        type: "Storage Partitioning",
-        reason: "Pushes compressed telemetry chunks into hypertable stores for historical trajectory replay.",
-        significance: "Achieves 74% disk compression and sub-second analytical queries across 100M+ pings.",
-        tradeoff: "Chunk decompressions are required for modifying historical hypertable records." 
-      },
-      { 
-        from: "grpc-broker", to: "h3-spatial", 
-        relation: "Bounds", 
-        type: "Edge Spatial Query",
-        reason: "Directly queries local spatial indices at the edge to reduce central roundtrip latency.",
-        significance: "Allows edge gateways to evaluate immediate drone proximity before central dispatch.",
-        tradeoff: "Edge gateways must maintain localized spatial index state snapshots." 
-      }
+      { from: "grpc-broker", to: "c2-core", relation: "Ingress" },
+      { from: "h3-spatial", to: "c2-core", relation: "Index" },
+      { from: "c2-core", to: "webrtc-stream", relation: "Sync" },
+      { from: "c2-core", to: "circuit-breaker", relation: "Shed" },
+      { from: "c2-core", to: "timescale-db", relation: "Store" },
+      { from: "grpc-broker", to: "h3-spatial", relation: "Bounds" }
     ],
     events: [
       "gRPC edge ingress initialized (0.8ms queue delay)",
@@ -498,46 +444,11 @@ export const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { 
-        from: "hipaa-audit", to: "event-store", 
-        relation: "Lock", 
-        type: "Zero-Knowledge Enforcer",
-        reason: "Applies field-level zero-knowledge encryption before events are persisted.",
-        significance: "Guarantees Protected Health Information (PHI) is unreadable even if storage drives are compromised.",
-        tradeoff: "Server-side queries require encrypted index lookup hashes." 
-      },
-      { 
-        from: "dental-chart", to: "event-store", 
-        relation: "Log", 
-        type: "Clinical Event Dispatch",
-        reason: "Emits procedure code events directly to the event store.",
-        significance: "Triggers optimistic 3D odontogram updates in sub-10ms.",
-        tradeoff: "Requires client-side conflict resolution when dual hygienists edit simultaneously." 
-      },
-      { 
-        from: "event-store", to: "dicom-pipe", 
-        relation: "Work", 
-        type: "Async Worker Trigger",
-        reason: "Emits DICOM ingestion events that kick off GPU contrast normalization workers.",
-        significance: "Processes 100MB+ dental X-rays asynchronously into 200ms WebP progressive tiles.",
-        tradeoff: "Requires dedicated GPU worker pool scheduling." 
-      },
-      { 
-        from: "event-store", to: "multi-tenant", 
-        relation: "Isolate", 
-        type: "Tenant Boundary",
-        reason: "Routes persistent event streams to practice-specific isolated database schemas.",
-        significance: "Prevents cross-clinic data leakage in shared SaaS cloud environments.",
-        tradeoff: "Schema migrations must execute across all individual tenant databases." 
-      },
-      { 
-        from: "event-store", to: "sync-relays", 
-        relation: "Pair", 
-        type: "Offline Replication",
-        reason: "Pushes state log projections to local clinic hardware relays for offline redundancy.",
-        significance: "Allows clinic surgeries to proceed normally without internet access.",
-        tradeoff: "Background CRDT reconciliation is required upon internet reconnection." 
-      }
+      { from: "hipaa-audit", to: "event-store", relation: "Lock" },
+      { from: "dental-chart", to: "event-store", relation: "Log" },
+      { from: "event-store", to: "dicom-pipe", relation: "Work" },
+      { from: "event-store", to: "multi-tenant", relation: "Isolate" },
+      { from: "event-store", to: "sync-relays", relation: "Pair" }
     ],
     events: [
       "Clinical event stream projection verified (0 lag)",
@@ -689,11 +600,11 @@ export const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { from: "biometric-ingest", to: "fhir-bus", relation: "Stream", type: "Biometric Ingestion", reason: "Pushes filtered heart-rate & kinematic sensor pings to FHIR bus.", significance: "Standardizes wearable metrics into FHIR Observation resources.", tradeoff: "Minor 50ms Kalman filter smoothing delay." },
-      { from: "cds-engine", to: "fhir-bus", relation: "Guard", type: "Clinical Safety Guard", reason: "Flags joint over-extension anomalies against safety corridors.", significance: "Alerts clinicians instantly when patient risks re-injury.", tradeoff: "Rule thresholds must be validated by medical boards." },
-      { from: "fhir-bus", to: "rehab-tracker", relation: "Pose", type: "Pose Processing", reason: "Routes pose estimation keypoints to quantify joint flexion angles.", significance: "Provides objective mathematical range-of-motion metrics.", tradeoff: "Requires adequate lighting for mobile camera vision." },
-      { from: "fhir-bus", to: "ehr-bridge", relation: "Sync", type: "EHR Sync Bridge", reason: "Translates modern FHIR observation events back to hospital mainframes.", significance: "Connects web apps with 20-year-old legacy hospital software.", tradeoff: "Requires parsing complex legacy HL7 v2 pipe messages." },
-      { from: "fhir-bus", to: "patient-portal", relation: "Loop", type: "Live Biofeedback", reason: "Broadcasts exercise guidance & updated care plans to mobile.", significance: "Doubles patient exercise adherence via visual feedback.", tradeoff: "Requires cross-platform rendering optimizations." }
+      { from: "biometric-ingest", to: "fhir-bus", relation: "Stream" },
+      { from: "cds-engine", to: "fhir-bus", relation: "Guard" },
+      { from: "fhir-bus", to: "rehab-tracker", relation: "Pose" },
+      { from: "fhir-bus", to: "ehr-bridge", relation: "Sync" },
+      { from: "fhir-bus", to: "patient-portal", relation: "Loop" }
     ],
     events: [
       "FHIR v4 resource bundle validated",
@@ -845,11 +756,11 @@ export const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { from: "arch-index", to: "skill-matrix", relation: "Proof", type: "Skill Validation", reason: "Connects ADR decision records to underlying domain skills.", significance: "Proves theoretical knowledge with concrete decision records.", tradeoff: "Requires updating ADR links as projects evolve." },
-      { from: "project-graph", to: "skill-matrix", relation: "Proof", type: "Code Evidence", reason: "Maps live running codebases as evidence of domain mastery.", significance: "Replaces self-reported skill ratings with verifiable code.", tradeoff: "Requires hosting live interactive application sandboxes." },
-      { from: "skill-matrix", to: "seniority-eval", relation: "Scope", type: "Scope Assessment", reason: "Evaluates systemic architectural ownership and leadership level.", significance: "Provides objective evidence of senior engineering impact.", tradeoff: "Requires periodic metric calibration." },
-      { from: "skill-matrix", to: "impact-analyzer", relation: "Worth", type: "Impact Quantification", reason: "Measures latency drops, throughput scaling, and SLA numbers.", significance: "Translates software design choices into business ROI.", tradeoff: "Requires empirical benchmark data collection." },
-      { from: "skill-matrix", to: "export-engine", relation: "Cover", type: "Executive Summary", reason: "Compiles knowledge graph metrics into context-rich technical briefs.", significance: "Enables fast 30-second CTO scans or deep technical audits.", tradeoff: "Requires maintaining adaptive summary views." }
+      { from: "arch-index", to: "skill-matrix", relation: "Proof" },
+      { from: "project-graph", to: "skill-matrix", relation: "Proof" },
+      { from: "skill-matrix", to: "seniority-eval", relation: "Scope" },
+      { from: "skill-matrix", to: "impact-analyzer", relation: "Worth" },
+      { from: "skill-matrix", to: "export-engine", relation: "Cover" }
     ],
     events: [
       "Capability graph embeddings re-indexed",
@@ -1000,11 +911,11 @@ export const MISSION_TOPOLOGIES = {
       }
     ],
     links: [
-      { from: "vector-vault", to: "context-agent", relation: "Memory", type: "Semantic Vector Memory", reason: "Feeds semantically retrieved vector memory chunks into local LLM prompts.", significance: "Provides context-aware responses from private journals.", tradeoff: "Requires local vector index maintenance." },
-      { from: "journal-sync", to: "context-agent", relation: "Journal", type: "Commit Parser", reason: "Parses daily git commit messages to update long-term agent memory.", significance: "Passively documents engineering evolution without manual input.", tradeoff: "Requires commit message structure consistency." },
-      { from: "context-agent", to: "task-synthesizer", relation: "Focus", type: "Cognitive Scheduler", reason: "Transforms project deadlines into optimized deep work blocks.", significance: "Reduces context switching during complex system design.", tradeoff: "Requires discipline to follow generated focus blocks." },
-      { from: "context-agent", to: "zk-auth", relation: "Key", type: "Hardware Security Guard", reason: "Verifies YubiKey hardware tokens before unlocking private memory.", significance: "Guarantees zero access if physical workstation is stolen.", tradeoff: "Key loss requires secure recovery passphrase phrase entry." },
-      { from: "context-agent", to: "offline-sync", relation: "Pair", type: "P2P Mesh Replication", reason: "Pushes encrypted delta updates to local P2P devices.", significance: "Syncs desktop and laptop notes with zero cloud servers.", tradeoff: "Devices must share a local network to sync." }
+      { from: "vector-vault", to: "context-agent", relation: "Memory" },
+      { from: "journal-sync", to: "context-agent", relation: "Journal" },
+      { from: "context-agent", to: "task-synthesizer", relation: "Focus" },
+      { from: "context-agent", to: "zk-auth", relation: "Key" },
+      { from: "context-agent", to: "offline-sync", relation: "Pair" }
     ],
     events: [
       "Local vector memory vault indexed (0 remote calls)",
@@ -1081,9 +992,9 @@ export const AMBIENT_NODES = [
 ];
 
 export const AMBIENT_LINKS = [
-  { from: "amb-1", to: "amb-3", relation: "Ingress", type: "Telemetry Stream", reason: "Feeds raw edge telemetry into central event core.", significance: "Decouples packet ingress from central analytics.", tradeoff: "Requires buffer queue management." },
-  { from: "amb-2", to: "amb-3", relation: "Command", type: "RPC Dispatch", reason: "Routes edge C2 commands through event router.", significance: "Provides unified audit logs for commands.", tradeoff: "Slight network delay over direct RPC." },
-  { from: "amb-3", to: "amb-4", relation: "Index", type: "Metadata Indexing", reason: "Pushes system event metadata into knowledge graph.", significance: "Builds real-time operational knowledge graph.", tradeoff: "Graph index updates must be throttled." },
-  { from: "amb-3", to: "amb-5", relation: "Log", type: "Audit Log Writer", reason: "Writes immutable event logs to store.", significance: "Guarantees 100% auditability for medical events.", tradeoff: "Append-only logs require chunk retention rules." }
+  { from: "amb-1", to: "amb-3", relation: "Ingress" },
+  { from: "amb-2", to: "amb-3", relation: "Command" },
+  { from: "amb-3", to: "amb-4", relation: "Index" },
+  { from: "amb-3", to: "amb-5", relation: "Log" }
 ];
 

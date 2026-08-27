@@ -778,15 +778,11 @@ export default function SystemsIntelligenceCanvas() {
         <AnimatePresence>
           {selectedTech && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 10 }}
-              className="absolute top-10 left-1/2 -translate-x-1/2 z-40 max-w-md w-11/12 p-3.5 rounded-xl border border-amber-400/60 bg-slate-950/98 shadow-2xl backdrop-blur-2xl space-y-2 pointer-events-auto"
+              {...mapReveal}
+              className="absolute top-10 left-1/2 -translate-x-1/2 z-40 max-w-md w-11/12 p-4 rounded-2xl border border-amber-400/40 bg-slate-950/98 shadow-[0_0_60px_rgba(251,191,36,0.12)] backdrop-blur-2xl space-y-3 pointer-events-auto"
             >
-              <div className="font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between flex-wrap sm:flex-nowrap gap-y-1 border-b border-obsidian-border/60 pb-2 relative pr-10">
-                <span className="flex items-center gap-1.5 truncate">
-                  <BookOpen size={12} /> {selectedTech.name}
-                </span>
+              <div className="relative font-display text-lg font-extrabold tracking-[-0.03em] text-white pr-10">
+                <span>{selectedTech.name}</span>
                 <button type="button"
                   onClick={(e) => {
                     e.stopPropagation();

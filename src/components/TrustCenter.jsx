@@ -1,36 +1,39 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { FileText, Activity, Database, Briefcase, Mail, Link as LinkIcon, Network } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ADR_RECORDS } from "../data/adrs";
 import EvidenceCard from "./EvidenceCard";
 import { useSystemCommand } from "../context/SystemCommandContext";
+import { noteReveal, ledgerReveal, galleryReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const TRUST_SECTIONS = [
-  { id: "benchmarks", label: "Comparisons", icon: Activity },
-  { id: "adrs", label: "Records", icon: FileText },
-  { id: "reports", label: "Notes", icon: Database },
-  { id: "diagrams", label: "Diagrams", icon: Network },
-  { id: "resume", label: "Resume", icon: Briefcase },
+  { id: "benchmarks", label: "Comparisons", kicker: "Side by side", icon: Activity, tone: "cyan" },
+  { id: "adrs", label: "Ledger", kicker: "Compact picks", icon: FileText, tone: "emerald" },
+  { id: "reports", label: "Notes", kicker: "Quiet pages", icon: Database, tone: "slate" },
+  { id: "diagrams", label: "Diagrams", kicker: "A map of the work", icon: Network, tone: "cyan" },
+  { id: "resume", label: "Resume", kicker: "The paper trail", icon: Briefcase, tone: "amber" },
 ];
 
 export default function TrustCenter() {
   const [activeSection, setActiveSection] = useState("benchmarks");
   const { openAdrs, openEnterpriseExplorer, openContact, openResume } = useSystemCommand();
 
+  const active = TRUST_SECTIONS.find((s) => s.id === activeSection) || TRUST_SECTIONS[0];
+  const headerMotion = active.tone === "emerald" ? ledgerReveal : active.tone === "slate" ? noteReveal : galleryReveal;
+
   return (
-    <div className="flex flex-col h-[75vh] min-h-[500px] border border-obsidian-border/60 rounded-xl overflow-hidden bg-obsidian-surface shadow-2xl">
-      <div className="relative overflow-hidden flex flex-col border-b border-obsidian-border/60 p-6 bg-obsidian/80">
+    <div className="flex flex-col h-[75vh] min-h-[500px] border border-obsidian-border/60 rounded-2xl overflow-hidden bg-obsidian-surface shadow-2xl">
+      <motion.div {...headerMotion} className="relative overflow-hidden flex flex-col border-b border-obsidian-border/60 p-6 sm:p-8 bg-obsidian/80">
         <div className="dossier-sheen hidden md:block" aria-hidden="true" />
-        <div className="relative z-10 flex items-center gap-3 mb-2">
-          <h2 className="text-2xl font-display font-extrabold text-slate-100 tracking-[-0.04em]">Comparisons</h2>
+        <div className="relative z-10">
+          <div className="kicker text-slate-500 mb-2">{active.kicker}</div>
+          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white tracking-[-0.045em]">{active.label}</h2>
         </div>
-        <p className="relative z-10 font-sans text-sm text-slate-400">
-          Side by side. Simulations are labeled.
-        </p>
-      </div>
+      </motion.div>
 
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
         <div className="w-full shrink-0 border-b border-obsidian-border/60 bg-obsidian/40 overflow-x-auto overflow-y-hidden p-3 flex flex-row gap-2 md:w-64 md:flex-col md:overflow-y-auto md:overflow-x-hidden md:border-b-0 md:border-r md:p-4">

@@ -8,7 +8,7 @@ import { useSpatial, TABS } from "../SpatialContext";
 import { useModal } from "../hooks/useModal";
 import { CASE_STUDIES } from "../data/missions";
 import { ADR_RECORDS } from "../data/adrs";
-import { overlayFade, modalReveal } from "../lib/motion";
+import { overlayFade, modalReveal, galleryReveal, ledgerReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -226,38 +226,74 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
             )}
             
             {!query && (
-              <div className="max-h-[60vh] overflow-y-auto p-4">
-                <p className="kicker text-slate-500 px-1 pb-3">Open first</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {FEATURED.map((result, index) => {
-                    const Icon = result.icon;
-                    const isSelected = index === selectedIndex;
-                    return (
-                      <button type="button"
-                        key={result.id}
-                        ref={el => resultRefs.current[index] = el}
-                        onClick={() => handleResultClick(result)}
-                        onMouseEnter={() => setSelectedIndex(index)}
-                        className={cn(
-                          "relative overflow-hidden text-left rounded-xl border p-4 transition-colors duration-200 min-h-[96px]",
-                          isSelected
-                            ? "border-cyan-electric/40 bg-cyan-electric/10"
-                            : "border-obsidian-border/70 bg-obsidian/50 hover:border-cyan-electric/25"
-                        )}
-                      >
-                        <div className="dossier-sheen hidden md:block" aria-hidden="true" />
-                        <div className="relative z-10 flex items-start gap-3">
-                          <Icon size={16} className={isSelected ? "text-cyan-electric" : "text-slate-500"} />
-                          <div className="min-w-0">
-                            <div className="font-display text-sm font-bold tracking-[-0.02em] text-white">{result.title}</div>
+              <div className="max-h-[60vh] overflow-y-auto p-4 space-y-5">
+                <div>
+                  <p className="kicker text-cyan-electric/70 px-1 pb-3">Work</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {FEATURED.filter(d => d.category === "Work").map((result, index) => {
+                      const Icon = result.icon;
+                      const isSelected = index === selectedIndex;
+                      return (
+                        <motion.button type="button"
+                          key={result.id}
+                          {...galleryReveal}
+                          ref={el => resultRefs.current[index] = el}
+                          onClick={() => handleResultClick(result)}
+                          onMouseEnter={() => setSelectedIndex(index)}
+                          className={cn(
+                            "relative overflow-hidden text-left rounded-2xl border p-5 min-h-[112px]",
+                            isSelected
+                              ? "border-cyan-electric/50 bg-cyan-electric/10 shadow-[0_0_40px_rgba(0,240,255,0.08)]"
+                              : "border-obsidian-border/70 bg-obsidian/50 hover:border-cyan-electric/25"
+                          )}
+                        >
+                          <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                          <div className="relative z-10">
+                            <Icon size={14} className={isSelected ? "text-cyan-electric mb-2" : "text-slate-500 mb-2"} />
+                            <div className="font-display text-base font-extrabold tracking-[-0.03em] text-white">{result.title}</div>
                             {result.lede && (
-                              <p className="mt-1 font-sans text-xs text-slate-500 leading-relaxed line-clamp-2">{result.lede}</p>
+                              <p className="mt-1.5 font-sans text-xs text-slate-500 leading-relaxed line-clamp-2">{result.lede}</p>
                             )}
                           </div>
-                        </div>
-                      </button>
-                    );
-                  })}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div>
+                  <p className="kicker text-emerald-glow/80 px-1 pb-3">Ledger</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {FEATURED.filter(d => d.category === "Records").map((result, i) => {
+                      const index = 4 + i;
+                      const Icon = result.icon;
+                      const isSelected = index === selectedIndex;
+                      return (
+                        <motion.button type="button"
+                          key={result.id}
+                          {...ledgerReveal}
+                          ref={el => resultRefs.current[index] = el}
+                          onClick={() => handleResultClick(result)}
+                          onMouseEnter={() => setSelectedIndex(index)}
+                          className={cn(
+                            "text-left rounded-xl border px-4 py-3 min-h-[72px]",
+                            isSelected
+                              ? "border-emerald-glow/40 bg-emerald-glow/10"
+                              : "border-obsidian-border/70 bg-obsidian/40 hover:border-emerald-glow/25"
+                          )}
+                        >
+                          <div className="flex items-start gap-2">
+                            <Icon size={14} className={isSelected ? "text-emerald-glow mt-0.5" : "text-slate-500 mt-0.5"} />
+                            <div className="min-w-0">
+                              <div className="font-sans text-sm font-semibold text-white">{result.title}</div>
+                              {result.lede && (
+                                <p className="mt-0.5 font-sans text-xs text-slate-500 leading-relaxed line-clamp-1">{result.lede}</p>
+                              )}
+                            </div>
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
