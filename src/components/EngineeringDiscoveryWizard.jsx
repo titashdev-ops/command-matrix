@@ -379,11 +379,14 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
             {/* STEP 2: Architectural Context */}
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-5">
+                <div className="relative overflow-hidden rounded-2xl border border-obsidian-border/80 bg-obsidian/40 p-5">
+                  <div className="dossier-sheen hidden md:block" aria-hidden="true" />
+                  <div className="relative z-10 space-y-5">
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans">
+                  <h3 className="font-display text-2xl font-extrabold tracking-[-0.035em] text-white">
                     A little more
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1 font-sans">
+                  <p className="text-sm text-slate-400 mt-1 font-sans">
                     Enough to write the note. Nothing else.
                   </p>
                 </div>
@@ -478,6 +481,8 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     {errorMsg}
                   </div>
                 )}
+                  </div>
+                </div>
               </motion.div>
             )}
             {step === 3 && (
