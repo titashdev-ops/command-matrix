@@ -90,7 +90,7 @@ export default function EngineeringReviewPanel({ mission }) {
             )}
             {risks.mitigationStrategy && (
               <div className="rounded-xl border border-obsidian-border/80 bg-obsidian/70 p-4">
-                <div className="kicker text-amber-300/80 mb-2">Mitigation</div>
+                <div className="kicker text-amber-300/80 mb-2">What I did</div>
                 <div className="font-sans text-sm text-slate-200 leading-relaxed">{risks.mitigationStrategy}</div>
               </div>
             )}

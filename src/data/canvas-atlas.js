@@ -87,101 +87,13 @@ export const MISSION_TOPOLOGIES = {
     borderClass: "border-cyan-electric/40",
     bgClass: "bg-cyan-electric/10",
     glowClass: "shadow-[0_0_15px_rgba(0,240,255,0.25)]",
-    architecturePattern: "Distributed Spatial Telemetry",
-    deploymentState: "CASE STUDY",
-    discipline: "Distributed Systems & Robotics",
-    decisionModel: "ADR-004: UDP/gRPC Hybrid Ingest",
     techStack: ["gRPC", "TimescaleDB", "H3", "WebRTC"],
-    operationalClass: "CRITICAL (L1 C2 TELEMETRY)",
     insight: {
       problem: "Positions arrive faster than a table wants to take them.",
       decision: "Stream at the edge. Index in hexes. Cache the hot path.",
       tradeoff: "You own packet order. The viewport stays smooth.",
       context: "A fleet operator who has to feel present."
     },
-    // Phase 5: Decision Ledger (ADRs)
-    decisionLedger: [
-      {
-        id: "ADR-004",
-        title: "UDP Ingress & gRPC Streaming Core",
-        problem: "Cellular connection drops caused TCP handshake stalls and packet buffer bloat in flight.",
-        alternatives: "REST Polling, Raw WebSockets, TCP Streams",
-        selected: "Zero-allocation UDP edge ingress proxies streaming to gRPC central worker pools",
-        reason: "UDP eliminates handshake latency while gRPC Protocol Buffers compact payloads by 68%.",
-        tradeoff: "Requires client-side sequence sequence deduplication and sliding window reassembly.",
-        outcome: "Maintained sub-2ms packet ingress at 50,000 pings/sec with 99.99% ingress reliability.",
-        lessons: "Decouple edge telemetry transport protocols from central serialization logic."
-      },
-      {
-        id: "ADR-007",
-        title: "Uber H3 Spatial Hexagonal Indexing",
-        problem: "Pairwise distance calculations between 1,000+ active UAVs created an O(N^2) CPU bottleneck.",
-        alternatives: "R-Tree Indexing, Geohash Grid, PostGIS Boundary Queries",
-        selected: "Indexed GPS coordinates into Uber H3 Resolution-9 hexagonal spatial buckets",
-        reason: "H3 guarantees equal neighbor distances across grid cells, reducing collision checks to O(1) hash lookups.",
-        tradeoff: "Introduces minor 0.5-meter spatial coordinate quantization at cell boundaries.",
-        outcome: "Reduced collision check latency from 180ms to 0.4ms across 5,000 concurrent airspace nodes.",
-        lessons: "Quantized spatial buckets drastically outperform exact geometric distance loops in real-time C2."
-      },
-      {
-        id: "ADR-011",
-        title: "TimescaleDB Compressed Hypertables",
-        problem: "Storing billions of raw flight coordinates inflated PostgreSQL storage and slowed down queries.",
-        alternatives: "Standard PostgreSQL, Cassandra, InfluxDB",
-        selected: "TimescaleDB compressed hypertables with chunk-level columnar compression",
-        reason: "Retains full PostgreSQL SQL flexibility while automatically compressing chunks by 74%.",
-        tradeoff: "Historical hypertable updates require decompressing chunk segments.",
-        outcome: "Sub-second post-flight trajectory replay and flight path diagnostics across 100M+ pings.",
-        lessons: "Columnar compression on time-series partitions is essential for long-term telemetry retention."
-      }
-    ],
-    // Phase 6: Architecture Evolution
-    architectureEvolution: [
-      {
-        stage: "Phase 1: Research",
-        title: "Prototypes & Benchmarks",
-        detail: "Tested REST HTTP/1.1 and WebSockets against simulated 10k drone pings/sec; observed 120ms jitter.",
-        reason: "HTTP header overhead and TCP packet retransmissions choked bandwidth over cellular."
-      },
-      {
-        stage: "Phase 2: Prototype",
-        title: "UDP Ingress & gRPC Pipeline",
-        detail: "Implemented UDP edge listeners with ProtoBuf byte streams. Jitter dropped to 4ms.",
-        reason: "Identified packet loss during cell tower handoffs, requiring sequence deduplication."
-      },
-      {
-        stage: "Phase 3: Refinement",
-        title: "Spatial H3 Indexing & Timescale",
-        detail: "Integrated Uber H3 spatial resolution-9 buckets and TimescaleDB hypertable storage.",
-        reason: "O(N^2) pairwise collision checks were bottlenecking central C2 dispatch servers."
-      },
-      {
-        stage: "Phase 4: Current State",
-        title: "Modeled Edge Topology",
-        detail: "Circuit breakers, WebRTC, and gRPC workers described as a target architecture — not a live fleet attached to this site.",
-        reason: "The model holds 50k pings/sec under synthetic degradation. Treat it as a teaching artifact.",
-      }
-    ],
-    // Phase 7: Lessons Learned
-    lessonsLearned: [
-      {
-        topic: "Zero-Copy Byte Parsing",
-        reflection: "Eliminating garbage collection memory allocations in hot telemetry ingestion loops reduced 99th-percentile latency jitter by 84%.",
-        recommendation: "Always pre-allocate byte buffer pools when handling high-frequency binary streams."
-      },
-      {
-        topic: "Spatial Boundary Fallbacks",
-        reflection: "Drones transitioning between adjacent H3 hexagons required dual-bucket evaluation to prevent boundary edge collision blindspots.",
-        recommendation: "Include immediate neighbor cell rings when checking dynamic proximity bounds."
-      }
-    ],
-    // Phase 3: Curiosity Engine Recommendations
-    relatedRecommendations: [
-      { type: "technology", id: "gRPC", label: "gRPC Streaming", reason: "Examine protocol buffer binary streaming efficiency" },
-      { type: "technology", id: "H3", label: "H3 Spatial Index", reason: "Learn how hexagonal spatial indexing prevents O(N^2) bottlenecks" },
-      { type: "mission", id: "prodent-os", label: "Prodent OS", reason: "Compare telemetry event pipelines with clinical event sourcing" },
-      { type: "adr", id: "ADR-004", label: "ADR-004 Specs", reason: "Review UDP edge ingress architectural decision record" }
-    ],
     nodes: [
       { 
         id: "c2-core", 
@@ -262,7 +174,6 @@ export const MISSION_TOPOLOGIES = {
         }
       }
     ],
-    // Phase 4: Relationship Intelligence with rich Explanations
     links: [
       { from: "grpc-broker", to: "c2-core", relation: "Ingress" },
       { from: "h3-spatial", to: "c2-core", relation: "Index" },
@@ -289,80 +200,13 @@ export const MISSION_TOPOLOGIES = {
     borderClass: "border-violet-400/40",
     bgClass: "bg-violet-400/10",
     glowClass: "shadow-[0_0_15px_rgba(167,139,250,0.25)]",
-    architecturePattern: "Event-Sourced Clinical OS",
-    deploymentState: "MULTI-TENANT HYBRID",
-    discipline: "Healthcare Systems & Event Sourcing",
-    decisionModel: "ADR-009: Immutable Audit Ledger",
     techStack: ["EventStore", "GraphQL", "CQRS"],
-    operationalClass: "ENTERPRISE CLINICAL OPERATING SYSTEM",
     insight: {
       problem: "Clinics overwrite the same row and lose who changed what.",
       decision: "Write events. Read from a projection. Sync when the line comes back.",
       tradeoff: "You own schema versions. You keep an audit trail.",
       context: "A practice that cannot guess who saw a chart."
     },
-    decisionLedger: [
-      {
-        id: "ADR-009",
-        title: "Immutable Event-Sourced Clinical Core",
-        problem: "Traditional SQL CRUD databases permitted destructive record overwrites, violating HIPAA audit mandates.",
-        alternatives: "PostgreSQL Triggers, Temporal Tables, MongoDB Audit Logs",
-        selected: "Append-only EventStore ledger with CQRS read projections",
-        reason: "Guarantees 100% immutable history where state is derived exclusively from a sequence of clinical events.",
-        tradeoff: "Read views must be reprojected asynchronously via CQRS queue handlers.",
-        outcome: "Zero data loss auditability across 50,000+ patient procedure logs.",
-        lessons: "Healthcare domain state changes must be treated as append-only immutable events."
-      },
-      {
-        id: "ADR-014",
-        title: "Offline-First Local Relay Synchronization",
-        problem: "Internet outages at dental practices halted surgeries and patient check-ins.",
-        alternatives: "Cloud-only Fallback, Offline LocalStorage, Periodic REST Retries",
-        selected: "Local SQLite/CRDT sync relays running on clinic hardware",
-        reason: "Enables 100% offline surgery operation with background peer-to-peer reconciliation on reconnect.",
-        tradeoff: "Requires deterministic Conflict-Free Replicated Data Type (CRDT) merge algorithms.",
-        outcome: "Clinics operate continuously through multi-hour telecom fiber cuts.",
-        lessons: "Critical healthcare operations cannot depend on uninterrupted cloud internet."
-      }
-    ],
-    architectureEvolution: [
-      {
-        stage: "Phase 1: Research",
-        title: "Relational CRUD Evaluation",
-        detail: "Evaluated standard PostgreSQL CRUD tables. Identified severe audit log tampering risks.",
-        reason: "Destructive update queries made historical medical compliance audits unreliable."
-      },
-      {
-        stage: "Phase 2: Prototype",
-        title: "Event Sourcing & CQRS",
-        detail: "Built an event-sourced prototype with separate read projections for odontogram charts.",
-        reason: "Achieved sub-10ms UI renders while maintaining a complete immutable event stream."
-      },
-      {
-        stage: "Phase 3: Refinement",
-        title: "Zero-Knowledge Encryption & Sync",
-        detail: "Added field-level PHI encryption and local offline SQLite relays.",
-        reason: "Practice internet outages required offline-first resilience."
-      },
-      {
-        stage: "Phase 4: Current State",
-        title: "Multi-Tenant Enterprise OS",
-        detail: "Deployed schema-per-tenant isolation, DICOM GPU pipelines, and GraphQL API gateways.",
-        reason: "Sustains 99.99% clinical availability across multi-location healthcare networks."
-      }
-    ],
-    lessonsLearned: [
-      {
-        topic: "Event Schema Versioning",
-        reflection: "Evolving medical event schemas over time requires strict upcaster functions to project historical events into new UI views.",
-        recommendation: "Never mutate historical event structures; always implement versioned event upcasters."
-      }
-    ],
-    relatedRecommendations: [
-      { type: "technology", id: "EventStore", label: "Event Sourcing", reason: "Understand append-only event ledgers in healthcare" },
-      { type: "technology", id: "CQRS", label: "CQRS Pattern", reason: "Learn how read/write separation accelerates clinical UI renders" },
-      { type: "mission", id: "sports-physio", label: "Healthcare Initiative", reason: "Compare clinical event sourcing with FHIR v4 event buses" }
-    ],
     nodes: [
       { 
         id: "event-store", 
@@ -468,57 +312,13 @@ export const MISSION_TOPOLOGIES = {
     borderClass: "border-amber-400/40",
     bgClass: "bg-amber-400/10",
     glowClass: "shadow-[0_0_15px_rgba(251,191,36,0.25)]",
-    architecturePattern: "Real-Time FHIR Event Bus",
-    deploymentState: "HIPAA CLOUD DEPLOYED",
-    discipline: "Biomedical Telemetry & FHIR v4",
-    decisionModel: "ADR-012: FHIR v4 Event Schema",
     techStack: ["Redis", "FHIR v4"],
-    operationalClass: "PATIENT WORKFLOW PLATFORM",
     insight: {
       problem: "Rehab notes live in one system. Motion lives in another.",
       decision: "A shared event bus. Pose on camera. Feedback in the same hour.",
       tradeoff: "You translate hospital shapes. The coach sees the session.",
       context: "A clinic that wants a loop, not a weekly PDF."
     },
-    decisionLedger: [
-      {
-        id: "ADR-012",
-        title: "Standardized HL7 FHIR v4 Resource Schema",
-        problem: "Incompatible hospital EHR systems blocked real-time patient rehab telemetry exchange.",
-        alternatives: "Custom JSON API, HL7 v2 MLLP Pipes, Proprietary XML",
-        selected: "Official HL7 FHIR v4 JSON resource bundles over HTTPS & Redis Pub/Sub",
-        reason: "Guarantees plug-and-play interoperability with modern hospital EHR systems.",
-        tradeoff: "Increased payload verbosity compared to compact binary formats.",
-        outcome: "Integrated patient recovery telemetry across 12 hospital networks without custom adapter builds.",
-        lessons: "Adopting open industry schemas upfront saves years of custom enterprise adapter maintenance."
-      }
-    ],
-    architectureEvolution: [
-      {
-        stage: "Phase 1: Research",
-        title: "EHR Interoperability Audit",
-        detail: "Analyzed legacy hospital HL7 v2 message streams and REST API gaps.",
-        reason: "Proprietary formats created massive integration friction."
-      },
-      {
-        stage: "Phase 2: Current State",
-        title: "FHIR v4 Event Bus & Pose Tracking",
-        detail: "Deployed Redis Pub/Sub FHIR event bus with MediaPipe smartphone kinematic angle extraction.",
-        reason: "Automated joint flexion tracking improved patient exercise compliance by 110%."
-      }
-    ],
-    lessonsLearned: [
-      {
-        topic: "Client-Side Pose Kinematics",
-        reflection: "Performing MediaPipe joint angle calculations on-device eliminated video streaming bandwidth costs and protected patient privacy.",
-        recommendation: "Process biometric camera frames on client edge hardware whenever possible."
-      }
-    ],
-    relatedRecommendations: [
-      { type: "technology", id: "FHIR v4", label: "FHIR v4 Spec", reason: "Inspect healthcare interoperability resource standards" },
-      { type: "technology", id: "Redis", label: "Redis Pub/Sub", reason: "Review real-time biometric event streaming patterns" },
-      { type: "mission", id: "ops-dronly", label: "ops.dronly.in", reason: "Compare biometric telemetry with UAV flight telemetry" }
-    ],
     nodes: [
       { 
         id: "fhir-bus", 
@@ -624,57 +424,13 @@ export const MISSION_TOPOLOGIES = {
     borderClass: "border-emerald-glow/40",
     bgClass: "bg-emerald-glow/10",
     glowClass: "shadow-[0_0_15px_rgba(52,211,153,0.25)]",
-    architecturePattern: "Vector-Graph Knowledge Mesh",
-    deploymentState: "ACTIVE INTELLIGENCE LAYER",
-    discipline: "Knowledge Graph Architecture",
-    decisionModel: "ADR-015: Vector Embedding Index",
     techStack: ["Neo4j", "Kafka"],
-    operationalClass: "SYSTEMS ARCHITECTURE ONTOLOGY",
     insight: {
       problem: "A resume cannot hold a trade-off.",
       decision: "A graph of skills, cases, and notes you can open.",
       tradeoff: "You curate the nodes. The reader gets a path, not a PDF.",
       context: "This site."
     },
-    decisionLedger: [
-      {
-        id: "ADR-015",
-        title: "Neo4j Graph Database & Vector Embedding Index",
-        problem: "Static text resumes cannot express complex multi-hop relationships between architectural patterns and live code proofs.",
-        alternatives: "Relational SQL Tables, Document Store, Static JSON Tree",
-        selected: "Neo4j property graph database combined with high-dimensional vector embeddings",
-        reason: "Traverses skill, ADR, and project code relationships with constant-time graph query speeds.",
-        tradeoff: "Requires maintaining graph schema node taxonomies.",
-        outcome: "Enables instant multi-hop architectural evidence exploration across portfolio assets.",
-        lessons: "Graph databases are superior for modeling highly interconnected knowledge structures."
-      }
-    ],
-    architectureEvolution: [
-      {
-        stage: "Phase 1: Research",
-        title: "Ontology Model & Graph Design",
-        detail: "Designed entity types: Skills, ADRs, Systems, Proofs, and Metrics.",
-        reason: "Flat lists failed to convey systemic engineering decision context."
-      },
-      {
-        stage: "Phase 2: Current State",
-        title: "Interactive Knowledge Mesh",
-        detail: "Deployed Neo4j graph traversal with real-time vector similarity clustering.",
-        reason: "Provides instant evidence-backed proof of engineering capabilities."
-      }
-    ],
-    lessonsLearned: [
-      {
-        topic: "Evidence-Based Portfolios",
-        reflection: "Linking every skill directly to live running web artifacts and ADRs establishes immediate technical trust with CTOs.",
-        recommendation: "Always pair architectural claims with verifiable code proofs."
-      }
-    ],
-    relatedRecommendations: [
-      { type: "technology", id: "Neo4j", label: "Neo4j Graph DB", reason: "Examine property graph database traversal patterns" },
-      { type: "technology", id: "Kafka", label: "Apache Kafka", reason: "Review enterprise event streaming integration" },
-      { type: "mission", id: "personal-os", label: "Personal OS", reason: "Compare knowledge graphs with local LLM agent context" }
-    ],
     nodes: [
       { 
         id: "skill-matrix", 
@@ -780,56 +536,13 @@ export const MISSION_TOPOLOGIES = {
     borderClass: "border-rose-400/40",
     bgClass: "bg-rose-400/10",
     glowClass: "shadow-[0_0_15px_rgba(251,113,133,0.25)]",
-    architecturePattern: "Local Contextual Agent Graph",
-    deploymentState: "AIR-GAPPED LOCAL CLOUD",
-    discipline: "AI Agents & Autonomous Context",
-    decisionModel: "ADR-018: Private Local Agent Core",
     techStack: ["Ollama"],
-    operationalClass: "PERSONAL INTELLIGENCE AGENT",
     insight: {
       problem: "Third-party cloud AI assistants expose private personal journal entries, notes, and code logs to public model training.",
       decision: "Architected a 100% air-gapped local AI agent powered by Ollama and encrypted vector stores running on private hardware.",
       tradeoff: "Absolute zero-knowledge data privacy; model speed is constrained by local GPU hardware capacity.",
       context: "Private executive AI assistants, air-gapped document intelligence, and personal knowledge bases."
     },
-    decisionLedger: [
-      {
-        id: "ADR-018",
-        title: "Air-Gapped Local Ollama Agent Architecture",
-        problem: "Sending private journal notes to commercial cloud LLMs compromised confidential personal data.",
-        alternatives: "OpenAI API, Anthropic Claude, Hosted Llama Service",
-        selected: "Local Ollama LLM engine with encrypted local vector stores running on private hardware",
-        reason: "Guarantees 100% data privacy with zero external API calls or third-party telemetry.",
-        tradeoff: "Inference speed is bounded by local workstation GPU VRAM capacity.",
-        outcome: "Synthesizes years of private technical journals with zero cloud exposure.",
-        lessons: "Local open-source models are fully viable for privacy-critical personal context synthesis."
-      }
-    ],
-    architectureEvolution: [
-      {
-        stage: "Phase 1: Research",
-        title: "Privacy & Cloud LLM Audit",
-        detail: "Evaluated commercial cloud APIs vs open-source local LLMs.",
-        reason: "Cloud API privacy terms proved unacceptable for personal technical journals."
-      },
-      {
-        stage: "Phase 2: Current State",
-        title: "Air-Gapped Local Vector Core",
-        detail: "Deployed local Ollama model with encrypted LanceDB vector memory vault & YubiKey hardware auth.",
-        reason: "Achieved 100% private contextual retrieval and automated deep work scheduling."
-      }
-    ],
-    lessonsLearned: [
-      {
-        topic: "Local Vector Quantization",
-        reflection: "Quantizing local embedding models down to 4-bit precision reduced GPU VRAM consumption by 65% with negligible accuracy drop.",
-        recommendation: "Use quantized embeddings for resource-constrained edge hardware."
-      }
-    ],
-    relatedRecommendations: [
-      { type: "technology", id: "Ollama", label: "Ollama Local Core", reason: "Explore air-gapped local LLM inference patterns" },
-      { type: "mission", id: "career-os", label: "Career OS", reason: "Compare local LLM memory with capability knowledge graphs" }
-    ],
     nodes: [
       { 
         id: "context-agent", 

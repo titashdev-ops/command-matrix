@@ -269,13 +269,6 @@ function IndexView({ onSelectProject, onClose }) {
         </button>
       </div>
 
-      <div className="shrink-0 mb-4 sm:mb-6 p-3.5 sm:p-5 rounded-xl border border-obsidian-border/80 bg-obsidian-surface/40 backdrop-blur-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-cyan-electric/10 to-transparent pointer-events-none blur-xl" />
-        <p className="lede relative z-10 max-w-2xl">
-          Four named systems first. The rest is supporting work.
-        </p>
-      </div>
-
       {/* Tabs - Scrollable on mobile */}
       <div className="shrink-0 flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6 border-b border-obsidian-border/50 pb-3 sm:pb-4 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap">
         {familyOrder.map(family => {

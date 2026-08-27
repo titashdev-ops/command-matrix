@@ -29,8 +29,7 @@ export default function SystemsIntelligenceCanvas() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [hoveredLink, setHoveredLink] = useState(null);
   const [selectedTech, setSelectedTech] = useState(null);
-  const [inspectorTab, setInspectorTab] = useState("4pillar"); // '4pillar' | 'ledger' | 'evolution' | 'lessons' | 'tech'
-  const [viewMode, setViewMode] = useState("presentation"); // 'presentation' | 'review'
+  const [viewMode, setViewMode] = useState("presentation");
 
   const activeMissionData = useMemo(() => {
     if (selectedMissionId) {
@@ -469,306 +468,69 @@ export default function SystemsIntelligenceCanvas() {
               {...mapReveal}
               className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 max-w-xl w-11/12 p-3 sm:p-4 rounded-xl border border-cyan-electric/60 bg-slate-950/98 shadow-2xl backdrop-blur-2xl space-y-3 pointer-events-auto max-h-[50vh] sm:max-h-[350px] overflow-y-auto custom-scrollbar"
             >
-              {/* Header */}
-              <div className="font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between flex-wrap sm:flex-nowrap gap-y-1 border-b border-obsidian-border/60 pb-2 sticky top-0 bg-slate-950/95 z-10 pt-1 pr-10">
-                <span className="flex items-center gap-1.5 truncate">
-                  <Terminal size={13} /> {activeNode ? activeNode.label : activeTopology.title}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] tracking-wide text-slate-400">
-                    {activeNode ? (activeNode.isCore ? "Component" : "Node") : "System"}
-                  </span>
-                </div>
+              <div className="relative pr-10">
+                <div className="kicker text-cyan-electric/70 mb-1">Map</div>
+                <h3 className="font-display text-xl font-extrabold tracking-[-0.03em] text-white truncate">
+                  {activeNode ? activeNode.label : activeTopology.title}
+                </h3>
                 <button type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     playClickSound();
                     setSelectedNode(null);
                     setHoveredNode(null);
+                    setSelectedMissionId(null);
                   }}
                   aria-label="Close"
-                  className="absolute top-1/2 -translate-y-1/2 right-0 min-h-[44px] min-w-[44px] text-slate-400 hover:text-slate-200 transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 rounded-md flex items-center justify-center"
+                  className="absolute top-0 right-0 min-h-[44px] min-w-[44px] text-slate-400 hover:text-slate-200 transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 rounded-md flex items-center justify-center"
                 >
                   <X size={14} />
                 </button>
               </div>
 
-              {/* Inspector Tab Bar */}
-              <div className="flex items-center gap-1 border-b border-obsidian-border/60 pb-1.5 font-mono text-xs overflow-x-auto custom-scrollbar">
-                {!activeNode && (
-                  <>
-                    <button type="button"
-                      onClick={() => { playClickSound(); setInspectorTab("4pillar"); }}
-                      className={cn(
-                        "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                        inspectorTab === '4pillar' ? "bg-cyan-electric/20 text-cyan-electric font-bold" : "text-slate-400 hover:text-white"
-                      )}
-                    >
-                      <Sparkles size={10} /> Brief
-                    </button>
-                    {activeTopology?.decisionLedger && (
-                      <button type="button"
-                        onClick={() => { playClickSound(); setInspectorTab("ledger"); }}
-                        className={cn(
-                          "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                          inspectorTab === 'ledger' ? "bg-amber-400/20 text-amber-400 font-bold" : "text-slate-400 hover:text-white"
-                        )}
-                      >
-                        <GitCommit size={10} /> Choices
-                      </button>
+              {(() => {
+                const note = activeNode?.insight || activeTopology?.insight || {};
+                return (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {note.problem && (
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-obsidian-border/80">
+                        <span className="kicker text-cyan-electric/80 block mb-1">Situation</span>
+                        <p className="font-sans text-xs text-slate-300 leading-snug">{note.problem}</p>
+                      </div>
                     )}
-                    {activeTopology?.architectureEvolution && (
-                      <button type="button"
-                        onClick={() => { playClickSound(); setInspectorTab("evolution"); }}
-                        className={cn(
-                          "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                          inspectorTab === 'evolution' ? "bg-emerald-glow/20 text-emerald-glow font-bold" : "text-slate-400 hover:text-white"
-                        )}
-                      >
-                        <Workflow size={10} /> Evolution
-                      </button>
+                    {note.decision && (
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-obsidian-border/80">
+                        <span className="kicker text-cyan-electric/80 block mb-1">Choice</span>
+                        <p className="font-sans text-xs text-slate-300 leading-snug">{note.decision}</p>
+                      </div>
                     )}
-                    {activeTopology?.lessonsLearned && (
-                      <button type="button"
-                        onClick={() => { playClickSound(); setInspectorTab("lessons"); }}
-                        className={cn(
-                          "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                          inspectorTab === 'lessons' ? "bg-violet-400/20 text-violet-400 font-bold" : "text-slate-400 hover:text-white"
-                        )}
-                      >
-                        <Lightbulb size={10} /> Lessons
-                      </button>
+                    {note.tradeoff && (
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-obsidian-border/80">
+                        <span className="kicker text-cyan-electric/80 block mb-1">Cost</span>
+                        <p className="font-sans text-xs text-slate-300 leading-snug">{note.tradeoff}</p>
+                      </div>
                     )}
-                  </>
-                )}
-
-                {activeNode && (
-                  <>
-                    <button type="button"
-                      onClick={() => { playClickSound(); setInspectorTab("overview"); }}
-                      className={cn(
-                        "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                        (inspectorTab === 'overview' || ['4pillar', 'ledger', 'evolution', 'lessons'].includes(inspectorTab)) ? "bg-cyan-electric/20 text-cyan-electric font-bold" : "text-slate-400 hover:text-white"
-                      )}
-                    >
-                      <Info size={10} /> Note
-                    </button>
-                    <button type="button"
-                      onClick={() => { playClickSound(); setInspectorTab("engineering"); }}
-                      className={cn(
-                        "px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 whitespace-nowrap",
-                        inspectorTab === 'engineering' ? "bg-amber-400/20 text-amber-400 font-bold" : "text-slate-400 hover:text-white"
-                      )}
-                    >
-                      <Cpu size={10} /> Choice
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* Topology Tabs */}
-              {!activeNode && (
-                <>
-                  {/* Tab 1: 4-Pillar Engineering Questions */}
-                  {inspectorTab === '4pillar' && activeTopology?.insight && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs mt-2">
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-amber-400 font-bold tracking-wide block text-[10px]">Situation</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.problem}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-cyan-electric font-bold tracking-wide block text-[10px]">Choice</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.decision}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-rose-400 font-bold tracking-wide block text-[10px]">Cost</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.tradeoff}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-emerald-glow font-bold tracking-wide block text-[10px]">Context</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeTopology.insight.context}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tab 2: Decision Ledger (ADRs) */}
-                  {inspectorTab === 'ledger' && activeTopology?.decisionLedger && (
-                    <div className="space-y-2 font-sans text-xs mt-2">
-                      {activeTopology.decisionLedger.map((adr) => (
-                        <div key={adr.id} className="p-2.5 rounded bg-slate-900/90 border border-obsidian-border/90 space-y-1">
-                          <div className="flex items-center justify-between text-amber-400 font-bold">
-                            <span>{adr.id}: {adr.title}</span>
-                            <span className="text-[8px] text-slate-500 uppercase">{adr.selected.split(' ')[0]}</span>
-                          </div>
-                          <p className="font-sans text-xs text-slate-300">
-                            <span className="text-cyan-electric font-sans text-[10px] tracking-wide font-semibold">Situation </span>{adr.problem}
-                          </p>
-                          <p className="font-sans text-xs text-slate-300">
-                            <span className="text-amber-300 font-sans text-[10px] tracking-wide font-semibold">Choice </span>{adr.selected}
-                          </p>
-                          <p className="font-mono text-xs text-slate-400  pt-1">
-                            <span className="text-emerald-glow font-sans text-[10px] tracking-wide font-semibold">Cost </span>{adr.outcome}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Tab 3: Architecture Evolution Timeline */}
-                  {inspectorTab === 'evolution' && activeTopology?.architectureEvolution && (
-                    <div className="space-y-2 font-sans text-xs mt-2 relative">
-                      {activeTopology.architectureEvolution.map((evo, idx) => (
-                        <div key={idx} className="flex gap-2.5 items-start p-2 rounded bg-slate-900/80 border border-obsidian-border">
-                          <div className="shrink-0 px-1.5 py-0.5 rounded bg-emerald-glow/10 border border-emerald-glow/30 text-emerald-glow font-bold text-[8px]">
-                            {evo.stage}
-                          </div>
-                          <div className="space-y-0.5">
-                            <span className="text-slate-200 font-bold block">{evo.title}</span>
-                            <p className="font-sans text-xs text-slate-300">{evo.detail}</p>
-                            <p className="font-sans text-xs text-slate-400 italic">Reason: {evo.reason}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Tab 4: Lessons Learned */}
-                  {inspectorTab === 'lessons' && activeTopology?.lessonsLearned && (
-                    <div className="space-y-2 font-sans text-xs mt-2">
-                      {activeTopology.lessonsLearned.map((les, idx) => (
-                        <div key={idx} className="p-2.5 rounded bg-slate-900/80 border border-violet-400/30 space-y-1">
-                          <span className="text-violet-400 font-bold block text-xs">{les.topic}</span>
-                          <p className="font-sans text-xs text-slate-300">{les.reflection}</p>
-                          <p className="font-mono text-xs text-slate-400  pt-1">
-                            <span className="text-cyan-electric font-bold">Takeaway: </span>{les.recommendation}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-
-              {/* Node Tabs */}
-              {activeNode && (
-                <>
-                  {(inspectorTab === 'overview' || ['4pillar', 'ledger', 'evolution', 'lessons'].includes(inspectorTab)) && (
-                    <div className="grid grid-cols-1 gap-2 font-sans text-xs mt-2">
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="kicker text-cyan-electric/80 block">Situation</span>
-                        <p className="text-slate-300 leading-snug">{activeNode.insight?.problem || activeNode.detail}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="kicker text-cyan-electric/80 block">Choice</span>
-                        <p className="text-slate-300 leading-snug">{activeNode.insight?.decision}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="kicker text-cyan-electric/80 block">Cost</span>
-                        <p className="text-slate-300 leading-snug">{activeNode.insight?.tradeoff}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {inspectorTab === 'engineering' && (
-                    <div className="grid grid-cols-1 gap-2 font-sans text-xs mt-2">
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="kicker text-amber-300/80 block">Then</span>
-                        <p className="text-slate-300 leading-snug">{activeNode.insight?.context}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {inspectorTab === 'validation' && (
-                    <div className="grid grid-cols-1 gap-2 font-mono text-xs mt-2">
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-emerald-glow font-bold uppercase tracking-wider block text-[8px]">Implementation Notes</span>
-                        <p className="font-sans text-slate-300 text-xs leading-snug">{activeNode.insight?.problem || "Implementation Notes Pending"}</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-emerald-glow font-bold uppercase tracking-wider block text-[8px]">Related Benchmarks</span>
-                        <p className="font-sans text-slate-500 text-xs leading-snug italic">Benchmark Pending</p>
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-emerald-glow font-bold uppercase tracking-wider block text-[8px]">Future Work</span>
-                        <p className="font-sans text-slate-500 text-xs leading-snug italic">Future Work Pending</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {inspectorTab === 'docs' && (
-                    <div className="grid grid-cols-1 gap-2 font-mono text-xs mt-2">
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-violet-400 font-bold uppercase tracking-wider block text-[8px]">Related ADRs</span>
-                        {(() => {
-                          const relatedAdrs = activeTopology?.decisionLedger?.filter(adr => 
-                            adr.title.toLowerCase().includes(activeNode.label.toLowerCase()) ||
-                            adr.problem.toLowerCase().includes(activeNode.label.toLowerCase()) ||
-                            adr.selected.toLowerCase().includes(activeNode.label.toLowerCase()) ||
-                            adr.outcome.toLowerCase().includes(activeNode.label.toLowerCase())
-                          );
-                          if (relatedAdrs && relatedAdrs.length > 0) {
-                            return (
-                              <div className="space-y-1 mt-1">
-                                {relatedAdrs.map(adr => (
-                                  <div key={adr.id} className="px-1.5 py-1 rounded bg-slate-800 border border-slate-700 cursor-pointer hover:bg-slate-700 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" onClick={() => openAdrs(adr.id)}>
-                                    <span className="text-amber-400 font-bold">{adr.id}</span>: {adr.title}
-                                  </div>
-                                ))}
-                              </div>
-                            );
-                          }
-                          return <p className="font-sans text-slate-500 text-xs leading-snug italic mt-1">ADR Pending</p>;
-                        })()}
-                      </div>
-                      <div className="p-2 rounded bg-slate-900/80 border border-obsidian-border/80 space-y-0.5">
-                        <span className="text-violet-400 font-bold uppercase tracking-wider block text-[8px]">Documentation</span>
-                        <p className="font-sans text-slate-500 text-xs leading-snug italic mt-1">Documentation Pending</p>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {/* Teachable Tech Stack Chips */}
-              {activeTopology?.techStack && (
-                <div className="pt-2  flex flex-wrap items-center gap-1 font-mono text-xs">
-                  <span className="text-slate-500 uppercase tracking-wider text-[8px] mr-1">TEACHABLE TECH:</span>
-                  {activeTopology.techStack.map((tech) => (
-                    <button type="button"
-                      key={tech}
-                      onClick={() => handleTechClick(tech)}
-                      className="px-2 py-0.5 rounded bg-slate-900 border border-obsidian-border/80 text-cyan-electric hover:bg-cyan-electric/20 hover:border-cyan-electric transition-colors duration-200 cursor-pointer font-bold flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                    >
-                      <BookOpen size={9} /> {tech}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Phase 3: Curiosity Engine Recommendations */}
-              {activeTopology?.relatedRecommendations && (
-                <div className="pt-2  font-mono text-xs space-y-1">
-                  <span className="text-amber-400 font-bold uppercase tracking-wider text-[8px] flex items-center gap-1">
-                    <Compass size={10} /> CONTINUE EXPLORING:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {activeTopology.relatedRecommendations.map((rec, idx) => (
-                      <button type="button"
-                        key={idx}
-                        onClick={() => {
-                          playClickSound();
-                          if (rec.type === "mission") handleMissionSelect(rec.id);
-                          else if (rec.type === "technology") handleTechClick(rec.id);
-                          else if (rec.type === "adr") openAdrs(rec.id);
-                        }}
-                        className="px-2 py-1 rounded bg-slate-900 border border-amber-400/40 text-amber-300 hover:bg-amber-400/20 hover:border-amber-400 transition-colors duration-200 cursor-pointer flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                      >
-                        <ArrowRight size={10} /> {rec.label}
-                      </button>
-                    ))}
                   </div>
-                </div>
-              )}
+                );
+              })()}
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button type="button"
+                  onClick={() => { playClickSound(); openAdrs(); }}
+                  className="px-3 py-1.5 rounded-lg border border-emerald-glow/30 bg-emerald-glow/10 text-emerald-glow font-sans text-xs hover:bg-emerald-glow/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+                >
+                  Also chosen
+                </button>
+                {activeTopology?.techStack?.map((tech) => (
+                  <button type="button"
+                    key={tech}
+                    onClick={() => handleTechClick(tech)}
+                    className="px-2.5 py-1 rounded-lg border border-obsidian-border/80 bg-slate-900 text-cyan-electric font-sans text-xs hover:border-cyan-electric/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+                  >
+                    {tech}
+                  </button>
+                ))}
+              </div>
 
             </motion.div>
           )}

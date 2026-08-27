@@ -2,12 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Network, BookOpen } from "lucide-react";
 import EvidenceCard from "./EvidenceCard";
-import { coverReveal } from "../lib/motion";
+import { galleryReveal } from "../lib/motion";
 
 function Block({ icon: Icon, kicker, title, children }) {
   return (
     <motion.section
-      {...coverReveal}
+      {...galleryReveal}
       className="relative overflow-hidden rounded-2xl border border-obsidian-border/70 bg-slate-950/60 p-5 sm:p-7"
     >
       <div className="dossier-sheen hidden md:block" aria-hidden="true" />
