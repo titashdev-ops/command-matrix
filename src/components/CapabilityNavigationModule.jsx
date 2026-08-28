@@ -22,7 +22,7 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
   {
     id: "healthcare",
     label: "Clinical records",
-    desc: "Audit trails, privacy, and modeled care.",
+    desc: "Audit trails, privacy, and care workflows.",
     targetMissionId: "prodent-os"
   },
   {
@@ -115,7 +115,7 @@ export default function CapabilityNavigationModule({ onOpenDossier }) {
           return (
             <div
               key={mission.missionId}
-              className="group flex flex-col justify-between space-y-4 rounded-xl border border-slate-800 bg-slate-950/90 p-5 transition-all duration-200 hover:border-amber-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+              className="group flex flex-col justify-between space-y-4 rounded-lg border border-slate-800/80 bg-slate-950/50 p-5 transition-colors duration-200 hover:border-amber-400/40"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">

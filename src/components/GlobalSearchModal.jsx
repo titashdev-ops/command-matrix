@@ -41,7 +41,7 @@ const SEARCH_DATA = [
   { id: "nav-records", title: "Records", lede: "Decision plates.", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
   { id: "nav-discovery", title: "Write a note", lede: "A short intake that opens mail.", category: "Docs", icon: Terminal, path: "DISCOVERY_WIZARD" },
   { id: "nav-vector", title: "Work", lede: "Named systems on the home surface.", category: "Maps", icon: Map, path: "VECTOR" },
-  { id: "nav-pointcloud", title: "Evidence", lede: "Modeled comparisons and architecture records.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
+  { id: "nav-pointcloud", title: "Evidence", lede: "Comparisons and architecture records.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
   { id: "nav-airspace", title: "Engage", lede: "Resume and contact.", category: "Maps", icon: Database, path: "AIRSPACE" },
   { id: "nav-archexplorer", title: "Map", lede: "A spatial view of the systems.", category: "Maps", icon: Code, path: "ARCH_EXPLORER" },
 ];
@@ -218,7 +218,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
       {isOpen && (
         <motion.div
           {...overlayFade}
-          className="pointer-events-auto fixed inset-0 z-[100] flex items-start justify-center bg-black/65 px-3 pt-20 backdrop-blur-sm sm:px-4 sm:pt-24"
+          className="pointer-events-auto fixed inset-0 z-[100] flex items-start justify-center bg-black/50 px-3 pt-16 backdrop-blur-sm sm:px-4 sm:pt-20"
           onClick={onClose}
         >
           <motion.div

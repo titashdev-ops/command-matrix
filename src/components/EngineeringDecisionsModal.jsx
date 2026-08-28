@@ -61,7 +61,7 @@ export default function EngineeringDecisionsModal() {
           animate={folioReveal.animate}
           exit={folioReveal.exit}
           transition={folioReveal.transition}
-          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border border-emerald-glow/25 bg-obsidian-surface/95 shadow-[0_0_80px_rgba(52,211,153,0.08)] overscroll-contain"
+          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-r-2xl rounded-l-sm border border-emerald-glow/25 border-l-4 border-l-emerald-glow/50 bg-obsidian-surface/95 shadow-[-24px_0_60px_rgba(0,0,0,0.45)] overscroll-contain"
         >
           <div className="flex shrink-0 items-start justify-between gap-4 border-b border-obsidian-border/60 bg-obsidian/80 p-4 sm:px-6 sm:py-5">
             <div className="min-w-0 space-y-3">

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Server, Layers, Cpu, Cloud, Activity, Code, Database, Shield, Zap, ChevronRight, CheckCircle2, GitBranch, ArrowRight } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useModal } from "../hooks/useModal";
-import { useRef } from "react";
+import { mapReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -149,17 +149,11 @@ export default function EnterpriseArchitectureExplorer() {
           aria-modal="true"
           aria-labelledby="arch-title"
           onClick={(e) => e.stopPropagation()}
-          initial={{ scale: 0.94, opacity: 0, y: 15 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.94, opacity: 0, y: 15 }}
-          transition={{
-            type: "spring",
-            stiffness: 320,
-            damping: 22,
-            mass: 0.85,
-            bounce: 0.22,
-          }}
-          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-xl border border-obsidian-border bg-obsidian-surface/95 shadow-2xl overscroll-contain"
+          initial={mapReveal.initial}
+          animate={mapReveal.animate}
+          exit={{ opacity: 0, y: 16 }}
+          transition={mapReveal.animate.transition}
+          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-xl border border-cyan-electric/20 bg-obsidian shadow-[0_0_60px_rgba(0,240,255,0.08)] overscroll-contain"
         >
           {/* Header */}
           <div className="flex shrink-0 items-center justify-between border-b border-obsidian-border/60 bg-obsidian/80 p-3 sm:p-4 md:px-6 backdrop-blur-md">

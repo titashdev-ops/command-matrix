@@ -15,7 +15,7 @@ import { CASE_STUDIES } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
 import BriefCover, { briefFromMission } from "./BriefCover";
-import { modalReveal, overlayFade } from "../lib/motion";
+import { folioReveal, overlayFade } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -444,11 +444,11 @@ export default function FlagshipProjectsModal() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="case-studies-title"
-          initial={modalReveal.initial}
-          animate={modalReveal.animate}
-          exit={modalReveal.exit}
-          transition={modalReveal.transition}
-          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-[1400px] flex-col overflow-hidden rounded-xl border border-cyan-electric/25 bg-obsidian shadow-[0_0_80px_rgba(0,240,255,0.12)] overscroll-contain"
+          initial={folioReveal.initial}
+          animate={folioReveal.animate}
+          exit={folioReveal.exit}
+          transition={folioReveal.transition}
+          className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-[1400px] flex-col overflow-hidden rounded-xl border border-cyan-electric/20 bg-obsidian shadow-[0_24px_80px_rgba(0,0,0,0.55)] overscroll-contain"
         >
           {/* Corner Brackets */}
           <div className="pointer-events-none absolute left-0 top-0 h-10 w-10 sm:h-16 sm:w-16 border-l-2 border-t-2 border-cyan-electric/30 rounded-tl-xl z-50" />

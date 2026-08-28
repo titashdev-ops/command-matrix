@@ -135,7 +135,7 @@ export default function ResumeModal() {
     <AnimatePresence>
       <motion.div
         {...overlayFade}
-        className="pointer-events-auto fixed inset-0 z-[200] flex items-center justify-center overflow-hidden bg-black/60 p-2 backdrop-blur-sm sm:p-4 md:p-6"
+        className="pointer-events-auto fixed inset-0 z-[200] flex items-center justify-center overflow-hidden bg-black/50 p-2 backdrop-blur-sm sm:p-4 md:p-6"
         onClick={closeResume}
         role="presentation"
       >
@@ -227,7 +227,7 @@ export default function ResumeModal() {
                   <article className="rounded-xl border border-slate-800 bg-slate-950/45 p-4">
                     <p className="kicker text-slate-500 mb-2">Honesty</p>
                     <p className="text-sm leading-relaxed text-slate-300">
-                      Keep the public story clear. Simulation stays simulation.
+                      Label the work for what it is.
                     </p>
                   </article>
                   <article className="rounded-xl border border-slate-800 bg-slate-950/45 p-4">

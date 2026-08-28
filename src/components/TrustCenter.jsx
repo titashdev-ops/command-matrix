@@ -35,7 +35,7 @@ export default function TrustCenter() {
                 playClickSound?.();
                 openAdrs(adr.id);
               }}
-              className="group text-left rounded-2xl border border-obsidian-border/80 bg-slate-950/70 p-5 sm:p-6 hover:border-emerald-400/40"
+              className="group text-left rounded-r-2xl rounded-l-sm border border-obsidian-border/80 border-l-2 border-l-emerald-400/50 bg-slate-950/70 p-5 sm:p-6 hover:border-emerald-400/40"
             >
               <div className="flex items-center justify-between mb-4">
                 <span className="kicker text-emerald-400/80">
