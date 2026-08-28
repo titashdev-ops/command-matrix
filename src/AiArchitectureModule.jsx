@@ -321,7 +321,6 @@ export default function AiArchitectureModule() {
               >
                 <CapabilityNavigationModule
                   onOpenDossier={(mission) => openFlagships(mission)}
-                  onStartDiscovery={() => setActiveTab(TABS.AIRSPACE)}
                 />
               </motion.div>
             )}

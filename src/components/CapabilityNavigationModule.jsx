@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Compass, Lock, Eye, ArrowRight, Filter } from "lucide-react";
+import { Compass, Lock, Eye, Filter } from "lucide-react";
 import { CASE_STUDIES } from "../data/missions";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import clsx from "clsx";
@@ -45,9 +45,9 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
   }
 ];
 
-export default function CapabilityNavigationModule({ onOpenDossier, onStartDiscovery }) {
+export default function CapabilityNavigationModule({ onOpenDossier }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const { playClickSound, openContact } = useSystemCommand();
+  const { playClickSound } = useSystemCommand();
 
   const filteredMissions = CASE_STUDIES.filter((m) => {
     if (selectedCategory === "all") return true;
@@ -152,26 +152,10 @@ export default function CapabilityNavigationModule({ onOpenDossier, onStartDisco
                     playClickSound();
                     if (onOpenDossier) onOpenDossier(mission);
                   }}
-                  className="flex min-h-[40px] flex-1 items-center justify-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-bold text-slate-200 transition-all duration-200 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+                  className="flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-bold text-slate-200 transition-all duration-200 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
                 >
                   <Eye size={14} className="text-amber-400" />
                   Open dossier
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    playClickSound();
-                    if (onStartDiscovery) {
-                      onStartDiscovery(mission.missionId);
-                    } else {
-                      openContact();
-                    }
-                  }}
-                  className="flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg border border-amber-400/50 bg-amber-400/10 px-3 py-2 text-xs font-bold text-amber-300 transition-all duration-200 hover:bg-amber-400/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-                >
-                  Start brief
-                  <ArrowRight size={14} />
                 </button>
               </div>
             </div>

@@ -111,7 +111,7 @@ export default function SaasOperationsModule() {
             >
               <div className="flex items-center gap-2.5">
                 <GitBranch size={16} className="text-slate-400 group-hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
-                <span>GitHub Verification</span>
+                <span>GitHub</span>
               </div>
               <ArrowRight size={14} className="text-slate-500 group-hover:text-amber-400 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
             </a>
@@ -124,7 +124,7 @@ export default function SaasOperationsModule() {
             >
               <div className="flex items-center gap-2.5">
                 <Globe size={16} className="text-slate-400 group-hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
-                <span>LinkedIn Profile</span>
+                <span>LinkedIn</span>
               </div>
               <ArrowRight size={14} className="text-slate-500 group-hover:text-amber-400 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
             </a>

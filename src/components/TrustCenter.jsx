@@ -1,13 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Network, FileText } from "lucide-react";
+import { ArrowRight, Network } from "lucide-react";
 import { ADR_RECORDS } from "../data/adrs";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useSpatial, TABS } from "../SpatialContext";
 import { easeLux } from "../lib/motion";
 
 export default function TrustCenter() {
-  const { openAdrs, openEnterpriseExplorer, openResume, playClickSound } = useSystemCommand();
+  const { openAdrs, openEnterpriseExplorer, playClickSound } = useSystemCommand();
   const { setActiveTab } = useSpatial();
 
   return (
@@ -61,7 +61,7 @@ export default function TrustCenter() {
           ))}
         </div>
 
-        <div className="pointer-events-auto grid gap-3 sm:grid-cols-3">
+        <div className="pointer-events-auto grid gap-3 sm:grid-cols-2">
           <button
             type="button"
             onClick={() => setActiveTab(TABS.POINT_CLOUD)}
@@ -82,19 +82,6 @@ export default function TrustCenter() {
               <Network size={12} /> Map
             </p>
             <p className="font-sans text-sm text-slate-300">A spatial view of the systems. Click a node for a short note.</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              playClickSound?.();
-              openResume();
-            }}
-            className="rounded-2xl border border-obsidian-border/70 bg-obsidian/50 p-4 text-left hover:border-rose-400/40"
-          >
-            <p className="kicker text-rose-300/80 mb-2 flex items-center gap-2">
-              <FileText size={12} /> Resume
-            </p>
-            <p className="font-sans text-sm text-slate-300">Open the profile. No PDF is hosted on this site.</p>
           </button>
         </div>
       </div>
