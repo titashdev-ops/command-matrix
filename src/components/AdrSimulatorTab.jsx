@@ -363,7 +363,7 @@ export default function AdrSimulatorTab() {
       `* Cost in this model: $${totalCost.toLocaleString()}/mo.`,
       ``,
       `---`,
-      `*Thought exercise from this portfolio. Not production telemetry.*`
+      `*Thought exercise from this portfolio. Not a live ingest.*`
     ].join('\n');
   };
 

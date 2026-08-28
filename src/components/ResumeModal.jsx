@@ -28,7 +28,7 @@ const WORK_ITEMS = [
   {
     title: "ops.dronly.in",
     status: "Simulation",
-    lede: "Spatial command surface for fleet telemetry and live operations.",
+    lede: "A modeled spatial command surface for fleet telemetry. Not a live operations desk.",
   },
   {
     title: "Healthcare Systems Initiative",
@@ -38,12 +38,12 @@ const WORK_ITEMS = [
   {
     title: "Prodent OS",
     status: "Simulation",
-    lede: "Clinical operating system for multi-location practice workflows.",
+    lede: "A modeled clinical OS for multi-location practice workflows. Not a live EMR.",
   },
   {
     title: "Career OS",
-    status: "Internal",
-    lede: "Personal knowledge and workflow system for compounding execution.",
+    status: "Prototype",
+    lede: "Notes become a graph. A prototype, not a live HR system.",
   },
 ];
 
@@ -110,7 +110,7 @@ export default function ResumeModal() {
                   </h1>
                 </div>
                 <p className="max-w-3xl text-base leading-relaxed text-slate-300">
-                  I design premium frontend systems and evidence-led product surfaces for complex workflows. The work spans real-time telemetry, clinical tools, and interface-heavy products that need clarity without losing character.
+                  I design frontend systems and evidence-led product surfaces for complex workflows. The case studies cover modeled telemetry, clinical tools, and interface-heavy products. They are briefs, not live infrastructure.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
                   <a

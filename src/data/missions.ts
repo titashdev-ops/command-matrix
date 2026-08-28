@@ -61,8 +61,8 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     domain: "UAV Telemetry & Command",
     classification: "Simulation",
     implementationStatus: "Simulation",
-    missionObjective: "Low-latency command and control matrix for distributed commercial drone fleets.",
-    executiveSummary: "A WebGL-accelerated command interface engineered to ingest and visualize real-time telemetry events and multi-node video streams. Unifies IoT telemetry, low-latency WebRTC feeds, and spatial mission planning into a single pane of glass, reducing cognitive load on fleet operators.",
+    missionObjective: "A modeled command surface for distributed commercial drone fleets.",
+    executiveSummary: "A WebGL command surface for fleet telemetry and video. One pane instead of three. Modeled — this site does not fly a fleet.",
     businessProblem: {
       business: "Fleet scalability was constrained by the cognitive load of monitoring fragmented systems, limiting the effective UAV-to-operator ratio.",
       operational: "Critical flight navigation and emergency override decisions were delayed by operators context-switching between disparate telemetry, video, and communication applications during active flight paths."
@@ -91,7 +91,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         },
         {
           decision: "Uber H3 Hexagonal Spatial Indexing",
-          reason: "Pairwise geometric distance loops across 1,000+ drones hit CPU bounds.",
+          reason: "Pairwise geometric distance loops across a large modeled fleet hit CPU bounds.",
           alternative: "R-Tree Indexes, QuadTrees, PostGIS ST_DWithin",
           tradeoff: "0.5m coordinate quantization at cell boundaries.",
           impact: "A hex lookup instead of pairwise distance. Teaching numbers, not a flight log."
@@ -110,7 +110,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         mitigationStrategy: "If the cell dies, a local mesh is the target pattern — not a fleet attached to this site."
       },
       evolutionReview: [
-        { phase: "Research & Benchmarking", architectureState: "REST HTTP/1.1 & standard WebSockets", shiftReason: "Headers and TCP retries get expensive on a modeled cellular path." },
+        { phase: "Research", architectureState: "REST HTTP/1.1 & standard WebSockets", shiftReason: "Headers and TCP retries get expensive on a modeled cellular path." },
         { phase: "Prototype Phase", architectureState: "UDP Edge Gateway + ProtoBuf Byte Streams", shiftReason: "Jitter dropped in the model; tower dropouts still need sequence recovery." },
         { phase: "Architecture Refinement", architectureState: "Uber H3 Spatial Indexing + TimescaleDB", shiftReason: "O(N^2) pairwise distance checks bottlenecked central dispatch." },
         { phase: "Current model", architectureState: "Circuit breakers + WebRTC + gRPC pool", shiftReason: "Field cell congestion is simulated in this case study." }
@@ -118,14 +118,14 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     },
     evidence: [
       { type: "Architecture", title: "C2 architecture", detail: "A modeled command surface. This site does not fly a fleet.", verificationStatus: "Documented" },
-      { type: "Benchmark", title: "WebRTC vs HLS", detail: "WebRTC for the loop. HLS for playback.", verificationStatus: "Documented" },
+      { type: "Architecture", title: "WebRTC vs HLS", detail: "WebRTC for the loop. HLS for playback.", verificationStatus: "Documented" },
       { type: "Architecture", title: "System map", detail: "Edge ingress, a hot cache, a spatial viewport.", verificationStatus: "Documented" },
     ],
     businessImpact: "One operator surface instead of three. A modeled C2, not a live fleet.",
     lessonsLearned: [
       "WebGL performance degrades rapidly if React state triggers unnecessary re-renders of the canvas; aggressive memoization and strictly isolating the render loop is mandatory.",
       "MQTT QoS levels must be dynamically tuned based on network volatility; strict QoS 2 over weak cellular leads to catastrophic command queues.",
-      "Dark mode and strict contrast ratios are mandatory safety requirements for field operability to reduce glare on tablets."
+      "A dark, high-contrast HUD is easier to read on a tablet in the sun. A modeled field constraint, not a safety certificate."
     ],
   },
   {
@@ -135,8 +135,8 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     domain: "Clinical HealthTech & Biomechanics",
     classification: "Prototype",
     implementationStatus: "Prototype",
-    missionObjective: "Integrated clinical biomechanics platform unifying physiotherapy discovery, real-time posture analysis, and gamified patient recovery.",
-    executiveSummary: "A multi-tiered healthcare ecosystem engineered across three specialized sub-initiatives: 1) Physiotherapy Discovery Platform for intelligent triage and specialist matching; 2) Biomechanics Platform for continuous kinematic pose estimation and joint torque modeling; and 3) Gamified Patient Experience for biofeedback-driven exercise adherence. Replaces subjective observation with quantitative movement tracking.",
+    missionObjective: "Movement, feedback, and the clinic as one loop.",
+    executiveSummary: "Three prototypes: match a patient, read motion on camera, practice with feedback. Estimates — not a hospital product.",
     businessProblem: {
       business: "Inconsistent, subjective recovery tracking increases re-injury risks and extends rehabilitation timelines across athletic networks.",
       operational: "Physiotherapists manually record observations on static forms, preventing longitudinal biometric modeling and reducing engagement between clinical visits."
@@ -184,7 +184,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         mitigationStrategy: "Implementing automatic frame throttling (30 FPS -> 15 FPS) when battery temperature exceeds 40°C."
       },
       evolutionReview: [
-        { phase: "Research & Benchmarking", architectureState: "Cloud-based video upload to PyTorch backend", shiftReason: "HIPAA privacy concerns and 3-second processing delay made real-time biofeedback impossible." },
+        { phase: "Research", architectureState: "Cloud-based video upload to PyTorch backend", shiftReason: "Uploading video was too slow for feedback in the same session, and the camera should not leave the phone." },
         { phase: "Prototype Phase", architectureState: "On-device MediaPipe + Redis Buffer + FastAPI", shiftReason: "Eliminated raw video uploads; enabled instant joint torque calculations." },
         { phase: "Architecture Refinement", architectureState: "SVG HUD Overlay + Kalman Sensor Filtering", shiftReason: "Resolved device crash issues and noisy wearable sensor telemetry." },
         { phase: "Current prototype", architectureState: "Pose on camera, feedback in the same session", shiftReason: "A rehab loop as a prototype. Not an active clinical network." }
@@ -210,7 +210,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Simulation",
     implementationStatus: "Simulation",
     missionObjective: "Distributed clinical management operating system for multi-location dental practices.",
-    executiveSummary: "A cloud-native clinical management platform designed to streamline legacy on-premise dental software across practice locations. Architected using an Event-Driven CQRS pattern to handle electronic medical records (EMR), scheduling, and billing, ensuring strict data auditability.",
+    executiveSummary: "A modeled clinical OS for many rooms: records, scheduling, billing. Event-sourced so a rewrite cannot hide. Not a live EMR.",
     businessProblem: {
       business: "High licensing and maintenance overhead for legacy on-premise server infrastructure, coupled with data sync risks across decentralized locations.",
       operational: "Database synchronization challenges between clinical sites leading to scheduling conflicts and fragmented patient histories."
@@ -284,7 +284,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Prototype",
     implementationStatus: "Prototype",
     missionObjective: "Dynamically mapping unstructured engineering experience into queryable capability graphs.",
-    executiveSummary: "A data-driven ontology mapping system functioning as a semantic engine for technical capability tracking. Utilizes Large Language Models to parse unstructured project notes and dynamically map demonstrated skills to technical competency frameworks.",
+    executiveSummary: "Notes become a graph. A prototype for mapping what was actually built — not a live HR system.",
     businessProblem: {
       business: "Unstructured historical project data obscures skill evolution and internal technical team capabilities.",
       operational: "Manual tailoring of capability matrices and skill resumes for engineering proposals is highly repetitive and prone to oversight."
@@ -351,7 +351,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Prototype",
     implementationStatus: "Internal",
     missionObjective: "Unified, local-first knowledge management system with deterministic cross-device synchronization.",
-    executiveSummary: "A local-first knowledge management and task execution system. Consolidates markdown notes, task queues, and scheduling into a unified interface, engineered specifically for rapid interaction latency and offline independence.",
+    executiveSummary: "Notes and tasks on this machine. Local first, offline by design. Internal — not a public service.",
     businessProblem: {
       business: "Internal engineering tooling focused on maximizing personal focus and execution velocity.",
       operational: "Latency and cognitive friction caused by context-switching across multiple disconnected, cloud-dependent productivity applications."
@@ -392,7 +392,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         mitigationStrategy: "Automating background file system backup exports using Web File System Access API."
       },
       evolutionReview: [
-        { phase: "Research & Benchmarking", architectureState: "Standard REST API + PostgreSQL Cloud Backend", shiftReason: "Observed network spinners and broken offline usage during flights." },
+        { phase: "Research", architectureState: "Standard REST API + PostgreSQL Cloud Backend", shiftReason: "The spinner on a flight was the whole product failing." },
         { phase: "Prototype Phase", architectureState: "IndexedDB + Manual Timestamp Conflict Resolution", shiftReason: "Timestamp-based LAST-WRITE-WINS caused data loss during concurrent offline edits." },
         { phase: "Architecture Refinement", architectureState: "Yjs CRDTs + Cloudflare Workers Relay + Wasm Search", shiftReason: "Achieved deterministic CRDT delta merges and air-gapped search." },
         { phase: "Current Implementation", architectureState: "Internal daily driver", shiftReason: "Sync is eventual. Not a 0ms guarantee." }

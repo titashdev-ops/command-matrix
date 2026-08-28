@@ -121,7 +121,7 @@ export const ADR_RECORDS = [
     ],
     "decision": "React context for the shell, local state for the rest",
     "tradeoffs": "No extra store. Split the context or the tree pays.",
-    "consequences": "Enough for modals and tabs. High-frequency ticks stay in refs. A shell for this portfolio, not a live ops bus.",
+    "consequences": "Enough for modals and tabs. High-frequency ticks stay in refs. A shell for this portfolio, not a live bus.",
     "currentStatus": "Simulation"
   }
 ];

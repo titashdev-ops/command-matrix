@@ -28,7 +28,7 @@ const NODE_DETAILS = {
   
   // Backend
   api: { title: "API Layer", purpose: "Ingestion / Routing", resp: "REST endpoints, WebSocket management", decision: "API routes provide seamless serverless bridging for frontend requests.", future: "GraphQL for complex relational queries.", dependencies: ["auth", "logic", "serverless"] },
-  auth: { title: "Authentication", purpose: "Identity", resp: "JWT validation, session management", decision: "Stateless JWT allows infinite horizontal scaling without sticky sessions.", future: "Biometric Passkeys support.", dependencies: ["api", "db"] },
+  auth: { title: "Authentication", purpose: "Identity", resp: "JWT validation, session management", decision: "Stateless tokens scale by adding instances. A pattern in the case studies — this site has no accounts.", future: "Biometric Passkeys support.", dependencies: ["api", "db"] },
   logic: { title: "Business Logic", purpose: "Orchestration", resp: "Data transformations, rule evaluation", decision: "Decoupled from transport layer to allow both HTTP and event-driven invocations.", future: "WASM modules for performance critical paths.", dependencies: ["api", "db", "cache"] },
   serverless: { title: "Serverless Functions", purpose: "Compute", resp: "On-demand execution", decision: "Functions scale when they need to. Cold starts still exist.", future: "Stateful edge computing patterns.", dependencies: ["api", "vercel"] },
   db: { title: "Database", purpose: "Persistence", resp: "ACID transactions, relational integrity", decision: "PostgreSQL chosen for strict schema guarantees and JSONB support.", future: "Read replicas in EU/AP regions.", dependencies: ["logic"], artifact: { label: "Review Database Schema ADR", action: "openAdrs" } },
@@ -37,11 +37,11 @@ const NODE_DETAILS = {
   
   // AI
   orchestration: { title: "Model Orchestration", purpose: "AI Routing", resp: "LLM selection, load balancing", decision: "Dynamic routing between models based on token constraints and latency.", future: "Local SLM fallback on edge devices.", dependencies: ["prompt", "fallback", "context"], artifact: { label: "View AI Benchmark", action: "openAdrs" } },
-  prompt: { title: "Prompt Engineering", purpose: "Context Injection", resp: "System instructions, few-shot examples", decision: "Template-based injection ensures consistent behavioral boundaries and stops prompt injection.", future: "Dynamic prompt optimization.", dependencies: ["orchestration"] },
+  prompt: { title: "Prompt Engineering", purpose: "Context Injection", resp: "System instructions, few-shot examples", decision: "Templates keep the model inside a shape. A teaching note, not a live agent.", future: "Dynamic prompt optimization.", dependencies: ["orchestration"] },
   fallback: { title: "Fallback Strategy", purpose: "Redundancy", resp: "Graceful degradation on timeout", decision: "Hard timeout at 8s returns pre-computed heuristic responses to preserve UX.", future: "Progressive streaming fallbacks.", dependencies: ["orchestration"] },
   context: { title: "Context Management", purpose: "Memory", resp: "Vector retrieval, RAG", decision: "Vector similarity search used to inject relevant historical SOPs into the prompt context window.", future: "Graph-based memory retrieval.", dependencies: ["orchestration", "db"] },
   lifecycle: { title: "AI Request Lifecycle", purpose: "Execution", resp: "Streaming, chunking", decision: "Server-Sent Events (SSE) provide immediate time-to-first-byte perception for the user.", future: "Bidirectional WebSockets for real-time agentic actions.", dependencies: ["orchestration", "api"] },
-  validation: { title: "Response Validation", purpose: "Safety", resp: "Zod parsing, output sanitization", decision: "Strict JSON schema enforcement ensures AI hallucinations cannot break the UI renderer.", future: "Self-correcting validation loops.", dependencies: ["orchestration", "typescript"] },
+  validation: { title: "Response Validation", purpose: "Safety", resp: "Zod parsing, output sanitization", decision: "Bad JSON dies at the boundary. A defensive pattern, not a live renderer.", future: "Self-correcting validation loops.", dependencies: ["orchestration", "typescript"] },
   
   // Infrastructure
   deployment: { title: "Deployment", purpose: "Delivery", resp: "Immutable builds, blue/green", decision: "Atomic deployments prevent partial state mismatches during scaling events.", future: "Canary rollouts via traffic shaping.", dependencies: ["cicd", "vercel"] },

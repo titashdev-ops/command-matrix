@@ -22,20 +22,20 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
   {
     id: "healthcare",
     label: "Clinical records",
-    desc: "Audit trails, privacy, and modelled care.",
-    targetMissionId: "healthcare-os"
+    desc: "Audit trails, privacy, and modeled care.",
+    targetMissionId: "prodent-os"
   },
   {
     id: "ai-graph",
     label: "AI + graphs",
     desc: "Semantic search and structured retrieval.",
-    targetMissionId: "prodent-os"
+    targetMissionId: "career-os"
   },
   {
     id: "crdt-sync",
     label: "Local-first sync",
     desc: "Offline state, merges, and browser-native search.",
-    targetMissionId: "career-os"
+    targetMissionId: "personal-os"
   },
   {
     id: "spiking",
