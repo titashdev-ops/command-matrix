@@ -10,12 +10,14 @@ import { overlayFade, modalReveal } from "../lib/motion";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const SKILLS = [
-  "Enterprise SaaS Support",
-  "Client Operations",
-  "Case Investigation",
-  "Root Cause Analysis",
-  "Escalation Management",
-  "Stakeholder Communication",
+  "Enterprise operations",
+  "Investigations",
+  "Process control",
+  "AI workflow design",
+  "Case investigation",
+  "Root cause analysis",
+  "Escalation management",
+  "Stakeholder communication",
   "ServiceNow",
   "Salesforce",
   "SAP",
@@ -37,7 +39,7 @@ const EXPERIENCE = [
       "Owned the full case lifecycle for 220–250 enterprise cases per month across email, chat, and phone.",
       "Investigated licensing, subscription, authentication, configuration, and account access issues.",
       "Coordinated escalations with Engineering, Product, Licensing, Finance, and Operations.",
-      "Maintained detailed case documentation and knowledge reuse across the support organization.",
+      "Maintained detailed case documentation and knowledge reuse across the operations organization.",
     ],
   },
   {
@@ -170,13 +172,13 @@ export default function ResumeModal() {
             <div className="mx-auto max-w-3xl space-y-10">
               <header className="space-y-5">
                 <div className="space-y-2">
-                  <p className="kicker text-cyan-electric/70">Enterprise SaaS Support · Bengaluru</p>
+                  <p className="kicker text-cyan-electric/70">Enterprise operations · Bengaluru</p>
                   <h1 className="font-display text-4xl font-extrabold tracking-[-0.05em] text-white sm:text-5xl">
                     Titash Dev
                   </h1>
                 </div>
                 <p className="max-w-3xl text-base leading-relaxed text-slate-300">
-                  I work across enterprise support, investigations, and client operations, then translate that discipline into premium frontend systems and evidence-led product surfaces. The portfolio below is modeled and documented; the work history above is real experience.
+                  I work across enterprise operations systems, investigations, process control, and AI workflow design. The work history is real. The systems below are modeled and documented.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
                   <a

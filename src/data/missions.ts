@@ -198,7 +198,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     businessImpact: "Notes become numbers. A prototype of rehab tracking, not a treatment claim.",
     lessonsLearned: [
       "Raw kinematic sensor data from consumer wearables varies in fidelity and requires aggressive Kalman filtering and heuristic sanitization.",
-      "Athletes engage more consistently with highly visual, gamified progress indicators over raw biometric dashboards.",
+      "Athletes engage more consistently with highly visual, gamified progress indicators over raw biometric screens.",
       "Cross-platform Bluetooth Low Energy (BLE) communication in React Native requires custom native module bridging (Swift/Kotlin) for background stability."
     ],
   },
@@ -239,7 +239,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         },
         {
           decision: "GraphQL Schema Federation Gateway",
-          reason: "Fragmented microservices caused cascading client fetch waterfalls on dashboard loads.",
+          reason: "Fragmented microservices caused cascading client fetch waterfalls on screen loads.",
           alternative: "REST API Gateway, gRPC Web, Monolithic Backend",
           tradeoff: "Single point of schema gateway failure, requiring redundant deployment replicas.",
           impact: "One federated query instead of a waterfall. A modeled clinic OS, not a live EMR."
@@ -259,7 +259,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       },
       evolutionReview: [
         { phase: "Research & Audit", architectureState: "Monolithic MySQL database on branch local servers", shiftReason: "Branch sync scripts frequently corrupted patient tables during power outages." },
-        { phase: "Prototype Phase", architectureState: "Centralized PostgreSQL DB + REST Gateway", shiftReason: "Rest API waterfalls caused 3-second dashboard loads; lacked audit replay capabilities." },
+        { phase: "Prototype Phase", architectureState: "Centralized PostgreSQL DB + REST Gateway", shiftReason: "REST waterfalls caused three-second screen loads; lacked audit replay." },
         { phase: "Architecture Refinement", architectureState: "CQRS Event Sourcing + Apache Kafka + GraphQL Federation", shiftReason: "An append-only log plus a fast read model. Teaching architecture, not a live clinic." },
         { phase: "Current model", architectureState: "Multi-clinic sync with local SQLite relays", shiftReason: "A target for continuous operations — not a live EMR network." }
       ],
