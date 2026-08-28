@@ -2,7 +2,7 @@
 
 Frontend portfolio of systems architecture case studies by [Titash Dev](https://github.com/titashdev-ops).
 
-Live site: [command-matrix-nine.vercel.app](https://command-matrix-nine.vercel.app)
+Live site: [dronly.in](https://dronly.in)
 
 ![Command Matrix share card](public/og.jpg)
 

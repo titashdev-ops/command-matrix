@@ -27,6 +27,7 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: "/og.jpg" },
     ],
     links: [
+      { rel: "canonical", href: "https://dronly.in" },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -52,7 +53,7 @@ export const Route = createRootRoute({
               name: "Titash Dev",
               jobTitle: "Systems Architect",
               email: "mailto:titashdev@gmail.com",
-              url: "https://github.com/titashdev-ops",
+              url: "https://dronly.in",
               sameAs: [
                 "https://github.com/titashdev-ops",
                 "https://www.linkedin.com/in/titashdeb",
