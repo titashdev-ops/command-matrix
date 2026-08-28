@@ -92,7 +92,7 @@ const SIM_SCENARIOS = [
             cost: 800, 
             score: 95, 
             violates: [],
-            note: "Hot cache plus compressed history. Modeled, not a measured SLA." 
+            note: "Hot cache plus compressed history. Modeled, not a measured ingest." 
           },
           { 
             id: "standard_postgres", 
@@ -355,7 +355,7 @@ export default function AdrSimulatorTab() {
       ``,
       `## Outcome`,
       isCompliant
-        ? `* Fits the constraints you turned on. Estimates — not a live SLA.`
+        ? `* Fits the constraints you turned on. Estimates — not a live system.`
         : `* Conflicts:\n` + constraintViolations.map(v => `  - ${v}`).join('\n'),
       ``,
       `## What you give up`,

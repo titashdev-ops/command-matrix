@@ -74,12 +74,12 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     },
     engineeringReview: {
       businessProblem: "Fragmented fleet monitoring tools increased operator cognitive load, capping human-to-UAV command ratios.",
-      technicalProblem: "Processing 50,000 high-frequency telemetry & video events/sec over unstable cellular connections with sub-2ms jitter.",
+      technicalProblem: "Keeping a spatial viewport live-feeling when positions arrive faster than a table wants them. Modeled over a bad cell — not a measured ingest profile.",
       hardConstraints: [
-        "Sub-2ms telemetry ingestion jitter",
-        "Sub-100ms glass-to-glass WebRTC video feed latency",
-        "Zero frame drops in Three.js WebGL viewport",
-        "Unstable 4G/LTE bandwidth with cell tower handoffs"
+        "Ingest that still feels present after a tower handoff",
+        "Video that can be used to fly, not only to replay",
+        "A WebGL viewport that does not hitch on the React tree",
+        "Assume the cell will drop mid-loop"
       ],
       decisionLedger: [
         {
@@ -87,31 +87,31 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Eliminates TCP head-of-line blocking during cellular tower handoffs.",
           alternative: "WebSockets, REST HTTP/2 polling, raw TCP",
           tradeoff: "Requires custom client-side packet sequence deduplication and reassembly.",
-          impact: "Modeled reliability under burst ping load — not a measured SLA."
+          impact: "Modeled reliability under burst ping load — teaching numbers, not a capacity certificate."
         },
         {
           decision: "Uber H3 Hexagonal Spatial Indexing",
           reason: "Pairwise geometric distance loops across 1,000+ drones hit CPU bounds.",
           alternative: "R-Tree Indexes, QuadTrees, PostGIS ST_DWithin",
           tradeoff: "0.5m coordinate quantization at cell boundaries.",
-          impact: "Reduced airspace collision check latency from 180ms to 0.4ms."
+          impact: "A hex lookup instead of pairwise distance. Teaching numbers, not a flight log."
         },
         {
           decision: "Zustand Transient State Isolation in WebGL",
           reason: "React reconciliation triggered by 50Hz telemetry updates caused frame stutter.",
           alternative: "Redux, React Context, MobX",
           tradeoff: "Manual Three.js mesh lifecycle management required to avoid memory leaks.",
-          impact: "Sustained solid 60 FPS viewport rendering across 3D flight paths."
+          impact: "The canvas stays off the React tree. A model of a smooth viewport, not a field measurement."
         }
       ],
       riskReview: {
         currentLimitations: "WebGL memory footprint scales with maximum render distance; requires view frustum culling beyond 20km.",
         technicalDebt: "Edge proxy packet deduplication logic relies on client flight controller clock synchronization.",
-        mitigationStrategy: "Deploying local mesh network relays on UAVs for air-to-air telemetry hops when cell towers fail."
+        mitigationStrategy: "If the cell dies, a local mesh is the target pattern — not a fleet attached to this site."
       },
       evolutionReview: [
-        { phase: "Research & Benchmarking", architectureState: "REST HTTP/1.1 & standard WebSockets", shiftReason: "Observed 120ms jitter and high HTTP header overhead over cellular." },
-        { phase: "Prototype Phase", architectureState: "UDP Edge Gateway + ProtoBuf Byte Streams", shiftReason: "Jitter dropped to 4ms; identified cell tower dropouts requiring sequence deduplication." },
+        { phase: "Research & Benchmarking", architectureState: "REST HTTP/1.1 & standard WebSockets", shiftReason: "Headers and TCP retries get expensive on a modeled cellular path." },
+        { phase: "Prototype Phase", architectureState: "UDP Edge Gateway + ProtoBuf Byte Streams", shiftReason: "Jitter dropped in the model; tower dropouts still need sequence recovery." },
         { phase: "Architecture Refinement", architectureState: "Uber H3 Spatial Indexing + TimescaleDB", shiftReason: "O(N^2) pairwise distance checks bottlenecked central dispatch." },
         { phase: "Current model", architectureState: "Circuit breakers + WebRTC + gRPC pool", shiftReason: "Field cell congestion is simulated in this case study." }
       ],
@@ -121,7 +121,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       { type: "Benchmark", title: "WebRTC vs HLS", detail: "WebRTC for the loop. HLS for playback.", verificationStatus: "Documented" },
       { type: "Architecture", title: "System map", detail: "Edge ingress, a hot cache, a spatial viewport.", verificationStatus: "Documented" },
     ],
-    businessImpact: "Consolidated multiple operator views into a single unified interface. Increased operator efficiency by streamlining telemetry monitoring and situational awareness during multi-UAV operations.",
+    businessImpact: "One operator surface instead of three. A modeled C2, not a live fleet.",
     lessonsLearned: [
       "WebGL performance degrades rapidly if React state triggers unnecessary re-renders of the canvas; aggressive memoization and strictly isolating the render loop is mandatory.",
       "MQTT QoS levels must be dynamically tuned based on network volatility; strict QoS 2 over weak cellular leads to catastrophic command queues.",
@@ -150,10 +150,10 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       businessProblem: "Subjective visual movement evaluation leads to high re-injury rates and inconsistent rehabilitation progress.",
       technicalProblem: "Extracting 33 3D skeletal keypoints & joint torque vectors at 30 FPS without thermal throttling mobile devices or saturating cloud bandwidth.",
       hardConstraints: [
-        "Sub-33ms frame processing loop (30 FPS target)",
-        "Zero raw camera video transmission to cloud (HIPAA privacy mandate)",
-        "Mobile client battery draw kept under 12% per 45-min session",
-        "BLE sensor sampling rate locked at 100Hz without buffer overflow"
+        "A frame that still feels like 30 FPS on a phone",
+        "The camera never leaves the device",
+        "A session that does not cook the battery",
+        "BLE samples that do not overflow the buffer"
       ],
       decisionLedger: [
         {
@@ -161,21 +161,21 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Streaming uncompressed video payloads violated privacy mandates and consumed excessive bandwidth.",
           alternative: "Full cloud video streaming, pure on-device monolithic model",
           tradeoff: "Increases mobile NPU utilization; requires fallback logic for older devices.",
-          impact: "Cut network payload size by 99.98% while maintaining zero PHI video transmission."
+          impact: "Landmarks on the device, vectors in the cloud. The camera never leaves the phone. A privacy pattern, not a certified clinic."
         },
         {
           decision: "Redis Sliding-Window Buffer for BLE Ingestion",
           reason: "100Hz direct writes from Wearable BLE sensors overwhelmed relational database connections.",
           alternative: "Direct PostgreSQL writes, client-side batching",
           tradeoff: "Transient sensor points lost if Redis ungracefully drops, mitigated by ring buffer snapshots.",
-          impact: "Reduced database write IOPS by 92% with no loss in joint movement fidelity."
+          impact: "A sliding window so BLE ticks do not pound the database. Modeled load, not a measured clinic."
         },
         {
           decision: "SVG HUD Overlays Over Canvas WebGL",
           reason: "WebGL context management on lower-end mobile devices caused random crash events during camera feed active states.",
           alternative: "Three.js overlay, native Canvas2D, OpenGL ES",
           tradeoff: "Limited to 2D HUD overlays instead of full 3D skeletal meshes.",
-          impact: "Eliminated client crash rate from 4.2% to 0.01% across legacy devices."
+          impact: "SVG overlays instead of WebGL on cheap phones. Fewer crashes in the prototype — not a field failure rate."
         }
       ],
       riskReview: {
@@ -187,7 +187,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         { phase: "Research & Benchmarking", architectureState: "Cloud-based video upload to PyTorch backend", shiftReason: "HIPAA privacy concerns and 3-second processing delay made real-time biofeedback impossible." },
         { phase: "Prototype Phase", architectureState: "On-device MediaPipe + Redis Buffer + FastAPI", shiftReason: "Eliminated raw video uploads; enabled instant joint torque calculations." },
         { phase: "Architecture Refinement", architectureState: "SVG HUD Overlay + Kalman Sensor Filtering", shiftReason: "Resolved device crash issues and noisy wearable sensor telemetry." },
-        { phase: "Deployed Prototype", architectureState: "Active Clinical Pilot with Health Systems", shiftReason: "Validated recovery tracking velocity across active athletic cohorts." }
+        { phase: "Current prototype", architectureState: "Pose on camera, feedback in the same session", shiftReason: "A rehab loop as a prototype. Not an active clinical network." }
       ],
     },
     evidence: [
@@ -195,7 +195,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       { type: "Prototype", title: "Motion", detail: "Pose on camera. Estimates, not a lab capture system.", url: "https://dr-harshad-ali-biome-m7na.bolt.host/", verificationStatus: "Documented" },
       { type: "Prototype", title: "Practice", detail: "Feedback while someone moves. Not a treatment claim.", url: "https://dr-ali-gamified-nexu-xbnu.bolt.host/#configurator", verificationStatus: "Documented" },
     ],
-    businessImpact: "Digitized previously manual recovery tracking workflows. Enabled quantitative analysis of rehabilitation velocity across patient cohorts, improving visibility into patient recovery progress.",
+    businessImpact: "Notes become numbers. A prototype of rehab tracking, not a treatment claim.",
     lessonsLearned: [
       "Raw kinematic sensor data from consumer wearables varies in fidelity and requires aggressive Kalman filtering and heuristic sanitization.",
       "Athletes engage more consistently with highly visual, gamified progress indicators over raw biometric dashboards.",
@@ -224,10 +224,10 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       businessProblem: "Decentralized legacy database servers created sync conflicts, lost billing records, and high maintenance costs.",
       technicalProblem: "Keeping an append-only medical audit trail across clinics while keeping EMR queries fast enough to use.",
       hardConstraints: [
-        "100% immutable patient history append-only ledger",
-        "Sub-150ms GraphQL federated query response for clinical records",
-        "Zero-knowledge field-level encryption for Social Security & Dental History",
-        "Offline local-first write queue during branch ISP outages"
+        "Append-only patient history — no silent rewrites",
+        "Clinic queries that stay usable on a busy morning",
+        "Field-level encryption for identifiers",
+        "A local write queue when the branch line drops"
       ],
       decisionLedger: [
         {
@@ -242,26 +242,26 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Fragmented microservices caused cascading client fetch waterfalls on dashboard loads.",
           alternative: "REST API Gateway, gRPC Web, Monolithic Backend",
           tradeoff: "Single point of schema gateway failure, requiring redundant deployment replicas.",
-          impact: "Cut client payload roundtrips from 14 REST calls to 1 federated query."
+          impact: "One federated query instead of a waterfall. A modeled clinic OS, not a live EMR."
         },
         {
           decision: "Local SQLite Relay for Branch Offline Resiliency",
           reason: "Rural clinic internet drops blocked patient check-in workflows.",
           alternative: "Cloud-only connection, browser LocalStorage",
           tradeoff: "Requires background conflict resolution when internet is restored.",
-          impact: "Enabled continuous clinical operations during 100% network outages."
+          impact: "A local copy so check-in can continue. Modeled offline, not a live clinic."
         }
       ],
       riskReview: {
-        currentLimitations: "Kafka consumer group lag can delay read-model projection updates by up to 200ms during peak morning check-ins.",
+        currentLimitations: "Read-model projections can lag the write log. A modeled clinic, not a morning of live check-ins.",
         technicalDebt: "Event upcasting logic for legacy v1 events adds maintainability overhead in Golang event handlers.",
         mitigationStrategy: "Migrating financial reporting workloads to dedicated ClickHouse analytical read replicas."
       },
       evolutionReview: [
         { phase: "Research & Audit", architectureState: "Monolithic MySQL database on branch local servers", shiftReason: "Branch sync scripts frequently corrupted patient tables during power outages." },
         { phase: "Prototype Phase", architectureState: "Centralized PostgreSQL DB + REST Gateway", shiftReason: "Rest API waterfalls caused 3-second dashboard loads; lacked audit replay capabilities." },
-        { phase: "Architecture Refinement", architectureState: "CQRS Event Sourcing + Apache Kafka + GraphQL Federation", shiftReason: "Achieved immutable audit logs and sub-100ms dashboard queries." },
-        { phase: "Deployed Production", architectureState: "Multi-Clinic Rollout with Local SQLite Sync Relays", shiftReason: "Proven zero-downtime clinical operations across practice locations." }
+        { phase: "Architecture Refinement", architectureState: "CQRS Event Sourcing + Apache Kafka + GraphQL Federation", shiftReason: "An append-only log plus a fast read model. Teaching architecture, not a live clinic." },
+        { phase: "Current model", architectureState: "Multi-clinic sync with local SQLite relays", shiftReason: "A target for continuous operations — not a live EMR network." }
       ],
     },
     evidence: [
@@ -269,7 +269,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       { type: "Architecture", title: "Audit trail", detail: "Designed toward HIPAA-style isolation. Not a certified clinic.", verificationStatus: "Documented" },
       { type: "Architecture", title: "Event path", detail: "Write once, read from a projection. Clinics stay in sync.", verificationStatus: "Documented" },
     ],
-    businessImpact: "Migrated practice locations from legacy on-premise databases to unified cloud infrastructure. Eliminated inter-clinic sync conflicts and reduced IT infrastructure overhead.",
+    businessImpact: "One cloud for many rooms. A modeled clinical OS, not a migrated practice network.",
     lessonsLearned: [
       "Healthcare data migration requires exhaustive, deterministic validation scripts; legacy encodings must be strictly sanitized prior to ingestion.",
       "Clinical staff benefit significantly from shadow-mode rollouts and progressive feature introductions during system migrations.",
@@ -298,10 +298,10 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       businessProblem: "Technical skills and engineering artifacts remain locked in unstructured notes, hiding real capabilities.",
       technicalProblem: "Converting noisy markdown notes into structured, deterministic competency graphs without AI hallucination or schema drift.",
       hardConstraints: [
-        "100% deterministic JSON output parsing via Zod schemas",
-        "Sub-800ms semantic graph traversal for skill lookup",
-        "Hybrid vector-similarity and graph relational querying",
-        "Zero hallucinated technologies or fictitious project assertions"
+        "JSON that fails closed at the boundary",
+        "Graph walks that stay snappy enough to browse",
+        "Vectors find; the graph remembers why",
+        "Do not invent technologies the notes do not contain"
       ],
       decisionLedger: [
         {
@@ -316,7 +316,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Unconstrained LLM outputs suffered from hallucinated tech terms and malformed JSON syntax.",
           alternative: "Regex parsing, raw string matching",
           tradeoff: "Slightly higher prompt token count due to JSON schema payload injection.",
-          impact: "Achieved 99.8% structural parse validity on raw engineering notes."
+          impact: "Malformed JSON dies at the boundary. A defensive pattern, not a parse-rate certificate."
         }
       ],
       riskReview: {
@@ -336,7 +336,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       { type: "Architecture", title: "Validate JSON", detail: "The model can lie. The view cannot.", verificationStatus: "Documented" },
       { type: "Architecture", title: "Graph plus vectors", detail: "Vectors find. The graph remembers why.", verificationStatus: "Documented" },
     ],
-    businessImpact: "Automated the extraction and generation of structured technical collateral. Validated capability-mapping workflows via internal prototyping, significantly reducing manual document formatting time.",
+    businessImpact: "Notes become a graph. A prototype, not a live HR system.",
     lessonsLearned: [
       "LLM prompt engineering requires rigid output formatting constraints (forced JSON schema) to prevent parsing failures in the application layer.",
       "Relying purely on Vector databases for skill relationships results in semantic drift; a Graph database grounds the data in explicit structural relationships.",
@@ -365,10 +365,10 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       businessProblem: "Cloud note apps introduce network latency, cloud privacy risks, and fail completely during offline operation.",
       technicalProblem: "Building zero-latency local mutation storage with deterministic, multi-device CRDT conflict resolution.",
       hardConstraints: [
-        "0ms UI mutation latency (local IndexedDB write first)",
-        "100% offline functionality with zero external cloud dependencies",
-        "Deterministic CRDT state vector merge without data loss",
-        "Wasm-based local vector search without sending private notes to cloud APIs"
+        "Write locally first so typing never waits on the network",
+        "Work offline without a cloud round-trip",
+        "CRDT merge without last-write-wins data loss",
+        "Search that never sends the journal to a vendor"
       ],
       decisionLedger: [
         {
@@ -376,14 +376,14 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Network calls introduced noticeable typing lag and broken offline state during travel.",
           alternative: "Centralized PostgreSQL DB, Firebase Firestore, LocalStorage sync",
           tradeoff: "Requires storing CRDT document edit histories, increasing IndexedDB storage size.",
-          impact: "Achieved instantaneous sub-millisecond local input response and eventual consistency upon reconnection."
+          impact: "Typing hits IndexedDB first. A local-first pattern, not a latency claim."
         },
         {
           decision: "In-Browser Wasm Embeddings over Cloud Vector Search",
           reason: "Sending private personal journals and notes to third-party cloud APIs violated privacy requirements.",
           alternative: "Pinecone, OpenAI Embeddings API, WEAVIATE Cloud",
           tradeoff: "Requires downloading a 24MB Wasm model binary on initial app load.",
-          impact: "Enabled 100% air-gapped private semantic search directly inside the browser."
+          impact: "Embeddings in Wasm. Air-gapped search as a model, not a product claim."
         }
       ],
       riskReview: {
@@ -395,15 +395,15 @@ export const CASE_STUDIES: MissionIntelligence[] = [
         { phase: "Research & Benchmarking", architectureState: "Standard REST API + PostgreSQL Cloud Backend", shiftReason: "Observed network spinners and broken offline usage during flights." },
         { phase: "Prototype Phase", architectureState: "IndexedDB + Manual Timestamp Conflict Resolution", shiftReason: "Timestamp-based LAST-WRITE-WINS caused data loss during concurrent offline edits." },
         { phase: "Architecture Refinement", architectureState: "Yjs CRDTs + Cloudflare Workers Relay + Wasm Search", shiftReason: "Achieved deterministic CRDT delta merges and air-gapped search." },
-        { phase: "Current Implementation", architectureState: "Active Internal Daily Operating System", shiftReason: "Sustains 0ms typing response with multi-device background state sync." }
+        { phase: "Current Implementation", architectureState: "Internal daily driver", shiftReason: "Sync is eventual. Not a 0ms guarantee." }
       ],
     },
     evidence: [
-      { type: "Deployment", title: "Daily Operational System", detail: "Internal personal system. Not a public production service.", url: "", verificationStatus: "Documented" },
-      { type: "Performance", title: "Latency Benchmarks", detail: "Achieved consistent sub-millisecond local interaction speed bounded by local IndexedDB disk I/O.", verificationStatus: "Documented" },
+      { type: "Deployment", title: "Internal notes", detail: "A personal system. Not a public service.", url: "", verificationStatus: "Documented" },
+      { type: "Architecture", title: "Local first", detail: "Writes never wait on the network. Not a published benchmark.", verificationStatus: "Documented" },
       { type: "Architecture", title: "Sync Protocol Spec", detail: "Documentation detailing CRDT conflict resolution logic and WebRTC peer-to-peer sync fallbacks.", verificationStatus: "Documented" }
     ],
-    businessImpact: "Reduced cognitive friction of managing distinct productivity tools. Achieved full offline capability, ensuring zero workflow interruption during network disconnects.",
+    businessImpact: "One surface for notes and tasks. Internal, not a public service.",
     lessonsLearned: [
       "Building a robust CRDT synchronization engine requires leveraging established primitives like Yjs to handle complex concurrent edit conflicts.",
       "IndexedDB performance varies across browser engines; Dexie.js is essential for cross-browser stability.",
@@ -433,14 +433,14 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       technicalProblem: "Rapidly validating domain architecture feasibility and API integration viability before full-stack investment.",
       hardConstraints: [
         "Zero premature infrastructure lock-in",
-        "Sub-100ms rapid prototype render speed",
+        "Spikes that stay cheap to throw away",
         "Evidence-backed market problem intensity score",
-        "Modular architecture easily refactored into production"
+        "Modular architecture easy to carry into a later build"
       ],
       decisionLedger: [
         {
           decision: "Strict Customer Discovery Interview Gate Before Code Execution",
-          reason: "Building complex software without verified operator pain points resulted in abandoned codebases.",
+          reason: "Building complex software without checking the pain with operators left abandoned codebases.",
           alternative: "Immediate MVP development, speculative feature building",
           tradeoff: "Delays initial code output by 2-3 weeks during qualitative interviews.",
           impact: "Filtered out 4 unviable software concepts before committing engineering capital."
@@ -448,13 +448,13 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       ],
       riskReview: {
         currentLimitations: "Prototypes rely on simulated API responses during initial customer walkthroughs.",
-        technicalDebt: "Spike codebases are discarded or rewritten when transitioning to enterprise production.",
-        mitigationStrategy: "Maintaining strict architectural isolation between exploratory spikes and production systems."
+        technicalDebt: "Spike codebases are discarded or rewritten when a later build is funded.",
+        mitigationStrategy: "Keep exploratory spikes isolated from any later product build."
       },
       evolutionReview: [
         { phase: "Research", architectureState: "Qualitative operator problem interviews", shiftReason: "Identified key operational bottlenecks in targeted enterprise sectors." },
         { phase: "Discovery & Spiking", architectureState: "Rapid Next.js UI prototypes + LLM signal analysis", shiftReason: "Validated workflow UX and integration feasibility with operators." },
-        { phase: "Architecture Blueprinting", architectureState: "Target state C4 container diagrams & API specs", shiftReason: "Ensures clean transition to production engineering when funded." }
+        { phase: "Architecture Blueprinting", architectureState: "Target state C4 container diagrams & API specs", shiftReason: "Keeps a clean path into a funded engineering phase." }
       ],
     },
     evidence: [

@@ -122,7 +122,7 @@ export default function AiArchitectureModule() {
             </h1>
           </div>
           <p className="lede lg:col-span-5 lg:text-right">
-            Before/after models and architecture records. Nothing here is a live SLA.
+            Before/after models and architecture records. Nothing here is a live system.
           </p>
         </motion.div>
 
@@ -179,7 +179,7 @@ export default function AiArchitectureModule() {
                         A ticket storm, two ways
                       </h2>
                       <p className="mt-1 text-sm text-slate-400">
-                        Simulated routing. Not a production SLA.
+                        Simulated routing. Not a live routing desk.
                       </p>
                     </div>
                     <div className="inline-flex self-start rounded-full border border-obsidian-border bg-obsidian p-1">

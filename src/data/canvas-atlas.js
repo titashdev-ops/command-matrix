@@ -89,7 +89,7 @@ export const MISSION_TOPOLOGIES = {
       { id: "arch-index", label: "Notes", x: 22, y: 20, isCore: false, insight: { problem: "A claim without a note is a claim.", decision: "Link the choice to the case.", tradeoff: "You keep the links honest." } },
       { id: "project-graph", label: "Cases", x: 78, y: 20, isCore: false, insight: { problem: "A case study hides the joints.", decision: "Draw the graph. Open a node.", tradeoff: "Layout is work." } },
       { id: "seniority-eval", label: "Scope", x: 18, y: 68, isCore: false, insight: { problem: "Seniority is usually a vibe.", decision: "Show the scope of the choice.", tradeoff: "The numbers here are teaching notes." } },
-      { id: "impact-analyzer", label: "Model", x: 82, y: 68, isCore: false, insight: { problem: "Abstract work hides the cost.", decision: "Show latency and dollars as a model.", tradeoff: "Not a measured SLA." } },
+      { id: "impact-analyzer", label: "Model", x: 82, y: 68, isCore: false, insight: { problem: "Abstract work hides the cost.", decision: "Show latency and dollars as a model.", tradeoff: "A teaching note, not a benchmark." } },
       { id: "export-engine", label: "Cover", x: 50, y: 82, isCore: false, insight: { problem: "A recruiter and a CTO want different depths.", decision: "A cover first. The rest on open.", tradeoff: "Two layouts, one source." } }
     ],
     links: [

@@ -21,7 +21,7 @@ export const ADR_RECORDS = [
     ],
     "decision": "Serverless functions",
     "tradeoffs": "Scales in, scales out. Cold starts still need a cache in front of anything latency-sensitive.",
-    "consequences": "Less ops on burst traffic. This is a documented choice, not a measured SLA.",
+    "consequences": "Less ops on burst traffic. A documented choice, not a capacity certificate.",
     "currentStatus": "Documented"
   },
   {
@@ -71,7 +71,7 @@ export const ADR_RECORDS = [
     ],
     "decision": "Zod at the boundary",
     "tradeoffs": "Types and schemas have to stay in sync. A little runtime cost.",
-    "consequences": "Bad JSON never hits the view. Modeled stability — not a production percentage.",
+    "consequences": "Bad JSON never hits the view. A defensive pattern, not a stability percentage.",
     "currentStatus": "Documented"
   },
   {
@@ -121,7 +121,7 @@ export const ADR_RECORDS = [
     ],
     "decision": "React context for the shell, local state for the rest",
     "tradeoffs": "No extra store. Split the context or the tree pays.",
-    "consequences": "Enough for modals and tabs. High-frequency ticks stay in refs. A simulation of the shell — not a live ops bus.",
+    "consequences": "Enough for modals and tabs. High-frequency ticks stay in refs. A shell for this portfolio, not a live ops bus.",
     "currentStatus": "Simulation"
   }
 ];
