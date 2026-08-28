@@ -10,33 +10,42 @@ import { useRef } from "react";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const VIEWS = [
-  { id: "overview", label: "System Overview", icon: Layers },
-  { id: "frontend", label: "Frontend Layer", icon: Code },
-  { id: "backend", label: "Backend Layer", icon: Server },
-  { id: "ai", label: "AI Layer", icon: Cpu },
-  { id: "infrastructure", label: "Infrastructure", icon: Cloud },
-  { id: "flow", label: "System Flows", icon: Activity },
+  { id: "overview", label: "Cover", icon: Layers },
+  { id: "frontend", label: "Surface", icon: Code },
+  { id: "backend", label: "Services", icon: Server },
+  { id: "ai", label: "Models", icon: Cpu },
+  { id: "infrastructure", label: "Hosting", icon: Cloud },
+  { id: "flow", label: "Path", icon: Activity },
 ];
+
+const VIEW_COPY = {
+  overview: { title: "Cover", lede: "How these briefs sit together. Open a plate." },
+  frontend: { title: "Surface", lede: "The HUD and the canvas. Open a plate." },
+  backend: { title: "Services", lede: "How the modeled stack talks. Open a plate." },
+  ai: { title: "Models", lede: "Where language models sit in the briefs. Open a plate." },
+  infrastructure: { title: "Hosting", lede: "How this site ships. Open a plate." },
+  flow: { title: "Path", lede: "A request through a modeled stack. Teaching path, not a live pipeline." },
+};
 
 const NODE_DETAILS = {
   // Frontend
-  react: { title: "React 18+", purpose: "View Layer", resp: "Component rendering, layout composition", decision: "Concurrent rendering features prevent UI blocking during heavy telemetry updates.", future: "Migrate static routes to React Server Components.", dependencies: ["typescript", "state"], artifact: { label: "Review React ADR", action: "openAdrs" } },
+  react: { title: "React 18+", purpose: "View", resp: "Component rendering, layout composition", decision: "Concurrent rendering features prevent UI blocking during heavy telemetry updates.", future: "Migrate static routes to React Server Components.", dependencies: ["typescript", "state"], artifact: { label: "Open the record", action: "openAdrs" } },
   typescript: { title: "TypeScript", purpose: "Type Safety", resp: "Static typing, schema validation", decision: "Eliminates entire classes of runtime errors across complex data pipelines.", future: "Stricter Zod inference.", dependencies: ["react", "logic"] },
   state: { title: "State Management", purpose: "Data Flow", resp: "Context APIs, localized stores", decision: "Zustand chosen over Redux for minimal boilerplate and React Three Fiber compatibility.", future: "WebWorkers for heavy state processing.", dependencies: ["react"] },
-  threejs: { title: "Three.js / R3F", purpose: "Spatial Rendering", resp: "WebGL canvas, 3D asset orchestration", decision: "Declarative 3D graph allows syncing HTML overlay state with 3D nodes effortlessly.", future: "WebGPU migration for 10x vertex limits.", dependencies: ["react", "state"], artifact: { label: "View 3D Demo", action: "openFlagships" } },
+  threejs: { title: "Three.js / R3F", purpose: "Spatial Rendering", resp: "WebGL canvas, 3D asset orchestration", decision: "Declarative 3D graph allows syncing HTML overlay state with 3D nodes effortlessly.", future: "WebGPU migration for 10x vertex limits.", dependencies: ["react", "state"], artifact: { label: "Open the brief", action: "openFlagships" } },
   ui: { title: "UI Architecture", purpose: "Design System", resp: "Tailwind CSS, Framer Motion", decision: "Utility classes prevent CSS bloat; Framer Motion provides mathematically precise interpolations.", future: "CSS variable theming engine.", dependencies: ["react"] },
   
   // Backend
-  api: { title: "API Layer", purpose: "Ingestion / Routing", resp: "REST endpoints, WebSocket management", decision: "API routes provide seamless serverless bridging for frontend requests.", future: "GraphQL for complex relational queries.", dependencies: ["auth", "logic", "serverless"] },
+  api: { title: "API", purpose: "Ingestion / Routing", resp: "REST endpoints, WebSocket management", decision: "API routes provide seamless serverless bridging for frontend requests.", future: "GraphQL for complex relational queries.", dependencies: ["auth", "logic", "serverless"] },
   auth: { title: "Authentication", purpose: "Identity", resp: "JWT validation, session management", decision: "Stateless tokens scale by adding instances. A pattern in the case studies — this site has no accounts.", future: "Biometric Passkeys support.", dependencies: ["api", "db"] },
   logic: { title: "Business Logic", purpose: "Orchestration", resp: "Data transformations, rule evaluation", decision: "Decoupled from transport layer to allow both HTTP and event-driven invocations.", future: "WASM modules for performance critical paths.", dependencies: ["api", "db", "cache"] },
   serverless: { title: "Serverless Functions", purpose: "Compute", resp: "On-demand execution", decision: "Functions scale when they need to. Cold starts still exist.", future: "Stateful edge computing patterns.", dependencies: ["api", "vercel"] },
-  db: { title: "Database", purpose: "Persistence", resp: "ACID transactions, relational integrity", decision: "PostgreSQL chosen for strict schema guarantees and JSONB support.", future: "Read replicas in EU/AP regions.", dependencies: ["logic"], artifact: { label: "Review Database Schema ADR", action: "openAdrs" } },
-  cache: { title: "Caching", purpose: "Performance", resp: "In-memory key-value store", decision: "Redis handles rate-limiting and ephemeral state, reducing DB load by 80%.", future: "Distributed edge caching.", dependencies: ["logic", "api"] },
+  db: { title: "Database", purpose: "Persistence", resp: "ACID transactions, relational integrity", decision: "PostgreSQL chosen for strict schema guarantees and JSONB support.", future: "Read replicas in EU/AP regions.", dependencies: ["logic"], artifact: { label: "Open the record", action: "openAdrs" } },
+  cache: { title: "Caching", purpose: "Performance", resp: "In-memory key-value store", decision: "Redis for rate limits and short-lived state. A pattern in the briefs, not a measured load cut.", future: "Distributed edge caching.", dependencies: ["logic", "api"] },
   error: { title: "Error Handling", purpose: "Resilience", resp: "Circuit breakers, DLQs", decision: "Fail-open strategies on non-critical paths ensure graceful degradation.", future: "AI-driven automatic retries.", dependencies: ["api", "logic", "monitoring"] },
   
   // AI
-  orchestration: { title: "Model Orchestration", purpose: "AI Routing", resp: "LLM selection, load balancing", decision: "Dynamic routing between models based on token constraints and latency.", future: "Local SLM fallback on edge devices.", dependencies: ["prompt", "fallback", "context"], artifact: { label: "View AI Benchmark", action: "openAdrs" } },
+  orchestration: { title: "Model Orchestration", purpose: "AI Routing", resp: "LLM selection, load balancing", decision: "Dynamic routing between models based on token constraints and latency.", future: "Local SLM fallback on edge devices.", dependencies: ["prompt", "fallback", "context"], artifact: { label: "Open the record", action: "openAdrs" } },
   prompt: { title: "Prompt Engineering", purpose: "Context Injection", resp: "System instructions, few-shot examples", decision: "Templates keep the model inside a shape. A teaching note, not a live agent.", future: "Dynamic prompt optimization.", dependencies: ["orchestration"] },
   fallback: { title: "Fallback Strategy", purpose: "Redundancy", resp: "Graceful degradation on timeout", decision: "Hard timeout at 8s returns pre-computed heuristic responses to preserve UX.", future: "Progressive streaming fallbacks.", dependencies: ["orchestration"] },
   context: { title: "Context Management", purpose: "Memory", resp: "Vector retrieval, RAG", decision: "Vector similarity search used to inject relevant historical SOPs into the prompt context window.", future: "Graph-based memory retrieval.", dependencies: ["orchestration", "db"] },
@@ -46,7 +55,7 @@ const NODE_DETAILS = {
   // Infrastructure
   deployment: { title: "Deployment", purpose: "Delivery", resp: "Immutable builds, blue/green", decision: "Atomic deployments prevent partial state mismatches during scaling events.", future: "Canary rollouts via traffic shaping.", dependencies: ["cicd", "vercel"] },
   cicd: { title: "CI/CD", purpose: "Automation", resp: "Testing, linting, building", decision: "Actions run lint and build on merge. This site is a static deploy, not a fleet.", future: "Automated chaos engineering tests.", dependencies: ["github", "deployment"] },
-  github: { title: "GitHub", purpose: "Source Control", resp: "Version control, code review", decision: "Trunk-based development forces small, highly-reviewed iterative changes.", future: "AI-assisted PR structural reviews.", dependencies: ["cicd"], artifact: { label: "View Mission Repositories", action: "openFlagships" } },
+  github: { title: "GitHub", purpose: "Source Control", resp: "Version control, code review", decision: "Trunk-based development forces small, highly-reviewed iterative changes.", future: "AI-assisted PR structural reviews.", dependencies: ["cicd"], artifact: { label: "Open the brief", action: "openFlagships" } },
   vercel: { title: "Vercel / Cloud", purpose: "Hosting", resp: "Edge network, serverless infrastructure", decision: "Zero-config infrastructure allows the engineering team to focus entirely on product features.", future: "Multi-cloud redundancy layer.", dependencies: ["serverless", "deployment"] },
   monitoring: { title: "Monitoring", purpose: "Observability", resp: "APM, uptime checks", decision: "Tracing is a pattern for the systems in these case studies. This portfolio has no live APM.", future: "Predictive anomaly detection.", dependencies: ["error", "logging"] },
   logging: { title: "Logging", purpose: "Audit", resp: "Structured JSON logs", decision: "Centralized logging prevents debugging blindness in distributed serverless systems.", future: "Cost-optimized intelligent log sampling.", dependencies: ["monitoring"] },
@@ -62,12 +71,12 @@ const ARCHITECTURE_DATA = {
 
 // Flow data
 const SYSTEM_FLOW = [
-  { id: "req", label: "User Request", icon: Zap },
-  { id: "fe", label: "Frontend", icon: Code },
-  { id: "api", label: "API Gateway", icon: Server },
-  { id: "ai", label: "AI Layer", icon: Cpu },
-  { id: "val", label: "Validation", icon: Shield },
-  { id: "res", label: "Response", icon: CheckCircle2 },
+  { id: "req", label: "Request", icon: Zap },
+  { id: "fe", label: "Surface", icon: Code },
+  { id: "api", label: "Gateway", icon: Server },
+  { id: "ai", label: "Model", icon: Cpu },
+  { id: "val", label: "Check", icon: Shield },
+  { id: "res", label: "Reply", icon: CheckCircle2 },
 ];
 
 export default function EnterpriseArchitectureExplorer() {
@@ -114,7 +123,7 @@ export default function EnterpriseArchitectureExplorer() {
               </span>
               <Activity size={14} className={isSelected ? "text-cyan-electric" : "text-slate-600"} />
             </div>
-            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-400">
+            <span className="font-sans text-xs font-medium tracking-wide text-slate-400">
               {node.purpose}
             </span>
           </button>
@@ -155,11 +164,12 @@ export default function EnterpriseArchitectureExplorer() {
           {/* Header */}
           <div className="flex shrink-0 items-center justify-between border-b border-obsidian-border/60 bg-obsidian/80 p-3 sm:p-4 md:px-6 backdrop-blur-md">
             <div>
-              <h2 id="arch-title" className="font-mono text-xs sm:text-sm font-bold tracking-widest text-cyan-electric">ENTERPRISE ARCHITECTURE EXPLORER</h2>
-              <div className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500">System Design Briefing & Interactive Topology</div>
+              <p className="kicker text-cyan-electric/80">Architecture atlas</p>
+              <h2 id="arch-title" className="font-display text-xl sm:text-2xl font-extrabold tracking-[-0.04em] text-white">Map</h2>
+              <p className="font-sans text-sm text-slate-400">How these systems sit together.</p>
             </div>
             <button type="button"
-              aria-label="Close Explorer"
+              aria-label="Close map"
               onClick={() => { playClickSound(); onClose(); }}
               className="flex relative after:absolute after:content-[''] after:-inset-3 min-h-[32px] min-w-[32px] sm:h-10 sm:w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-obsidian-border hover:text-slate-200 transition-colors duration-200 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
             >
@@ -170,7 +180,7 @@ export default function EnterpriseArchitectureExplorer() {
           <div className="flex h-full min-h-0 flex-col md:flex-row">
             {/* Sidebar Navigation */}
             <div className="w-full shrink-0 flex flex-row overflow-x-auto md:flex-col md:overflow-y-auto border-b border-obsidian-border/60 bg-obsidian/50 p-2.5 sm:p-4 md:w-64 md:border-b-0 md:border-r md:p-6 gap-1.5 sm:gap-2 no-scrollbar scroll-smooth">
-              <div className="mb-2 font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 hidden md:block">Architecture Views</div>
+              <div className="mb-2 hidden md:block kicker text-slate-500">Plates</div>
               {VIEWS.map((view) => {
                 const Icon = view.icon;
                 const isActive = activeView === view.id;
@@ -191,7 +201,7 @@ export default function EnterpriseArchitectureExplorer() {
                     )}
                   >
                     <Icon size={16} className={isActive ? "text-emerald-glow shrink-0" : "text-slate-500 shrink-0"} />
-                    <span className="font-sans font-medium text-slate-400 uppercase tracking-wider">
+                    <span className="font-sans text-sm font-medium tracking-wide">
                       {view.label}
                     </span>
                   </button>
@@ -206,8 +216,8 @@ export default function EnterpriseArchitectureExplorer() {
               <div className="flex-1">
                 {activeView === "overview" && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                    <h2 className="font-sans text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2">System Overview</h2>
-                    <p className="text-slate-400 mb-8 max-w-3xl">A high-level architectural diagram illustrating the component relationships and data flow within the enterprise environment. Select specific layers from the sidebar for granular engineering breakdowns.</p>
+                    <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-[-0.04em] text-white mb-2">{VIEW_COPY.overview.title}</h2>
+                    <p className="text-slate-400 mb-8 max-w-3xl">{VIEW_COPY.overview.lede}</p>
                     
                     <div className="flex-1 flex items-center justify-center p-8 border border-obsidian-border/60 rounded-xl bg-obsidian/30 relative overflow-hidden">
                       {/* Stylized overview map */}
@@ -215,23 +225,23 @@ export default function EnterpriseArchitectureExplorer() {
                          <div className="flex flex-col gap-4">
                            <div className="h-32 border border-cyan-electric/30 bg-cyan-electric/5 rounded-lg flex items-center justify-center flex-col gap-2 shadow-[0_0_15px_rgba(0,255,255,0.05)]">
                               <Code size={24} className="text-cyan-electric" />
-                              <span className="font-sans text-xs font-bold text-cyan-electric">FRONTEND LAYER</span>
+                              <span className="font-sans text-sm font-medium text-cyan-electric">Surface</span>
                            </div>
                          </div>
                          <div className="flex flex-col gap-4">
                            <div className="h-32 border border-emerald-glow/30 bg-emerald-glow/5 rounded-lg flex items-center justify-center flex-col gap-2 shadow-[0_0_15px_rgba(16,185,129,0.05)]">
                               <Server size={24} className="text-emerald-glow" />
-                              <span className="font-sans text-xs font-bold text-emerald-glow">BACKEND / API LAYER</span>
+                              <span className="font-sans text-sm font-medium text-emerald-glow">Services</span>
                            </div>
                            <div className="h-32 border border-purple-400/30 bg-purple-400/5 rounded-lg flex items-center justify-center flex-col gap-2 shadow-[0_0_15px_rgba(168,85,247,0.05)]">
                               <Cpu size={24} className="text-purple-400" />
-                              <span className="font-sans text-xs font-bold text-purple-400">AI ORCHESTRATION</span>
+                              <span className="font-sans text-sm font-medium text-purple-400">Models</span>
                            </div>
                          </div>
                          <div className="flex flex-col gap-4">
                            <div className="h-68 border border-slate-500/30 bg-slate-500/5 rounded-lg flex items-center justify-center flex-col gap-2">
                               <Cloud size={24} className="text-slate-400" />
-                              <span className="font-sans text-xs font-bold text-slate-400">INFRASTRUCTURE</span>
+                              <span className="font-sans text-sm font-medium text-slate-400">Hosting</span>
                            </div>
                          </div>
                       </div>
@@ -252,8 +262,8 @@ export default function EnterpriseArchitectureExplorer() {
                 {(["frontend", "backend", "ai", "infrastructure"].includes(activeView)) && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col h-full gap-8">
                     <div>
-                      <h2 className="font-sans text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2 capitalize">{activeView} Layer</h2>
-                      <p className="text-slate-400 font-sans text-xs">SELECT A NODE BELOW TO VIEW ENGINEERING DECISIONS</p>
+                      <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-[-0.04em] text-white mb-2">{VIEW_COPY[activeView]?.title || activeView}</h2>
+                      <p className="text-slate-400 font-sans text-sm">{VIEW_COPY[activeView]?.lede || "Open a plate."}</p>
                     </div>
                     
                     {renderLayerNodes(activeView)}
@@ -275,15 +285,15 @@ export default function EnterpriseArchitectureExplorer() {
                             <div className="md:col-span-1 space-y-4 relative z-10">
                               <div>
                                 <h3 className="font-sans text-xl font-bold text-white">{selectedNode.title}</h3>
-                                <div className="mt-1 font-sans font-medium text-slate-400 uppercase tracking-wider text-cyan-electric">{selectedNode.purpose}</div>
+                                <div className="mt-1 font-sans text-sm font-medium text-cyan-electric">{selectedNode.purpose}</div>
                               </div>
                               
                               {selectedNode.dependencies && (
                                 <div>
-                                  <h4 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 mb-2">Connected Nodes</h4>
+                                  <h4 className="kicker text-slate-500 mb-2">Linked</h4>
                                   <div className="flex flex-wrap gap-1.5">
                                     {selectedNode.dependencies.map(dep => (
-                                      <span key={dep} className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-300 bg-obsidian-surface border border-obsidian-border px-2 py-0.5 rounded flex items-center gap-1">
+                                      <span key={dep} className="font-sans text-xs font-medium tracking-wide text-slate-300 bg-obsidian-surface border border-obsidian-border px-2 py-0.5 rounded flex items-center gap-1">
                                         <GitBranch size={10} className="text-slate-500" /> {NODE_DETAILS[dep]?.title || dep}
                                       </span>
                                     ))}
@@ -300,7 +310,7 @@ export default function EnterpriseArchitectureExplorer() {
                                     if (action === "openFlagships") openFlagships();
                                     onClose(); 
                                   }}
-                                  className="w-full mt-2 py-2 px-3 rounded border border-cyan-electric/50 bg-cyan-electric/10 hover:bg-cyan-electric/20 text-cyan-electric font-sans font-medium text-slate-400 uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+                                  className="w-full mt-2 py-2 px-3 rounded border border-cyan-electric/50 bg-cyan-electric/10 hover:bg-cyan-electric/20 text-cyan-electric font-sans text-xs font-medium tracking-wide transition-all duration-200 flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
                                 >
                                   {selectedNode.artifact.label} <ArrowRight size={12} />
                                 </button>
@@ -309,15 +319,15 @@ export default function EnterpriseArchitectureExplorer() {
                             
                             <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 relative z-10">
                               <div>
-                                <h4 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-500 mb-1">Responsibilities</h4>
+                                <h4 className="kicker text-slate-500 mb-1">What it does</h4>
                                 <p className="text-sm text-slate-300 leading-relaxed">{selectedNode.resp}</p>
                               </div>
                               <div>
-                                <h4 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-emerald-glow mb-1">Design Decision</h4>
+                                <h4 className="kicker text-emerald-glow mb-1">Choice</h4>
                                 <p className="text-sm text-slate-300 leading-relaxed">{selectedNode.decision}</p>
                               </div>
                               <div className="sm:col-span-2  pt-4">
-                                <h4 className="font-sans font-medium text-slate-400 uppercase tracking-wider text-purple-400 mb-1">Future Extensions</h4>
+                                <h4 className="kicker text-purple-400 mb-1">If later</h4>
                                 <p className="text-sm text-slate-400 italic">{selectedNode.future}</p>
                               </div>
                             </div>
@@ -331,7 +341,7 @@ export default function EnterpriseArchitectureExplorer() {
                           className="mt-auto  pt-6"
                         >
                           <div className="flex items-center justify-center h-32 border border-dashed border-obsidian-border rounded-xl bg-obsidian/20">
-                            <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-slate-600">Awaiting Node Selection...</span>
+                            <span className="font-sans text-sm text-slate-500">Choose a plate.</span>
                           </div>
                         </motion.div>
                       )}
@@ -341,8 +351,8 @@ export default function EnterpriseArchitectureExplorer() {
 
                 {activeView === "flow" && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                    <h2 className="font-sans text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2">System Flows</h2>
-                    <p className="text-slate-400 mb-8 max-w-3xl">Interactive visualization of a standard AI inference request propagating through the enterprise architecture.</p>
+                    <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-[-0.04em] text-white mb-2">{VIEW_COPY.flow.title}</h2>
+                    <p className="text-slate-400 mb-8 max-w-3xl">{VIEW_COPY.flow.lede}</p>
                     
                     <div className="flex-1 flex flex-col justify-center gap-12 p-8 border border-obsidian-border/60 rounded-xl bg-obsidian/30 relative">
                       {/* Progress Track */}
@@ -369,7 +379,7 @@ export default function EnterpriseArchitectureExplorer() {
                                 <Icon size={20} />
                               </motion.button>
                               <span className={cn(
-                                "font-sans text-xs uppercase tracking-wider text-center absolute -bottom-8 w-24 left-1/2 -translate-x-1/2",
+                                "font-sans text-xs tracking-wide text-center absolute -bottom-8 w-24 left-1/2 -translate-x-1/2",
                                 isCurrent ? "text-cyan-electric font-bold" : isPast ? "text-slate-300" : "text-slate-600"
                               )}>
                                 {step.label}
@@ -386,7 +396,7 @@ export default function EnterpriseArchitectureExplorer() {
                           disabled={flowStep === 0}
                           className="px-6 py-2 rounded border border-obsidian-border font-mono text-xs text-slate-400 hover:text-slate-200 disabled:opacity-30 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
                         >
-                          PREVIOUS
+                          Previous
                         </button>
                         <button type="button"
                           onClick={() => { 
@@ -396,7 +406,7 @@ export default function EnterpriseArchitectureExplorer() {
                           }}
                           className="px-6 py-2 rounded border border-cyan-electric/50 bg-cyan-electric/10 font-sans text-xs text-cyan-electric hover:bg-cyan-electric/20 transition-colors duration-200 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
                         >
-                          {flowStep === SYSTEM_FLOW.length - 1 ? "RESTART FLOW" : "NEXT STEP"} <ArrowRight size={14} />
+                          {flowStep === SYSTEM_FLOW.length - 1 ? "Again" : "Next"} <ArrowRight size={14} />
                         </button>
                       </div>
                     </div>

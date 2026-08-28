@@ -24,11 +24,7 @@ export default function SystemsIntelligenceCanvas() {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [selectedTech, setSelectedTech] = useState(null);
 
-  const [explorationHistory, setExplorationHistory] = useState(() => {
-    return [
-      { type: "mission", id: "ops-dronly", label: "ops.dronly.in" }
-    ];
-  });
+  const [explorationHistory, setExplorationHistory] = useState([]);
 
   const addToHistory = useCallback((item) => {
     setExplorationHistory((prev) => {
@@ -75,7 +71,6 @@ export default function SystemsIntelligenceCanvas() {
       setSelectedNode(null);
     } else {
       setSelectedNode(node);
-      setInspectorTab("4pillar");
       addToHistory({ type: "node", id: node.id, label: node.label });
     }
   };
@@ -130,7 +125,7 @@ export default function SystemsIntelligenceCanvas() {
         </svg>
       </div>
 
-      {/* Layer 1: Top Navigation, Quick Selectors & Session Memory Trail */}
+      {/* Layer 1: Topology selectors and short path */}
       <div className="relative z-10 flex flex-col gap-2.5 bg-obsidian-surface/90 p-2 sm:p-2.5 rounded-lg border border-obsidian-border/80 backdrop-blur-md">
         
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
@@ -160,11 +155,10 @@ export default function SystemsIntelligenceCanvas() {
           </div>
         </div>
 
-        {/* Phase 2: Engineering Memory (Session History Trail) */}
         {explorationHistory.length > 0 && (
-          <div className="flex items-center gap-1.5 pt-1.5  font-mono text-xs overflow-x-auto custom-scrollbar">
+          <div className="flex items-center gap-1.5 pt-1.5 font-sans text-xs overflow-x-auto custom-scrollbar">
             <span className="text-slate-500 tracking-wide flex items-center gap-1 shrink-0">
-              <History size={10} className="text-amber-400" /> Opened
+              <History size={10} className="text-amber-400" /> Path
             </span>
             <div className="flex items-center gap-1">
               {explorationHistory.map((item, idx) => (
