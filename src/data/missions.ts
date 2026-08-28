@@ -47,7 +47,7 @@ export interface MissionIntelligence {
     title: string;
     detail: string;
     url?: string;
-    verificationStatus?: "Verified" | "Active" | "Documented" | "Prototype";
+    verificationStatus?: "Active" | "Documented" | "Prototype" | "Simulation";
   }[];
   businessImpact: string;
   lessonsLearned: string[];
@@ -87,7 +87,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Eliminates TCP head-of-line blocking during cellular tower handoffs.",
           alternative: "WebSockets, REST HTTP/2 polling, raw TCP",
           tradeoff: "Requires custom client-side packet sequence deduplication and reassembly.",
-          impact: "Modeled reliability under burst ping load — not a measured 99.99% SLA."
+          impact: "Modeled reliability under burst ping load — not a measured SLA."
         },
         {
           decision: "Uber H3 Hexagonal Spatial Indexing",
@@ -222,7 +222,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     },
     engineeringReview: {
       businessProblem: "Decentralized legacy database servers created sync conflicts, lost billing records, and high maintenance costs.",
-      technicalProblem: "Guaranteeing zero-tamper HIPAA medical audit trails across multi-clinic locations while supporting low-latency EMR queries.",
+      technicalProblem: "Keeping an append-only medical audit trail across clinics while keeping EMR queries fast enough to use.",
       hardConstraints: [
         "100% immutable patient history append-only ledger",
         "Sub-150ms GraphQL federated query response for clinical records",
@@ -235,7 +235,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Medical audit requirements demanded non-repudiable state reconstruction for legal compliance.",
           alternative: "Standard relational CRUD with trigger-based audit tables",
           tradeoff: "Requires upcasting schemas as event versions evolve over time.",
-          impact: "Guaranteed 100% audit compliance and zero record tampering."
+          impact: "An append-only ledger so records cannot be silently rewritten. Modeled, not an audited certification."
         },
         {
           decision: "GraphQL Schema Federation Gateway",
