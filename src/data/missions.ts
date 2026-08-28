@@ -62,7 +62,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Simulation",
     implementationStatus: "Simulation",
     missionObjective: "A modeled command surface for distributed commercial drone fleets.",
-    executiveSummary: "A WebGL command surface for fleet telemetry and video. One pane instead of three. Modeled — this site does not fly a fleet.",
+    executiveSummary: "A WebGL command surface for fleet telemetry and video. One pane instead of three.",
     businessProblem: {
       business: "Fleet scalability was constrained by the cognitive load of monitoring fragmented systems, limiting the effective UAV-to-operator ratio.",
       operational: "Critical flight navigation and emergency override decisions were delayed by operators context-switching between disparate telemetry, video, and communication applications during active flight paths."
@@ -136,7 +136,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Prototype",
     implementationStatus: "Prototype",
     missionObjective: "Movement, feedback, and the clinic as one loop.",
-    executiveSummary: "Three prototypes: match a patient, read motion on camera, practice with feedback. Estimates — not a hospital product.",
+    executiveSummary: "Three prototypes: match a patient, read motion on camera, practice with feedback.",
     businessProblem: {
       business: "Inconsistent, subjective recovery tracking increases re-injury risks and extends rehabilitation timelines across athletic networks.",
       operational: "Physiotherapists manually record observations on static forms, preventing longitudinal biometric modeling and reducing engagement between clinical visits."
@@ -210,7 +210,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Simulation",
     implementationStatus: "Simulation",
     missionObjective: "Distributed clinical management operating system for multi-location dental practices.",
-    executiveSummary: "A modeled clinical OS for many rooms: records, scheduling, billing. Event-sourced so a rewrite cannot hide. Not a live EMR.",
+    executiveSummary: "A clinical OS for many rooms: records, scheduling, billing. Event-sourced so a rewrite cannot hide.",
     businessProblem: {
       business: "High licensing and maintenance overhead for legacy on-premise server infrastructure, coupled with data sync risks across decentralized locations.",
       operational: "Database synchronization challenges between clinical sites leading to scheduling conflicts and fragmented patient histories."
@@ -284,7 +284,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Prototype",
     implementationStatus: "Prototype",
     missionObjective: "Dynamically mapping unstructured engineering experience into queryable capability graphs.",
-    executiveSummary: "Notes become a graph. A prototype for mapping what was actually built — not a live HR system.",
+    executiveSummary: "Notes become a graph of what was actually built.",
     businessProblem: {
       business: "Unstructured historical project data obscures skill evolution and internal technical team capabilities.",
       operational: "Manual tailoring of capability matrices and skill resumes for engineering proposals is highly repetitive and prone to oversight."
@@ -351,7 +351,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     classification: "Prototype",
     implementationStatus: "Internal",
     missionObjective: "Unified, local-first knowledge management system with deterministic cross-device synchronization.",
-    executiveSummary: "Notes and tasks on this machine. Local first, offline by design. Internal — not a public service.",
+    executiveSummary: "Notes and tasks on this machine. Local first, offline by design.",
     businessProblem: {
       business: "Internal engineering tooling focused on maximizing personal focus and execution velocity.",
       operational: "Latency and cognitive friction caused by context-switching across multiple disconnected, cloud-dependent productivity applications."

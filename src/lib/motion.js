@@ -99,6 +99,27 @@ export const noteReveal = {
   },
 };
 
+export const resumeReveal = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 6 },
+  transition: { duration: 0.32, ease: easeLux },
+};
+
+export const searchReveal = {
+  initial: { opacity: 0, y: -14 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.22, ease: easeOut },
+};
+
+export const folioReveal = {
+  initial: { opacity: 0, x: 24 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: 14 },
+  transition: { duration: 0.38, ease: easeLux },
+};
+
 export const mapReveal = {
   initial: { opacity: 0, y: 24, clipPath: "inset(12% 8% 0 8%)" },
   animate: {
@@ -108,4 +129,5 @@ export const mapReveal = {
     transition: { duration: 0.55, ease: easeLux },
   },
 };
+
 

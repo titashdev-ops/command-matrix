@@ -19,12 +19,12 @@ const VIEWS = [
 ];
 
 const VIEW_COPY = {
-  overview: { title: "Cover", lede: "How these briefs sit together. Open a plate." },
-  frontend: { title: "Surface", lede: "The HUD and the canvas. Open a plate." },
-  backend: { title: "Services", lede: "How the modeled stack talks. Open a plate." },
-  ai: { title: "Models", lede: "Where language models sit in the briefs. Open a plate." },
-  infrastructure: { title: "Hosting", lede: "How this site ships. Open a plate." },
-  flow: { title: "Path", lede: "A request through a modeled stack. Teaching path, not a live pipeline." },
+  overview: { title: "Cover", lede: "How these briefs sit together." },
+  frontend: { title: "Surface", lede: "The HUD and the canvas." },
+  backend: { title: "Services", lede: "How the stack talks." },
+  ai: { title: "Models", lede: "Where language models sit in the briefs." },
+  infrastructure: { title: "Hosting", lede: "How this site ships." },
+  flow: { title: "Path", lede: "A request through the stack." },
 };
 
 const NODE_DETAILS = {

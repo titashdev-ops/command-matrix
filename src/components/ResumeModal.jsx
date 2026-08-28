@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useModal } from "../hooks/useModal";
-import { overlayFade, modalReveal } from "../lib/motion";
+import { overlayFade, resumeReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -36,10 +36,10 @@ const EXPERIENCE = [
     role: "Senior Consultant – Enterprise Application Support & Client Operations",
     dates: "Nov 2024 – Sep 2025",
     bullets: [
-      "Owned the full case lifecycle for 220–250 enterprise cases per month across email, chat, and phone.",
+      "Ran the operations case lifecycle for 220–250 enterprise cases per month across email, chat, and phone.",
       "Investigated licensing, subscription, authentication, configuration, and account access issues.",
       "Coordinated escalations with Engineering, Product, Licensing, Finance, and Operations.",
-      "Maintained detailed case documentation and knowledge reuse across the operations organization.",
+      "Maintained case documentation and knowledge reuse across the operations organization.",
     ],
   },
   {
@@ -68,7 +68,7 @@ const WORK_ITEMS = [
   {
     title: "ops.dronly.in",
     status: "Simulation",
-    lede: "A modeled spatial command surface for fleet telemetry. Not a live operations desk.",
+    lede: "Spatial command surface for fleet telemetry and video.",
   },
   {
     title: "Healthcare Systems Initiative",
@@ -78,12 +78,12 @@ const WORK_ITEMS = [
   {
     title: "Prodent OS",
     status: "Simulation",
-    lede: "A modeled clinical OS for multi-location practice workflows. Not a live EMR.",
+    lede: "Clinical OS for multi-location practice workflows.",
   },
   {
     title: "Career OS",
     status: "Prototype",
-    lede: "Notes become a graph. A prototype, not a live HR system.",
+    lede: "Notes become a graph of skills and work.",
   },
 ];
 
@@ -145,10 +145,10 @@ export default function ResumeModal() {
           aria-modal="true"
           aria-labelledby="resume-title"
           onClick={(e) => e.stopPropagation()}
-          initial={modalReveal.initial}
-          animate={modalReveal.animate}
-          exit={modalReveal.exit}
-          transition={modalReveal.transition}
+          initial={resumeReveal.initial}
+          animate={resumeReveal.animate}
+          exit={resumeReveal.exit}
+          transition={resumeReveal.transition}
           className="relative flex h-full w-full max-w-4xl flex-col overflow-hidden overscroll-contain rounded-xl border border-slate-700 bg-slate-900 shadow-2xl sm:max-h-[90vh]"
         >
           <div className="flex shrink-0 items-center justify-between border-b border-slate-800 bg-slate-900 px-6 py-4">
@@ -178,7 +178,7 @@ export default function ResumeModal() {
                   </h1>
                 </div>
                 <p className="max-w-3xl text-base leading-relaxed text-slate-300">
-                  I work across enterprise operations systems, investigations, process control, and AI workflow design. The work history is real. The systems below are modeled and documented.
+                  I work across enterprise operations systems, investigations, process control, and AI workflow design. The history is real. The systems below are case studies.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
                   <a

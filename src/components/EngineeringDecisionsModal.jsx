@@ -7,7 +7,7 @@ import { useSystemCommand } from "../context/SystemCommandContext";
 import { ADR_RECORDS } from "../data/adrs";
 import AdrSimulatorTab from "./AdrSimulatorTab";
 import { useModal } from "../hooks/useModal";
-import { modalReveal, overlayFade, easeLux } from "../lib/motion";
+import { folioReveal, overlayFade, easeLux } from "../lib/motion";
 import BriefCover from "./BriefCover";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
@@ -57,10 +57,10 @@ export default function EngineeringDecisionsModal() {
           aria-modal="true"
           aria-labelledby="adr-title"
           onClick={(e) => e.stopPropagation()}
-          initial={modalReveal.initial}
-          animate={modalReveal.animate}
-          exit={modalReveal.exit}
-          transition={modalReveal.transition}
+          initial={folioReveal.initial}
+          animate={folioReveal.animate}
+          exit={folioReveal.exit}
+          transition={folioReveal.transition}
           className="relative flex h-full max-h-[96vh] sm:max-h-[92vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border border-emerald-glow/25 bg-obsidian-surface/95 shadow-[0_0_80px_rgba(52,211,153,0.08)] overscroll-contain"
         >
           <div className="flex shrink-0 items-start justify-between gap-4 border-b border-obsidian-border/60 bg-obsidian/80 p-4 sm:px-6 sm:py-5">
@@ -93,7 +93,7 @@ export default function EngineeringDecisionsModal() {
                 ))}
               </div>
               <p className="font-sans text-xs text-slate-500">
-                Choices I would defend. Not a live system.
+                Choices I would defend.
               </p>
             </div>
             <button
@@ -211,7 +211,7 @@ export default function EngineeringDecisionsModal() {
                     Trade-off model
                   </h3>
                   <p className="lede">
-                    A walk-through of constraint trade-offs. Numbers here are simulated teaching artifacts.
+                    A walk-through of constraint trade-offs.
                   </p>
                 </div>
                 <AdrSimulatorTab />

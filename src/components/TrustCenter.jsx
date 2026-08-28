@@ -4,7 +4,7 @@ import { ArrowRight, Network } from "lucide-react";
 import { ADR_RECORDS } from "../data/adrs";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useSpatial, TABS } from "../SpatialContext";
-import { easeLux } from "../lib/motion";
+import { ledgerReveal } from "../lib/motion";
 
 export default function TrustCenter() {
   const { openAdrs, openEnterpriseExplorer, playClickSound } = useSystemCommand();
@@ -14,17 +14,15 @@ export default function TrustCenter() {
     <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: easeLux }}
+          {...ledgerReveal}
           className="max-w-2xl space-y-5"
         >
-          <p className="kicker text-emerald-400/80">Architecture atlas</p>
+          <p className="kicker text-emerald-400/80">Records</p>
           <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
             Decision records
           </h1>
           <p className="lede">
-            The record set for this portfolio. Comparisons live in Evidence. Nothing here is a live operations log.
+            The record set. Comparisons sit in Evidence.
           </p>
         </motion.div>
 

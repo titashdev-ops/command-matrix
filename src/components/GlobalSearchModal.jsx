@@ -8,7 +8,7 @@ import { useSpatial, TABS } from "../SpatialContext";
 import { useModal } from "../hooks/useModal";
 import { CASE_STUDIES } from "../data/missions";
 import { ADR_RECORDS } from "../data/adrs";
-import { overlayFade, modalReveal, galleryReveal } from "../lib/motion";
+import { overlayFade, searchReveal, galleryReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -38,7 +38,7 @@ const SEARCH_DATA = [
     path: "ADR_MODAL",
     payload: adr,
   })),
-  { id: "nav-records", title: "Records", lede: "Decision plates. Documented, not live.", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
+  { id: "nav-records", title: "Records", lede: "Decision plates.", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
   { id: "nav-discovery", title: "Write a note", lede: "A short intake that opens mail.", category: "Docs", icon: Terminal, path: "DISCOVERY_WIZARD" },
   { id: "nav-vector", title: "Work", lede: "Named systems on the home surface.", category: "Maps", icon: Map, path: "VECTOR" },
   { id: "nav-pointcloud", title: "Evidence", lede: "Modeled comparisons and architecture records.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
@@ -227,10 +227,10 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="global-search-title"
-            initial={modalReveal.initial}
-            animate={modalReveal.animate}
-            exit={modalReveal.exit}
-            transition={modalReveal.transition}
+            initial={searchReveal.initial}
+            animate={searchReveal.animate}
+            exit={searchReveal.exit}
+            transition={searchReveal.transition}
             onKeyDown={handleKeyDown}
             className="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-obsidian-border bg-obsidian/84 shadow-2xl backdrop-blur-2xl"
           >
@@ -243,7 +243,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
                     Find a case, record, or map
                   </h2>
                   <p className="max-w-2xl font-sans text-sm text-slate-400">
-                    Search opens as cards. Labels stay short. Results stay honest.
+                    Search opens as cards. Labels stay short.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
