@@ -19,8 +19,14 @@ export default function Footer() {
             COMMAND MATRIX
           </div>
           <p className="font-sans text-sm text-slate-400">
-            Titash Dev. Case studies, reviews, a brief.
+            Architecture case studies by Titash Dev. A prototype — not a live operations platform.
           </p>
+          <a
+            href="https://command-matrix-nine.vercel.app"
+            className="inline-block font-mono text-[11px] tracking-wide text-slate-500 hover:text-cyan-electric"
+          >
+            command-matrix-nine.vercel.app
+          </a>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-2">
