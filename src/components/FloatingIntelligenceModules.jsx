@@ -6,7 +6,6 @@ import {
   Cpu, 
   Activity, 
   ArrowUpRight, 
-  Sparkles,
 } from "lucide-react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -28,7 +27,8 @@ function Glass3DTiltCard({
   badgeColor = "text-cyan-electric border-cyan-electric/30 bg-cyan-electric/10",
   accentColor = "from-cyan-electric/30 via-emerald-glow/20 to-transparent",
   metrics, 
-  description, 
+  description,
+  line,
   ctaText, 
   onCtaClick,
   layoutId,
@@ -262,7 +262,7 @@ function Glass3DTiltCard({
                 <Icon size={20} />
               </div>
               <div>
-                <h3 className="font-display text-base font-bold text-white tracking-[-0.02em] group-hover:text-cyan-electric transition-colors duration-200">
+                <h3 className="font-display text-sm font-bold leading-tight text-white tracking-[-0.02em] group-hover:text-cyan-electric transition-colors duration-200 sm:text-base">
                   <motion.span layoutId={layoutId} className="inline-block">
                     {title}
                   </motion.span>
@@ -275,15 +275,20 @@ function Glass3DTiltCard({
 
             {/* Status Badge */}
             {badge && (
-              <span className={cn("font-sans text-xs uppercase tracking-widest px-2.5 py-1 rounded-full border backdrop-blur-md flex items-center gap-1 font-bold shrink-0", badgeColor)}>
-                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+              <span className={cn("font-sans text-[10px] uppercase tracking-widest px-2 py-1 rounded-full border backdrop-blur-md font-bold shrink-0 sm:text-xs sm:px-2.5", badgeColor)}>
                 {badge}
               </span>
             )}
           </div>
 
+          {line && (
+            <p className="font-sans text-sm font-medium text-slate-100 leading-snug">
+              {line}
+            </p>
+          )}
+
           {/* Module Description */}
-          <p className="font-sans text-xs text-slate-300 leading-relaxed">
+          <p className="font-sans text-xs text-slate-400 leading-relaxed">
             {description}
           </p>
 
@@ -316,7 +321,7 @@ function Glass3DTiltCard({
               <ArrowUpRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 text-cyan-electric" />
             </button>
             <span className="font-sans text-[11px] tracking-wide text-slate-500">
-              Brief
+              Case study
             </span>
           </div>
 
@@ -335,14 +340,15 @@ export default function FloatingIntelligenceModules() {
 
   const MODULES = [
     {
-      title: "ops.dronly.in",
-      subtitle: "UAV command & telemetry",
+      title: "Fleet command",
+      subtitle: "UAV telemetry",
       icon: Radio,
-      badge: "SIMULATION",
+      badge: "Simulation",
       badgeColor: "text-cyan-electric border-cyan-electric/40 bg-cyan-electric/10",
       accentColor: "from-cyan-electric via-emerald-glow/40 to-transparent",
-      description: "How a fleet operator sees the sky: MQTT, WebRTC, a spatial viewport. A model of command — not a live controller.",
-      ctaText: "Read the brief",
+      line: "One viewport for telemetry and video, instead of three tools.",
+      description: "Modeled MQTT and WebRTC. This site does not fly a fleet.",
+      ctaText: "Open study",
       layoutId: "case-title-ops-dronly",
       spanClass: "lg:col-span-7",
       onCtaClick: () => {
@@ -351,14 +357,15 @@ export default function FloatingIntelligenceModules() {
       }
     },
     {
-      title: "Healthcare Systems",
-      subtitle: "Clinical movement & physio",
+      title: "Clinical movement",
+      subtitle: "Physio & recovery",
       icon: Activity,
-      badge: "PROTOTYPE",
+      badge: "Prototype",
       badgeColor: "text-amber-400 border-amber-400/40 bg-amber-400/10",
       accentColor: "from-amber-400 via-rose-500/30 to-transparent",
-      description: "Recovery as a loop: movement, feedback, the clinic. Prototypes — not a hospital product.",
-      ctaText: "Read the brief",
+      line: "Recovery as a loop: pose, feedback, the next visit.",
+      description: "Clinic prototypes. Not a hospital product.",
+      ctaText: "Open study",
       layoutId: "case-title-sports-physio",
       spanClass: "lg:col-span-5",
       onCtaClick: () => {
@@ -368,13 +375,14 @@ export default function FloatingIntelligenceModules() {
     },
     {
       title: "Prodent OS",
-      subtitle: "Multi-clinic clinical OS",
+      subtitle: "Multi-clinic records",
       icon: Cpu,
-      badge: "MODELED",
+      badge: "Modeled",
       badgeColor: "text-violet-400 border-violet-400/40 bg-violet-400/10",
       accentColor: "from-violet-400 via-cyan-electric/30 to-transparent",
-      description: "One clinical OS for many rooms. Event-sourced, federated. Architecture — not a live EMR.",
-      ctaText: "Read the brief",
+      line: "One clinical record across rooms, written as architecture.",
+      description: "Event-sourced and federated. Not a live EMR.",
+      ctaText: "Open study",
       layoutId: "case-title-prodent-os",
       spanClass: "lg:col-span-5",
       onCtaClick: () => {
@@ -384,13 +392,14 @@ export default function FloatingIntelligenceModules() {
     },
     {
       title: "Career OS",
-      subtitle: "Talent graph engine",
+      subtitle: "Talent graph",
       icon: Layers,
-      badge: "PROTOTYPE",
+      badge: "Prototype",
       badgeColor: "text-emerald-glow border-emerald-glow/40 bg-emerald-glow/10",
       accentColor: "from-emerald-glow via-cyan-electric/40 to-transparent",
-      description: "The engine behind these dossiers. Notes become records. Internal, on purpose.",
-      ctaText: "Read the brief",
+      line: "Notes become a graph you can query.",
+      description: "Internal tooling. Not an HR system.",
+      ctaText: "Open study",
       layoutId: "case-title-career-os",
       spanClass: "lg:col-span-7",
       onCtaClick: () => {
@@ -403,18 +412,10 @@ export default function FloatingIntelligenceModules() {
   return (
     <section className="relative w-full py-2">
       {/* Section Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-obsidian-border/80 pb-4">
-        <div>
-          <div className="kicker text-cyan-electric mb-2 flex items-center gap-2">
-            <Sparkles size={12} className="text-cyan-electric" />
-            <span>Selected work</span>
-          </div>
-          <h2 className="font-display text-2xl font-extrabold text-white sm:text-3xl tracking-[-0.03em]">
-            Four systems
-          </h2>
-        </div>
-        <p className="font-sans text-sm text-slate-400 max-w-sm leading-relaxed lg:text-right">
-          Each dossier is labeled for what it actually is: simulation, prototype, or model.
+      <div className="mb-5 flex flex-col gap-2 border-b border-obsidian-border/80 pb-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="kicker text-slate-500">Open a study</div>
+        <p className="font-sans text-xs text-slate-500 max-w-sm sm:text-right">
+          Each card is labeled simulation, prototype, or model.
         </p>
       </div>
 

@@ -16,39 +16,31 @@ export default function SpatialTelemetryModule() {
   return (
     <>
       
-      <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
+      <section className="pointer-events-none relative isolate w-full py-4 sm:py-8">
+        <div className="relative z-10 w-full space-y-8">
           
           <motion.div
             initial="hidden"
             animate="show"
             variants={staggerHero}
-            className="relative grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-16"
+            className="relative max-w-3xl"
           >
             <div className="hud-bloom hidden md:block" aria-hidden="true" />
-            <div className="relative space-y-5 lg:col-span-7">
+            <div className="relative space-y-4">
               <motion.p variants={heroItem} className="kicker text-cyan-electric/80">
-                Command Matrix
+                Titash Dev · Systems architect
               </motion.p>
               <motion.h1
                 variants={heroName}
-                className="hologram-name font-display text-[2.85rem] sm:text-6xl lg:text-[4.4rem] font-extrabold leading-[0.92] tracking-[-0.045em] drop-shadow-[0_0_42px_rgba(0,240,255,0.22)]"
+                className="font-display text-[2.05rem] font-extrabold leading-[0.95] tracking-[-0.045em] text-white sm:text-6xl lg:text-[4.25rem]"
               >
-                Titash Dev
+                Architecture
+                <span className="block text-slate-300">case studies</span>
               </motion.h1>
-              <motion.p
-                variants={heroItem}
-                className="kicker text-transparent bg-clip-text bg-gradient-to-r from-cyan-electric via-teal-200 to-emerald-glow tracking-[0.22em]"
-              >
-                Systems Architect
+              <motion.p variants={heroItem} className="lede max-w-xl">
+                Four modeled systems, each with the decision and the tradeoff written down. A portfolio simulation — not a live operations platform.
               </motion.p>
             </div>
-            <motion.p
-              variants={heroItem}
-              className="lede lg:col-span-5 lg:pb-2 lg:text-right"
-            >
-              I design operating systems for fleets, clinics, and talent graphs. This HUD is the portfolio. The systems inside are modeled — not live ops.
-            </motion.p>
           </motion.div>
 
           {/* Named case studies first */}
@@ -57,16 +49,16 @@ export default function SpatialTelemetryModule() {
           </div>
 
           {/* Quiet, Discreet Primary CTA Link */}
-          <div className="pt-4 flex items-center justify-between pointer-events-auto border-t border-obsidian-border/40">
+          <div className="pointer-events-auto flex flex-col gap-2 border-t border-obsidian-border/40 pt-4 sm:flex-row sm:items-center sm:justify-between">
             <span className="font-sans text-xs text-slate-400">
-              Comparisons and decision records sit in Evidence.
+              Comparisons and decision records are on Compare.
             </span>
             <button
               type="button"
               onClick={() => setActiveTab(TABS.POINT_CLOUD)}
               className="inline-flex items-center gap-2 font-sans text-xs font-bold text-cyan-electric hover:text-cyan-300 transition-colors cursor-pointer group py-2"
             >
-              <span>Open evidence</span>
+              <span>Open comparisons</span>
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

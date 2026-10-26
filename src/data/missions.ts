@@ -57,7 +57,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   {
     missionId: "ops-dronly",
     family: "Fleet",
-    projectName: "ops.dronly.in",
+    projectName: "Fleet command",
     domain: "UAV Telemetry & Command",
     classification: "Simulation",
     implementationStatus: "Simulation",

@@ -20,9 +20,9 @@ import { twMerge } from "tailwind-merge";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const TAB_META = {
-  [TABS.VECTOR]: { label: "Work", icon: Compass, color: "text-cyan-electric", border: "border-cyan-electric/30", bg: "bg-cyan-electric/5" },
-  [TABS.POINT_CLOUD]: { label: "Evidence", icon: Layers, color: "text-emerald-glow", border: "border-emerald-glow/30", bg: "bg-emerald-glow/5" },
-  [TABS.AIRSPACE]: { label: "Engage", icon: Navigation, color: "text-amber-400", border: "border-amber-400/30", bg: "bg-amber-400/5" },
+  [TABS.VECTOR]: { label: "Studies", icon: Compass, color: "text-cyan-electric", border: "border-cyan-electric/30", bg: "bg-cyan-electric/5" },
+  [TABS.POINT_CLOUD]: { label: "Compare", icon: Layers, color: "text-emerald-glow", border: "border-emerald-glow/30", bg: "bg-emerald-glow/5" },
+  [TABS.AIRSPACE]: { label: "Brief", icon: Navigation, color: "text-amber-400", border: "border-amber-400/30", bg: "bg-amber-400/5" },
   [TABS.TRUST_CENTER]: { label: "Records", icon: FileText, color: "text-emerald-400", border: "border-emerald-400/30", bg: "bg-emerald-400/5" },
 };
 
@@ -82,7 +82,7 @@ export default function Navbar({ onOpenSearch }) {
                 COMMAND MATRIX
               </div>
               <div className="font-sans text-[10px] tracking-wide text-slate-500 sm:text-xs">
-                Titash Dev
+                Case studies
               </div>
             </div>
           </div>
@@ -129,14 +129,10 @@ export default function Navbar({ onOpenSearch }) {
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </button>
 
-            {/* Portfolio status — not live ops */}
+            {/* Portfolio status — not a live system */}
             <div className="hidden items-center gap-2 rounded-full border border-cyan-electric/20 bg-cyan-electric/5 px-3 py-1.5 lg:flex pointer-events-none">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-cyan-electric/50 animate-[hud-breathe_3.5s_ease-in-out_infinite]" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-electric" />
-              </span>
               <span className="font-mono text-xs tracking-wider text-cyan-electric/90">
-                PORTFOLIO
+                NOT LIVE OPS
               </span>
             </div>
 
@@ -160,10 +156,11 @@ export default function Navbar({ onOpenSearch }) {
             </button>
             <button type="button"
               onClick={openContact}
-              className="lux-sheen group relative flex min-h-[48px] items-center gap-2 overflow-hidden rounded-full border border-cyan-electric/60 bg-cyan-electric/15 px-4 py-1.5 sm:min-h-[auto] font-sans text-xs font-semibold tracking-wide text-cyan-electric transition-all hover:bg-cyan-electric/25 hover:shadow-cyan-glow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+              aria-label="Contact"
+              className="lux-sheen group relative flex min-h-[44px] items-center gap-2 overflow-hidden rounded-full border border-cyan-electric/60 bg-cyan-electric/15 px-3 py-1.5 font-sans text-xs font-semibold tracking-wide text-cyan-electric transition-all hover:bg-cyan-electric/25 hover:shadow-cyan-glow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 sm:px-4"
             >
               <Activity size={14} />
-              Contact
+              <span className="hidden min-[420px]:inline">Contact</span>
             </button>
           </div>
         </div>
@@ -204,6 +201,9 @@ export default function Navbar({ onOpenSearch }) {
                   <div>
                     <div className="font-mono text-xs font-bold tracking-widest text-white">
                       TITASH DEV
+                    </div>
+                    <div className="font-sans text-[10px] tracking-wide text-slate-500">
+                      Case studies · not live ops
                     </div>
                   </div>
                 </div>

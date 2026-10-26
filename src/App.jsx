@@ -64,7 +64,7 @@ function OverlayRouter({ onOpenSearch }) {
       </a>
       <Navbar onOpenSearch={onOpenSearch} />
 
-      <main id="hud-main" className="pointer-events-none flex-1 mx-auto w-full max-w-7xl px-4 pb-24 pt-28 md:px-6 lg:px-12 lg:pt-28">
+      <main id="hud-main" className="pointer-events-none flex-1 mx-auto w-full max-w-7xl px-4 pb-16 pt-24 sm:px-6 md:px-12 md:pb-24 md:pt-28">
         <AnimatePresence mode="wait">
           {activeTab === TABS.VECTOR && (
             <motion.div

@@ -107,8 +107,8 @@ export default function AiArchitectureModule() {
   const isBefore = mode === MODES.BEFORE;
 
   return (
-    <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
+    <section className="pointer-events-none relative isolate w-full py-4 sm:py-8">
+      <div className="relative z-10 w-full space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -116,7 +116,7 @@ export default function AiArchitectureModule() {
           className="grid gap-6 lg:grid-cols-12 lg:items-end"
         >
           <div className="space-y-4 lg:col-span-7">
-            <p className="kicker text-emerald-glow/80">Evidence</p>
+            <p className="kicker text-emerald-glow/80">Compare</p>
             <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
               How it was decided
             </h1>

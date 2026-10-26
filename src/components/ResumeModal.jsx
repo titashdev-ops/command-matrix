@@ -66,9 +66,9 @@ const EXPERIENCE = [
 
 const WORK_ITEMS = [
   {
-    title: "ops.dronly.in",
+    title: "Fleet command",
     status: "Simulation",
-    lede: "Spatial command surface for fleet telemetry and video.",
+    lede: "Modeled command surface for fleet telemetry and video. Not a live fleet.",
   },
   {
     title: "Healthcare Systems Initiative",
@@ -263,7 +263,7 @@ export default function ResumeModal() {
                 <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
                   <CheckCircle2 size={16} className="text-emerald-400" />
                   <h3 id="work-heading" className="text-sm font-bold uppercase tracking-wider text-slate-500">
-                    Selected work
+                    Case studies
                   </h3>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">

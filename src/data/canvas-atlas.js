@@ -16,7 +16,7 @@ export const MICRO_EDUCATION_DB = {
 
 export const MISSION_TOPOLOGIES = {
   "ops-dronly": {
-    id: "ops-dronly", title: "ops.dronly.in", subtitle: "Fleet telemetry", accentColor: "cyan", hexColor: "#00f0ff",
+    id: "ops-dronly", title: "Fleet command", subtitle: "Modeled telemetry", accentColor: "cyan", hexColor: "#00f0ff",
     textClass: "text-cyan-electric", borderClass: "border-cyan-electric/40", bgClass: "bg-cyan-electric/10",
     glowClass: "shadow-[0_0_15px_rgba(0,240,255,0.25)]", techStack: ["gRPC", "TimescaleDB", "H3", "WebRTC"],
     insight: { problem: "Positions arrive faster than a table wants to take them.", decision: "Stream at the edge. Index in hexes. Cache the hot path.", tradeoff: "You own packet order. The viewport stays smooth." },

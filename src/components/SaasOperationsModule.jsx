@@ -20,8 +20,8 @@ export default function SaasOperationsModule() {
   const { openContact, openResume, playClickSound } = useSystemCommand();
 
   return (
-    <section className="pointer-events-none relative isolate w-full py-12 sm:py-20">
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-12">
+    <section className="pointer-events-none relative isolate w-full py-4 sm:py-10">
+      <div className="relative z-10 w-full space-y-10">
         
         {/* Calm Hero Header */}
         <motion.div
@@ -30,13 +30,13 @@ export default function SaasOperationsModule() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-3xl space-y-5"
         >
-          <p className="kicker text-amber-400/80">Engage</p>
+          <p className="kicker text-amber-400/80">Brief</p>
           <h1 className="font-display text-[2.5rem] sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
-            A brief, not a funnel
+            Send a brief
           </h1>
 
           <p className="lede">
-            Tell me the constraints. I’ll reply by mail. No CRM, no drip.
+            Tell me the constraint. I reply by email. Nothing is stored on this site.
           </p>
         </motion.div>
 

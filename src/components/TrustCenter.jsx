@@ -11,8 +11,8 @@ export default function TrustCenter() {
   const { setActiveTab } = useSpatial();
 
   return (
-    <section className="pointer-events-none relative isolate w-full py-8 sm:py-14">
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-12 lg:px-16 space-y-10">
+    <section className="pointer-events-none relative isolate w-full py-4 sm:py-8">
+      <div className="relative z-10 w-full space-y-8">
         <motion.div
           {...ledgerReveal}
           className="max-w-2xl space-y-5"
@@ -22,7 +22,7 @@ export default function TrustCenter() {
             Decision records
           </h1>
           <p className="lede">
-            The record set. Comparisons sit in Evidence.
+            Architecture decision records. Modeled comparisons live on Compare.
           </p>
         </motion.div>
 
@@ -39,7 +39,7 @@ export default function TrustCenter() {
             >
               <div className="flex items-center justify-between mb-4">
                 <span className="kicker text-emerald-400/80">
-                  Plate {String(index + 1).padStart(2, "0")} · {adr.id}
+                  Plate {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
                   {adr.currentStatus === "Verified" ? "Documented" : adr.currentStatus || "Documented"}
@@ -65,8 +65,8 @@ export default function TrustCenter() {
             onClick={() => setActiveTab(TABS.POINT_CLOUD)}
             className="rounded-2xl border border-obsidian-border/70 bg-obsidian/50 p-4 text-left hover:border-emerald-400/40"
           >
-            <p className="kicker text-emerald-400/80 mb-2">Evidence</p>
-            <p className="font-sans text-sm text-slate-300">Modeled comparisons sit in Evidence, not here.</p>
+            <p className="kicker text-emerald-400/80 mb-2">Compare</p>
+            <p className="font-sans text-sm text-slate-300">Before/after models. Illustrative numbers, not production metrics.</p>
           </button>
           <button
             type="button"

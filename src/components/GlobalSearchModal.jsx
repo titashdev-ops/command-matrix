@@ -24,7 +24,7 @@ const SEARCH_DATA = [
     id: cs.missionId,
     title: cs.projectName,
     lede: firstSentence(cs.executiveSummary),
-    category: "Work",
+    category: "Studies",
     icon: Layout,
     path: "FLAGSHIP_MODAL",
     payload: cs,
@@ -38,20 +38,20 @@ const SEARCH_DATA = [
     path: "ADR_MODAL",
     payload: adr,
   })),
-  { id: "nav-records", title: "Records", lede: "Decision plates.", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
+  { id: "nav-records", title: "Records", lede: "Decision records.", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
   { id: "nav-discovery", title: "Write a note", lede: "A short intake that opens mail.", category: "Docs", icon: Terminal, path: "DISCOVERY_WIZARD" },
-  { id: "nav-vector", title: "Work", lede: "Named systems on the home surface.", category: "Maps", icon: Map, path: "VECTOR" },
-  { id: "nav-pointcloud", title: "Evidence", lede: "Comparisons and architecture records.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
-  { id: "nav-airspace", title: "Engage", lede: "Resume and contact.", category: "Maps", icon: Database, path: "AIRSPACE" },
+  { id: "nav-vector", title: "Studies", lede: "Four architecture case studies.", category: "Maps", icon: Map, path: "VECTOR" },
+  { id: "nav-pointcloud", title: "Compare", lede: "Modeled before/after comparisons.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
+  { id: "nav-airspace", title: "Brief", lede: "Email a constraint. Nothing is stored.", category: "Maps", icon: Database, path: "AIRSPACE" },
   { id: "nav-archexplorer", title: "Map", lede: "A spatial view of the systems.", category: "Maps", icon: Code, path: "ARCH_EXPLORER" },
 ];
 
 const FEATURED = [
-  ...SEARCH_DATA.filter((d) => d.category === "Work").slice(0, 4),
+  ...SEARCH_DATA.filter((d) => d.category === "Studies").slice(0, 4),
   ...SEARCH_DATA.filter((d) => d.category === "Records").slice(0, 2),
 ];
 
-const ARCHIVE_RAIL = ["Work", "Records", "Maps", "Docs"];
+const ARCHIVE_RAIL = ["Studies", "Records", "Maps", "Docs"];
 
 function FeaturedTile({ result, isSelected, onClick, onHover, wide = false, resultRef }) {
   const Icon = result.icon;
