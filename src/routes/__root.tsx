@@ -3,7 +3,7 @@ import { AuthProvider } from "@/lib/auth-provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "Titash Dev — Systems Architect";
+const APP_NAME = "Command Matrix — Architecture case studies";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -15,19 +15,12 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Spatial HUD portfolio for Titash Dev — systems architecture case studies, modeled telemetry, and interactive engineering decision records.",
+          "Portfolio of systems architecture case studies by Titash Dev. Prototype simulations of fleet command, clinical systems, and decision records. Not a live operations platform.",
       },
       { name: "author", content: "Titash Dev" },
-      {
-        property: "og:description",
-        content:
-          "Spatial HUD portfolio for Titash Dev — systems architecture case studies, modeled telemetry, and interactive engineering decision records.",
-      },
-      { property: "og:image", content: "/og.jpg" },
-      { name: "twitter:image", content: "/og.jpg" },
     ],
     links: [
-      { rel: "canonical", href: "https://dronly.in" },
+      { rel: "canonical", href: "https://command-matrix-nine.vercel.app" },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -53,7 +46,7 @@ export const Route = createRootRoute({
               name: "Titash Dev",
               jobTitle: "Systems Architect",
               email: "mailto:titashdev@gmail.com",
-              url: "https://dronly.in",
+              url: "https://command-matrix-nine.vercel.app",
               sameAs: [
                 "https://github.com/titashdev-ops",
                 "https://www.linkedin.com/in/titashdeb",
