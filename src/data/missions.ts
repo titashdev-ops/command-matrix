@@ -55,7 +55,7 @@ export interface MissionIntelligence {
 
 export const CASE_STUDIES: MissionIntelligence[] = [
   {
-    missionId: "ops-dronly",
+    missionId: "fleet-command",
     family: "Fleet",
     projectName: "Fleet command",
     domain: "UAV Telemetry & Command",
@@ -131,7 +131,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   {
     missionId: "sports-physio",
     family: "Motion",
-    projectName: "Healthcare Systems Initiative",
+    projectName: "Clinical movement",
     domain: "Clinical HealthTech & Biomechanics",
     classification: "Prototype",
     implementationStatus: "Prototype",

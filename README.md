@@ -1,6 +1,6 @@
 # command-matrix
 
-Frontend portfolio of systems architecture case studies by [Titash Dev](https://github.com/titashdev-ops).
+Frontend portfolio of systems architecture case studies by [Titash Deb](https://github.com/titashdev-ops).
 
 Live site: [command-matrix-nine.vercel.app](https://command-matrix-nine.vercel.app)
 
@@ -19,8 +19,6 @@ A browsable set of architecture case studies, decision records, and interactive 
 - Moving numbers in the UI are a **client-side demo loop**, not production data
 
 Status: **prototype / simulation**.
-
-The public hostname `dronly.in` is not in DNS. Do not use it as the canonical URL.
 
 ## Stack
 

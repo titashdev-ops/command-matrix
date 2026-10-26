@@ -28,7 +28,7 @@ export default function SpatialTelemetryModule() {
             <div className="hud-bloom hidden md:block" aria-hidden="true" />
             <div className="relative space-y-4">
               <motion.p variants={heroItem} className="kicker text-cyan-electric/80">
-                Titash Dev · Systems architect
+                Titash Deb · Systems architect
               </motion.p>
               <motion.h1
                 variants={heroName}

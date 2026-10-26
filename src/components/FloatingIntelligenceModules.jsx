@@ -349,11 +349,11 @@ export default function FloatingIntelligenceModules() {
       line: "One viewport for telemetry and video, instead of three tools.",
       description: "Modeled MQTT and WebRTC. This site does not fly a fleet.",
       ctaText: "Open study",
-      layoutId: "case-title-ops-dronly",
+      layoutId: "case-title-fleet-command",
       spanClass: "lg:col-span-7",
       onCtaClick: () => {
         playClickSound();
-        openFlagships(CASE_STUDIES.find((m) => m.missionId === "ops-dronly"));
+        openFlagships(CASE_STUDIES.find((m) => m.missionId === "fleet-command"));
       }
     },
     {

@@ -655,7 +655,7 @@ export default function AdrSimulatorTab() {
             <div className="p-3 rounded-lg border border-obsidian-border bg-obsidian-surface/40 space-y-1">
               <span className="font-sans text-xs uppercase text-purple-400 font-bold block">Related work</span>
               <p className="text-slate-300">
-                Same questions as <strong>Fleet command</strong>, <strong>Healthcare</strong>, <strong>Prodent OS</strong>, and <strong>Career OS</strong>.
+                Same questions as <strong>Fleet command</strong>, <strong>Clinical movement</strong>, <strong>Prodent OS</strong>, and <strong>Career OS</strong>.
               </p>
             </div>
           </div>

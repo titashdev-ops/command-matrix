@@ -17,7 +17,7 @@ export function buildSafeMailtoPayload({ name, contact, inquiryType, message }) 
       `Inquiry: ${safeType}\n\n` +
       `${safeMessage}\n\n` +
       `--\n` +
-      `Sent from the Titash Dev command-matrix portfolio\n` +
+      `Sent from the Titash Deb command-matrix portfolio\n` +
       `${timestamp} · ${resolution} · ${locale}`,
   );
 

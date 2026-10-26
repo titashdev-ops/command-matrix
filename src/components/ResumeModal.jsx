@@ -71,7 +71,7 @@ const WORK_ITEMS = [
     lede: "Modeled command surface for fleet telemetry and video. Not a live fleet.",
   },
   {
-    title: "Healthcare Systems Initiative",
+    title: "Clinical movement",
     status: "Prototype",
     lede: "Clinical movement and recovery systems with clear visual feedback.",
   },
@@ -174,7 +174,7 @@ export default function ResumeModal() {
                 <div className="space-y-2">
                   <p className="kicker text-cyan-electric/70">Enterprise operations · Bengaluru</p>
                   <h1 className="font-display text-4xl font-extrabold tracking-[-0.05em] text-white sm:text-5xl">
-                    Titash Dev
+                    Titash Deb
                   </h1>
                 </div>
                 <p className="max-w-3xl text-base leading-relaxed text-slate-300">

@@ -17,7 +17,7 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
     id: "telemetry",
     label: "Telemetry",
     desc: "High-rate systems and spatial maps.",
-    targetMissionId: "ops-dronly"
+    targetMissionId: "fleet-command"
   },
   {
     id: "healthcare",

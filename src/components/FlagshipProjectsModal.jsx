@@ -20,7 +20,7 @@ import { folioReveal, overlayFade } from "../lib/motion";
 const cn = (...inputs) => twMerge(clsx(inputs));
 
 const PROJECT_ACCENTS = {
-  "ops-dronly": {
+  "fleet-command": {
     text: "text-cyan-electric",
     border: "border-cyan-electric",
     bg: "bg-cyan-electric/10",
@@ -158,7 +158,7 @@ function DossierView({ activeProject, onClose, onBack, onSelectRelated }) {
   const { playClickSound, openAdrs } = useSystemCommand();
   const [viewMode, setViewMode] = useState("investigation"); // 'investigation' | 'review'
 
-  const accent = PROJECT_ACCENTS[activeProject.missionId] || PROJECT_ACCENTS["ops-dronly"];
+  const accent = PROJECT_ACCENTS[activeProject.missionId] || PROJECT_ACCENTS["fleet-command"];
 
   const handleLinkClick = (url) => {
     playClickSound();
@@ -246,7 +246,7 @@ function IndexView({ onSelectProject, onClose }) {
   const currentProjects = familyGroups[activeTab] || [];
   const heroProject = currentProjects[0];
   const subProjects = currentProjects.slice(1);
-  const heroAccent = heroProject ? (PROJECT_ACCENTS[heroProject.missionId] || PROJECT_ACCENTS["ops-dronly"]) : null;
+  const heroAccent = heroProject ? (PROJECT_ACCENTS[heroProject.missionId] || PROJECT_ACCENTS["fleet-command"]) : null;
 
   return (
     <div className="flex flex-col flex-1 min-h-0 h-full bg-obsidian p-4 sm:p-6 md:p-8 lg:p-10">
@@ -348,7 +348,7 @@ function IndexView({ onSelectProject, onClose }) {
                     <h4 className="kicker text-slate-500 mb-2">Also here</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3">
                       {subProjects.map(proj => {
-                        const accent = PROJECT_ACCENTS[proj.missionId] || PROJECT_ACCENTS["ops-dronly"];
+                        const accent = PROJECT_ACCENTS[proj.missionId] || PROJECT_ACCENTS["fleet-command"];
                         return (
                           <button type="button"
                             key={proj.missionId}

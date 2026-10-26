@@ -15,9 +15,9 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Portfolio of systems architecture case studies by Titash Dev. Prototype simulations of fleet command, clinical systems, and decision records. Not a live operations platform.",
+          "Portfolio of systems architecture case studies by Titash Deb. Prototype simulations of fleet command, clinical systems, and decision records. Not a live operations platform.",
       },
-      { name: "author", content: "Titash Dev" },
+      { name: "author", content: "Titash Deb" },
     ],
     links: [
       { rel: "canonical", href: "https://command-matrix-nine.vercel.app" },
@@ -43,7 +43,7 @@ export const Route = createRootRoute({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Titash Dev",
+              name: "Titash Deb",
               jobTitle: "Systems Architect",
               email: "mailto:titashdev@gmail.com",
               url: "https://command-matrix-nine.vercel.app",

@@ -15,8 +15,8 @@ export const MICRO_EDUCATION_DB = {
 };
 
 export const MISSION_TOPOLOGIES = {
-  "ops-dronly": {
-    id: "ops-dronly", title: "Fleet command", subtitle: "Modeled telemetry", accentColor: "cyan", hexColor: "#00f0ff",
+  "fleet-command": {
+    id: "fleet-command", title: "Fleet command", subtitle: "Modeled telemetry", accentColor: "cyan", hexColor: "#00f0ff",
     textClass: "text-cyan-electric", borderClass: "border-cyan-electric/40", bgClass: "bg-cyan-electric/10",
     glowClass: "shadow-[0_0_15px_rgba(0,240,255,0.25)]", techStack: ["gRPC", "TimescaleDB", "H3", "WebRTC"],
     insight: { problem: "Positions arrive faster than a table wants to take them.", decision: "Stream at the edge. Index in hexes. Cache the hot path.", tradeoff: "You own packet order. The viewport stays smooth." },
@@ -59,7 +59,7 @@ export const MISSION_TOPOLOGIES = {
     ]
   },
   "sports-physio": {
-    id: "sports-physio", title: "Motion", subtitle: "Rehab loop", accentColor: "amber", hexColor: "#fbbf24",
+    id: "sports-physio", title: "Clinical movement", subtitle: "Rehab loop", accentColor: "amber", hexColor: "#fbbf24",
     textClass: "text-amber-400", borderClass: "border-amber-400/40", bgClass: "bg-amber-400/10",
     glowClass: "shadow-[0_0_15px_rgba(251,191,36,0.25)]", techStack: ["Redis", "FHIR v4"],
     insight: { problem: "Rehab notes live in one system. Motion lives in another.", decision: "A shared event bus. Pose on camera. Feedback in the same hour.", tradeoff: "You translate hospital shapes. The coach sees the session." },

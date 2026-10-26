@@ -200,7 +200,7 @@ export default function Navbar({ onOpenSearch }) {
                   </div>
                   <div>
                     <div className="font-mono text-xs font-bold tracking-widest text-white">
-                      TITASH DEV
+                      TITASH DEB
                     </div>
                     <div className="font-sans text-[10px] tracking-wide text-slate-500">
                       Case studies · not live ops
