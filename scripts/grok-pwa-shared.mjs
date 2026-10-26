@@ -91,6 +91,18 @@ function isVercelSystemHost(host) {
   );
 }
 
+/** Public portfolio alias. It is a vercel.app host, but `/og.jpg` is a normal static file. */
+export const CANONICAL_PORTFOLIO_HOST = "command-matrix-nine.vercel.app";
+
+export function isCanonicalPortfolioHost(hostHeader) {
+  const host = String(hostHeader ?? "")
+    .split(",")[0]
+    .trim()
+    .split(":")[0]
+    .toLowerCase();
+  return host === CANONICAL_PORTFOLIO_HOST;
+}
+
 /** Hostname suitable for absolute og:image URLs. Preview guests (X-Forwarded-Host) are allowed. */
 export function publicAppHost(hostHeader) {
   const host = String(hostHeader ?? "")
@@ -100,6 +112,7 @@ export function publicAppHost(hostHeader) {
     .toLowerCase();
   if (!host || !/^[a-z0-9.-]+$/.test(host) || !host.includes(".")) return "";
   if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) return "";
+  if (host === CANONICAL_PORTFOLIO_HOST) return host;
   if (isVercelSystemHost(host)) return "";
   return host;
 }
@@ -364,6 +377,12 @@ export function grokOgHeadTags({
     tags.push(`<meta property="og:image" content="${escapeHtml(image)}">`);
     tags.push(`<meta property="og:image:width" content="1200">`);
     tags.push(`<meta property="og:image:height" content="630">`);
+    tags.push(`<meta property="og:url" content="https://${escapeHtml(publicHost)}/">`);
+    tags.push(`<meta name="twitter:title" content="${escapeHtml(title)}">`);
+    tags.push(`<meta name="twitter:image" content="${escapeHtml(image)}">`);
+    if (description) {
+      tags.push(`<meta name="twitter:description" content="${escapeHtml(description)}">`);
+    }
     const banner = String(site.banner ?? "").trim();
     if (banner) {
       const bannerUrl = `https://${publicHost}${banner.startsWith("/") ? banner : `/${banner}`}`;
@@ -433,26 +452,35 @@ export function injectGrokPwaHead(html, ctx = {}) {
     documentTitle,
   );
   let next = stripShareMetaTags(html);
+  const portfolioHost = isCanonicalPortfolioHost(host);
+  if (portfolioHost) {
+    next = next.replace(
+      /<script\b[^>]*\bsrc\s*=\s*["'][^"']*\/grok-app-builder\/extensions\.js[^"']*["'][^>]*>\s*<\/script>/gi,
+      "",
+    );
+    next = next.replace(/<link\b[^>]*\bhref\s*=\s*["']\/__grok\/[^"']+["'][^>]*>/gi, "");
+  }
 
-  const missing = grokPwaHeadTags(appName)
+  const missing = (portfolioHost ? [] : grokPwaHeadTags(appName)
     .filter(([key]) => {
       if (key === "manifest") return !next.includes('href="/__grok/manifest.webmanifest"');
       if (key === "apple-touch-icon") return !next.includes('href="/__grok/icon-180.png"');
       return !next.includes(`name="${key}"`);
     })
-    .map(([, tag]) => tag);
+    .map(([, tag]) => tag));
 
   next = insertAfterHeadOpen(
     next,
     grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
   );
 
-  if (!next.includes("/grok-app-builder/extensions.js")) {
+  if (!portfolioHost && !next.includes("/grok-app-builder/extensions.js")) {
     missing.push(...grokExtensionsHeadTags(projectId));
-  } else if (projectId && !next.includes('name="grok-project-id"')) {
+  } else if (!portfolioHost && projectId && !next.includes('name="grok-project-id"')) {
     missing.push(`<meta name="grok-project-id" content="${escapeHtml(projectId)}">`);
   }
   if (
+    !portfolioHost &&
     projectId &&
     !next.includes('property="grok:app_id"') &&
     !next.includes("property='grok:app_id'")

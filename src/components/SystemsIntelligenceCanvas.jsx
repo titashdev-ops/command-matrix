@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 import { useSpatial } from "../SpatialContext";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { MICRO_EDUCATION_DB, MISSION_TOPOLOGIES, AMBIENT_NODES, AMBIENT_LINKS } from "../data/canvas-atlas";
+import { PUBLIC_STUDY_IDS } from "../data/missions";
 import { mapReveal } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
@@ -134,7 +135,7 @@ export default function SystemsIntelligenceCanvas() {
             <span className="font-sans text-xs tracking-wide text-slate-500 whitespace-nowrap flex items-center gap-1">
               <Layers size={11} className="text-cyan-electric" /> Systems
             </span>
-            {Object.values(MISSION_TOPOLOGIES).map((topo) => {
+            {Object.values(MISSION_TOPOLOGIES).filter((topo) => PUBLIC_STUDY_IDS.includes(topo.id)).map((topo) => {
               const isSelected = selectedMissionId === topo.id;
               return (
                 <button type="button"

@@ -19,6 +19,7 @@ import { grokOgIdentity } from "virtual:grok-og-identity";
 import {
   acceptsHtml,
   createHeadInjector,
+  isCanonicalPortfolioHost,
   isDocumentPath,
   isInstallQuery,
   renderInstallPageHtml,
@@ -69,6 +70,20 @@ export default async function grokPwaMiddleware(
 
   const path = event.url.pathname;
   const urlWithQuery = path + event.url.search;
+  const host = requestHost(event);
+
+  if (
+    isCanonicalPortfolioHost(host) &&
+    (path.startsWith("/__grok/") || isInstallQuery(urlWithQuery))
+  ) {
+    return new Response("Not found", {
+      status: 404,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "cache-control": "no-store",
+      },
+    });
+  }
 
   if (path === "/__grok/manifest.webmanifest" || path === "/__grok/manifest.json") {
     return new Response(renderWebManifest(requestHost(event)), {

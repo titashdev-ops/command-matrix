@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useSpatial, TABS } from "../SpatialContext";
 import { useModal } from "../hooks/useModal";
-import { CASE_STUDIES } from "../data/missions";
+import { PUBLIC_CASE_STUDIES } from "../data/missions";
 import { ADR_RECORDS } from "../data/adrs";
 import { overlayFade, searchReveal, galleryReveal } from "../lib/motion";
 
@@ -20,7 +20,7 @@ const firstSentence = (text) => {
 };
 
 const SEARCH_DATA = [
-  ...CASE_STUDIES.map((cs) => ({
+  ...PUBLIC_CASE_STUDIES.map((cs) => ({
     id: cs.missionId,
     title: cs.projectName,
     lede: firstSentence(cs.executiveSummary),

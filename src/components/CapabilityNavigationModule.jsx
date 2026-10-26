@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Compass, Lock, Eye, Filter } from "lucide-react";
-import { CASE_STUDIES } from "../data/missions";
+import { PUBLIC_CASE_STUDIES } from "../data/missions";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -30,18 +30,6 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
     label: "AI + graphs",
     desc: "Semantic search and structured retrieval.",
     targetMissionId: "career-os"
-  },
-  {
-    id: "crdt-sync",
-    label: "Local-first sync",
-    desc: "Offline state, merges, and browser-native search.",
-    targetMissionId: "personal-os"
-  },
-  {
-    id: "spiking",
-    label: "0-to-1 discovery",
-    desc: "Feasibility checks and architecture sketches.",
-    targetMissionId: "future-research"
   }
 ];
 
@@ -49,7 +37,7 @@ export default function CapabilityNavigationModule({ onOpenDossier }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const { playClickSound } = useSystemCommand();
 
-  const filteredMissions = CASE_STUDIES.filter((m) => {
+  const filteredMissions = PUBLIC_CASE_STUDIES.filter((m) => {
     if (selectedCategory === "all") return true;
     const categoryMatch = CAPABILITY_PROBLEM_CATEGORIES.find((c) => c.id === selectedCategory);
     return categoryMatch && categoryMatch.targetMissionId === m.missionId;

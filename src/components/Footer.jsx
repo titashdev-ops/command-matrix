@@ -31,7 +31,7 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center justify-center gap-2">
           <a
-            href="https://github.com/titashdev-ops"
+            href="https://github.com/titashdev-ops/command-matrix"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playClickSound()}

@@ -31,7 +31,7 @@ export interface MissionIntelligence {
   projectName: string;
   domain: string;
   classification: string;
-  implementationStatus: "Simulation" | "Prototype" | "Internal" | "Research" | "Concept";
+  implementationStatus: "Simulation" | "Prototype" | "Modeled" | "Internal" | "Research" | "Concept";
   missionObjective: string;
   executiveSummary: string;
   businessProblem: {
@@ -65,7 +65,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     executiveSummary: "A WebGL command surface for fleet telemetry and video. One pane instead of three.",
     businessProblem: {
       business: "Fleet scalability was constrained by the cognitive load of monitoring fragmented systems, limiting the effective UAV-to-operator ratio.",
-      operational: "Critical flight navigation and emergency override decisions were delayed by operators context-switching between disparate telemetry, video, and communication applications during active flight paths."
+      operational: "The model is an operator watching telemetry, video, and radio in three places during a flight. This site does not fly a fleet, and it does not record a real emergency."
     },
     architecture: "Edge IoT Devices -> EMQX MQTT Broker -> Golang WebSocket Gateway -> React/Three.js Client -> TimescaleDB",
     technologyStack: ["React", "Three.js", "WebGL", "Zustand", "MQTT", "WebRTC", "Golang", "TimescaleDB", "Tailwind CSS"],
@@ -207,8 +207,8 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     family: "Clinic",
     projectName: "Prodent OS",
     domain: "Healthcare Infrastructure & Clinical EMR",
-    classification: "Simulation",
-    implementationStatus: "Simulation",
+    classification: "Modeled",
+    implementationStatus: "Modeled",
     missionObjective: "Distributed clinical management operating system for multi-location dental practices.",
     executiveSummary: "A clinical OS for many rooms: records, scheduling, billing. Event-sourced so a rewrite cannot hide.",
     businessProblem: {
@@ -399,7 +399,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
       ],
     },
     evidence: [
-      { type: "Deployment", title: "Internal notes", detail: "A personal system. Not a public service.", url: "", verificationStatus: "Documented" },
+      { type: "Documentation", title: "Internal notes", detail: "A personal system. Not a public service.", url: "", verificationStatus: "Documented" },
       { type: "Architecture", title: "Local first", detail: "Writes never wait on the network. Not a published benchmark.", verificationStatus: "Documented" },
       { type: "Architecture", title: "Sync Protocol Spec", detail: "Documentation detailing CRDT conflict resolution logic and WebRTC peer-to-peer sync fallbacks.", verificationStatus: "Documented" }
     ],
@@ -443,7 +443,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
           reason: "Building complex software without checking the pain with operators left abandoned codebases.",
           alternative: "Immediate MVP development, speculative feature building",
           tradeoff: "Delays initial code output by 2-3 weeks during qualitative interviews.",
-          impact: "Filtered out 4 unviable software concepts before committing engineering capital."
+          impact: "A concept note: talk to operators before writing code, so a sketch can be thrown away. Not a count of customers or companies."
         }
       ],
       riskReview: {
@@ -459,7 +459,7 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     },
     evidence: [
       { type: "Research", title: "Market Maps", detail: "Internal documentation mapping competitive landscapes and disruption vectors.", verificationStatus: "Documented" },
-      { type: "Documentation", title: "Discovery Interviews", detail: "Synthesized qualitative transcripts from discovery conversations with B2B domain operators.", verificationStatus: "Documented" },
+      { type: "Documentation", title: "Discovery notes", detail: "A sketch of questions you would ask operators. Not a transcript archive.", verificationStatus: "Documented" },
       { type: "Prototype", title: "Interactive Venture Spikes", detail: "Rapid Next.js validation prototypes evaluating B2B workflow pain points.", verificationStatus: "Prototype" }
     ],
     businessImpact: "Risk mitigation through disciplined, low-cost validation cycles prior to capital commitment.",
@@ -498,4 +498,15 @@ export const CASE_STUDIES: MissionIntelligence[] = [
     ],
   }
 ];
+
+export const PUBLIC_STUDY_IDS = [
+  "fleet-command",
+  "sports-physio",
+  "prodent-os",
+  "career-os",
+] as const;
+
+export const PUBLIC_CASE_STUDIES = CASE_STUDIES.filter((study) =>
+  (PUBLIC_STUDY_IDS as readonly string[]).includes(study.missionId),
+);
 

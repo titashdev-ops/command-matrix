@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { CASE_STUDIES } from "../data/missions";
+import { PUBLIC_CASE_STUDIES } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
 import BriefCover, { briefFromMission } from "./BriefCover";
@@ -236,7 +236,7 @@ function IndexView({ onSelectProject, onClose }) {
 
   const familyOrder = ["Fleet", "Motion", "Clinic", "Graph", "Next"];
   
-  const familyGroups = CASE_STUDIES.reduce((acc, proj) => {
+  const familyGroups = PUBLIC_CASE_STUDIES.reduce((acc, proj) => {
     const family = proj.family || "OTHER";
     if (!acc[family]) acc[family] = [];
     acc[family].push(proj);

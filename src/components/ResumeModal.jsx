@@ -182,7 +182,7 @@ export default function ResumeModal() {
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
                   <a
-                    href="https://github.com/titashdev-ops"
+                    href="https://github.com/titashdev-ops/command-matrix"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 rounded-md p-1 text-sm text-slate-400 transition-colors duration-200 hover:text-slate-200 focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"

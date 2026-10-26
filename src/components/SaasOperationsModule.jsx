@@ -104,7 +104,7 @@ export default function SaasOperationsModule() {
           {/* External Profile Links */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <a
-              href="https://github.com/titashdev-ops"
+              href="https://github.com/titashdev-ops/command-matrix"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 hover:bg-slate-900 text-slate-300 font-sans text-xs font-bold transition-all duration-200 flex items-center justify-between group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"

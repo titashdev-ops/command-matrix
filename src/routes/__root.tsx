@@ -48,6 +48,7 @@ export const Route = createRootRoute({
               email: "mailto:titashdev@gmail.com",
               url: "https://command-matrix-nine.vercel.app",
               sameAs: [
+                "https://github.com/titashdev-ops/command-matrix",
                 "https://github.com/titashdev-ops",
                 "https://www.linkedin.com/in/titashdeb",
               ],

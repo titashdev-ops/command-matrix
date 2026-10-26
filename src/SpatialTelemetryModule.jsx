@@ -58,7 +58,7 @@ export default function SpatialTelemetryModule() {
               onClick={() => setActiveTab(TABS.POINT_CLOUD)}
               className="inline-flex items-center gap-2 font-sans text-xs font-bold text-cyan-electric hover:text-cyan-300 transition-colors cursor-pointer group py-2"
             >
-              <span>Open comparisons</span>
+              <span>Open Compare</span>
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
