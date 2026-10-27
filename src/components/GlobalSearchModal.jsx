@@ -42,7 +42,7 @@ const SEARCH_DATA = [
   { id: "nav-discovery", title: "Write a note", lede: "A short intake that opens mail.", category: "Docs", icon: Terminal, path: "DISCOVERY_WIZARD" },
   { id: "nav-vector", title: "Studies", lede: "Featured studies and the wider library.", category: "Maps", icon: Map, path: "VECTOR" },
   { id: "nav-pointcloud", title: "Compare", lede: "Modeled before/after comparisons.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
-  { id: "nav-airspace", title: "Brief", lede: "Email a constraint. Nothing is stored.", category: "Maps", icon: Database, path: "AIRSPACE" },
+  { id: "nav-airspace", title: "Brief", lede: "Opens in your email. This site does not keep a copy.", category: "Maps", icon: Database, path: "AIRSPACE" },
   { id: "nav-archexplorer", title: "Map", lede: "A spatial view of the systems.", category: "Maps", icon: Code, path: "ARCH_EXPLORER" },
 ];
 

@@ -59,10 +59,6 @@ export function safeAudioContextTrigger(audioCtxRef) {
 }
 
 export function playTactileClickSound() {
-  if (typeof window !== "undefined") {
-    window._hudEngagement = (window._hudEngagement || 0) + 1;
-  }
-
   try {
     const ctx = getSharedAudioContext();
     if (!ctx) return;

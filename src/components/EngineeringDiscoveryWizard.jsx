@@ -16,7 +16,7 @@ const cn = (...inputs) => twMerge(clsx(inputs));
 export const SERVICES_LIST = [
   {
     id: "arch-review-diligence",
-    title: "Look over the system",
+    title: "Architecture review",
     tagline: "Where it will bend. What I would change first.",
     outcomes: ["The ceiling", "The weak joint", "What to do next"],
     deliverable: "A short written pass on the system.",
@@ -24,7 +24,7 @@ export const SERVICES_LIST = [
   },
   {
     id: "systems-design-prototyping",
-    title: "Sketch a path",
+    title: "Working sketch",
     tagline: "A shape you can try before you pour concrete.",
     outcomes: ["A working slice", "The trade-off named", "No premature lock-in"],
     deliverable: "A prototype and the note behind it.",
@@ -32,7 +32,7 @@ export const SERVICES_LIST = [
   },
   {
     id: "ai-sprint",
-    title: "Try a model",
+    title: "Model trial",
     tagline: "On-device or in the cloud. Structured output, not a demo chat.",
     outcomes: ["A pipeline you can kick", "Where it lies", "Whether it stays private"],
     deliverable: "A small working extract.",
@@ -40,7 +40,7 @@ export const SERVICES_LIST = [
   },
   {
     id: "workflow-assessment",
-    title: "Untangle a workflow",
+    title: "Workflow map",
     tagline: "Two systems that should talk. The path between them.",
     outcomes: ["The handoff", "What breaks first", "A simpler route"],
     deliverable: "A map of the path and the snag.",
@@ -84,69 +84,37 @@ export const TECHNICAL_PROBLEMS = [
 ];
 
 export default function EngineeringDiscoveryWizard({ preselectedServiceId, preselectedProblemId }) {
-  const { isContactOpen, closeContact, dispatchPayload, playClickSound } = useSystemCommand();
-  const [step, setStep] = useState(() => {
-    if (typeof window === "undefined") return 1;
-    const saved = sessionStorage.getItem("wizard_step");
-    return saved ? parseInt(saved, 10) : 1;
-  }); // 1: Problem Selection | 2: Context & Contact | 3: Summary
+  const { isContactOpen, closeContact, dispatchPayload, playClickSound, briefServiceId } = useSystemCommand();
+  const [step, setStep] = useState(1);
   const [copiedSummary, setCopiedSummary] = useState(false);
-  const [wizardState, setWizardState] = useState(() => {
-    if (typeof window === "undefined") {
-      return {
-        problemId: preselectedProblemId || TECHNICAL_PROBLEMS[0].id,
-        serviceId: preselectedServiceId || TECHNICAL_PROBLEMS[0].suggestedService,
-        currentArch: "",
-        targetScale: "",
-        primaryConstraint: "",
-        integrations: "",
-        name: "",
-        email: "",
-      };
-    }
-    const saved = sessionStorage.getItem("wizard_state");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        // Override with preselected if provided, else use saved
-        return {
-          ...parsed,
-          problemId: preselectedProblemId || parsed.problemId,
-          serviceId: preselectedServiceId || parsed.serviceId
-        };
-      } catch (e) {
-        // ignore JSON parse error
-      }
-    }
-    return {
-      problemId: preselectedProblemId || TECHNICAL_PROBLEMS[0].id,
-      serviceId: preselectedServiceId || TECHNICAL_PROBLEMS[0].suggestedService,
-      currentArch: "",
-      targetScale: "",
-      primaryConstraint: "",
-      integrations: "",
-      name: "",
-      email: ""
-    };
-  });
+  const [wizardState, setWizardState] = useState(() => ({
+    problemId: preselectedProblemId || TECHNICAL_PROBLEMS[0].id,
+    serviceId: preselectedServiceId || TECHNICAL_PROBLEMS[0].suggestedService,
+    currentArch: "",
+    targetScale: "",
+    primaryConstraint: "",
+    integrations: "",
+    name: "",
+    email: "",
+  }));
 
   const modalRef = useRef(null);
   useModal({ isOpen: isContactOpen, onClose: closeContact, ref: modalRef });
 
   useEffect(() => {
-    sessionStorage.setItem("wizard_step", step.toString());
-  }, [step]);
-
-  useEffect(() => {
-    sessionStorage.setItem("wizard_state", JSON.stringify(wizardState));
-  }, [wizardState]);
-
-  useEffect(() => {
-    if (preselectedServiceId) {
-      const match = SERVICES_LIST.find(s => s.id === preselectedServiceId);
-      if (match) setWizardState(prev => ({ ...prev, serviceId: match.id }));
+    if (!isContactOpen) return;
+    const chosen = preselectedServiceId || briefServiceId;
+    if (chosen) {
+      const match = SERVICES_LIST.find((s) => s.id === chosen);
+      if (match) setWizardState((prev) => ({ ...prev, serviceId: match.id }));
+      return;
     }
-  }, [preselectedServiceId]);
+    setWizardState((prev) => {
+      const problem = TECHNICAL_PROBLEMS.find((p) => p.id === prev.problemId) || TECHNICAL_PROBLEMS[0];
+      if (prev.serviceId === problem.suggestedService) return prev;
+      return { ...prev, serviceId: problem.suggestedService };
+    });
+  }, [isContactOpen, preselectedServiceId, briefServiceId]);
 
   useEffect(() => {
     if (preselectedProblemId) {
@@ -225,14 +193,6 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const lastSubmit = sessionStorage.getItem("last_brief_submit");
-    const now = Date.now();
-    if (lastSubmit && now - parseInt(lastSubmit, 10) < 15000) {
-      alert("Submission received. Please wait a few moments before submitting another brief.");
-      return;
-    }
-    sessionStorage.setItem("last_brief_submit", now.toString());
-
     const sanitizedData = {
       name: sanitizeInput(wizardState.name, 100),
       email: sanitizeInput(wizardState.email, 150),
@@ -252,8 +212,6 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
       summary: generateSummaryText(),
       data: sanitizedData,
     });
-    sessionStorage.removeItem("wizard_state");
-    sessionStorage.removeItem("wizard_step");
     setWizardState({
       problemId: preselectedProblemId || TECHNICAL_PROBLEMS[0].id,
       serviceId: preselectedServiceId || TECHNICAL_PROBLEMS[0].suggestedService,
@@ -298,10 +256,10 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
               </div>
               <div>
                 <div id="wizard-title" className="font-display text-base sm:text-lg font-extrabold tracking-[-0.03em] text-white">
-                  Write a note
+                  Write a brief
                 </div>
                 <div className="font-sans text-xs text-slate-500">
-                  {step === 1 ? "What's stuck" : step === 2 ? "Who you are" : "The note"}
+                  {step === 1 ? "The problem" : step === 2 ? "Context" : "Review"}
                 </div>
               </div>
             </div>
@@ -333,7 +291,9 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     What's stuck?
                   </h3>
                   <p className="text-xs text-slate-400 mt-1 font-sans">
-                    Pick the closest sentence. This becomes the subject of the note.
+                    {briefServiceId
+                      ? `Offering: ${currentService.title}.`
+                      : "Pick the closest sentence. It sets the offering."}
                   </p>
                 </div>
 
@@ -348,8 +308,8 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                           playClickSound();
                           setWizardState(prev => ({ 
                             ...prev, 
-                            problemId: prob.id, 
-                            serviceId: prob.suggestedService 
+                            problemId: prob.id,
+                            serviceId: briefServiceId || prob.suggestedService, 
                           }));
                         }}
                         className={cn(
@@ -420,7 +380,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
 
                 <div className="space-y-1">
                   <label htmlFor="primaryConstraint" className="font-sans text-xs tracking-wide text-slate-400">
-                    The bind
+                    The constraint
                   </label>
                   <input
                     id="primaryConstraint"
@@ -490,7 +450,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                 <div className="relative overflow-hidden p-5 rounded-xl bg-slate-900/90 border border-amber-400/40 space-y-4">
                   <div className="dossier-sheen hidden md:block" aria-hidden="true" />
                   <div className="relative z-10">
-                    <div className="kicker text-amber-400 mb-2">The note</div>
+                    <div className="kicker text-amber-400 mb-2">Review</div>
                     <h4 className="font-display text-2xl font-extrabold tracking-[-0.035em] text-white mb-4">
                       {currentProblem.title}
                     </h4>
@@ -500,12 +460,15 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                         {currentProblem.desc}
                       </p>
                       <p>
-                        <span className="kicker text-slate-500 mr-2">The bind</span>
+                        <span className="kicker text-slate-500 mr-2">Constraint</span>
                         {wizardState.primaryConstraint || currentService.tagline}
                       </p>
                       <p>
                         <span className="kicker text-slate-500 mr-2">Path</span>
                         {currentService.title}. {currentService.timeframe}.
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        Open mail drafts the note in your email app. This site does not keep a copy.
                       </p>
                     </div>
                   </div>
@@ -534,7 +497,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                   onClick={handleNext}
                   className="px-5 py-2.5 rounded-lg border border-cyan-electric/50 bg-cyan-electric/20 text-cyan-electric font-sans text-xs font-bold hover:bg-cyan-electric/30 transition-all duration-200 flex items-center gap-2 shadow-cyan-glow min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
                 >
-                  Continue to {step === 1 ? "who you are" : "the note"} <ChevronRight size={16} />
+                  Continue <ChevronRight size={16} />
                 </button>
               ) : (
                 <div className="flex items-center gap-2">
@@ -544,7 +507,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     className="px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-sans text-xs font-bold hover:bg-slate-700 transition-colors duration-200 flex items-center gap-1.5 min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
                   >
                     {copiedSummary ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                    {copiedSummary ? "Copied" : "Copy the note"}
+                    {copiedSummary ? "Copied" : "Copy"}
                   </button>
 
                   <button

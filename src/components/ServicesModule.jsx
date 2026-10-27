@@ -19,7 +19,7 @@ export default function ServicesModule({ onSelectService }) {
     if (onSelectService) {
       onSelectService(serviceId);
     } else {
-      openContact();
+      openContact(serviceId);
     }
   };
 
@@ -49,7 +49,7 @@ export default function ServicesModule({ onSelectService }) {
         </div>
 
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans max-w-4xl">
-          Architecture reviews, risk before capital, and systems work with explicit non-functional constraints. Start a brief from any card.
+          Pick an offering. The brief opens with that work selected.
         </p>
       </div>
 
@@ -84,7 +84,7 @@ export default function ServicesModule({ onSelectService }) {
               {/* Measured Outcomes */}
               <div className="pt-2 space-y-1.5 font-sans">
                 <span className="font-sans font-medium text-slate-400 uppercase tracking-wider text-emerald-400 font-bold block flex items-center gap-1">
-                  <CheckCircle2 size={12} /> Measured Technical Outcomes:
+                  <CheckCircle2 size={12} /> What you leave with
                 </span>
                 <ul className="space-y-1 text-xs text-slate-300 font-sans text-sm">
                   {serv.outcomes.map((out, i) => (
@@ -114,7 +114,7 @@ export default function ServicesModule({ onSelectService }) {
                 onClick={() => handleServiceClick(serv.id)}
                 className="w-full py-2.5 px-3 rounded-lg border border-cyan-electric/40 bg-cyan-electric/10 hover:bg-cyan-electric/20 text-cyan-electric font-sans text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-cyan-glow cursor-pointer min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
               >
-                <span>Request {serv.title}</span>
+                <span>Start this brief</span>
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
               </button>
             </div>

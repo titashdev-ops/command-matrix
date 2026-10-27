@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import ServicesModule from "./ServicesModule";
 import {
-  Compass,
   Zap,
   Mail,
   Download,
@@ -36,7 +35,7 @@ export default function SaasOperationsModule() {
           </h1>
 
           <p className="lede">
-            Tell me the constraint. I reply by email. Nothing is stored on this site.
+            Tell me the constraint. The brief opens in your email app. This site does not keep a copy.
           </p>
         </motion.div>
 
@@ -51,7 +50,7 @@ export default function SaasOperationsModule() {
             </span>
           </div>
 
-          <ServicesModule onSelectService={() => openContact()} />
+          <ServicesModule onSelectService={(serviceId) => openContact(serviceId)} />
         </div>
 
         {/* Direct Engineering Contact & Resume Download Section */}
@@ -67,26 +66,14 @@ export default function SaasOperationsModule() {
                 Next
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-white font-sans tracking-tight">
-                Send a brief, or open the resume
+                Resume and profiles
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
-                The discovery form writes a mailto. Nothing is stored on this site.
+                The cards above start the brief. These are the other ways in.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  playClickSound();
-                  openContact();
-                }}
-                className="px-6 py-3 rounded-xl border border-amber-400/80 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 font-sans text-xs font-bold transition-all duration-200 shadow-lg hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap min-h-[44px] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
-              >
-                <Compass size={15} />
-                <span>Start a brief</span>
-              </button>
-
               <button
                 type="button"
                 onClick={() => {
@@ -132,9 +119,9 @@ export default function SaasOperationsModule() {
             <div className="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-300 font-sans text-xs font-bold flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <Mail size={16} className="text-amber-400" />
-                <span>Response Time</span>
+                <span>Reply</span>
               </div>
-              <span className="text-emerald-glow text-xs font-bold uppercase">Sub-24h Direct</span>
+              <span className="text-emerald-glow text-xs font-bold uppercase">By email</span>
             </div>
           </div>
         </motion.div>

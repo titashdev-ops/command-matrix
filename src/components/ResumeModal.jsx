@@ -304,11 +304,11 @@ export default function ResumeModal() {
                 closeResume();
                 openContact();
               }}
-              aria-label="Request resume by email"
+              aria-label="Send a brief"
               className="flex items-center gap-2 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-slate-200 transition-colors duration-200 hover:bg-slate-700 focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
             >
               <Mail size={16} />
-              Request resume by email
+              Send a brief
             </button>
           </div>
         </motion.div>

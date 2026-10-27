@@ -11,22 +11,7 @@ export function SystemCommandProvider({ children }) {
   const [isFlagshipsOpen, setIsFlagshipsOpen] = useState(false);
   const [activeFlagshipMission, setActiveFlagshipMission] = useState(null);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  const [activeIncidentFilter, setActiveIncidentFilter] = useState(() => {
-    if (typeof window !== "undefined") {
-      try {
-        return localStorage.getItem("cmd_activeFilter") || "ALL";
-      } catch (e) {
-        return "ALL";
-      }
-    }
-    return "ALL";
-  });
-
-  useEffect(() => {
-    try {
-      localStorage.setItem("cmd_activeFilter", activeIncidentFilter);
-    } catch (e) {}
-  }, [activeIncidentFilter]);
+  const [briefServiceId, setBriefServiceId] = useState(null);
 
   const [audioPulse, setAudioPulse] = useState(false);
   const triggerAudioPulse = useCallback(() => {
@@ -47,14 +32,17 @@ export function SystemCommandProvider({ children }) {
   const value = {
     isContactOpen,
     setIsContactOpen,
-    openContact: () => {
+    openContact: (serviceId = null) => {
       triggerAudioPulse();
+      setBriefServiceId(typeof serviceId === "string" ? serviceId : null);
       setIsContactOpen(true);
     },
     closeContact: () => {
       triggerAudioPulse();
       setIsContactOpen(false);
+      setBriefServiceId(null);
     },
+    briefServiceId,
     isEnterpriseExplorerOpen,
     setIsEnterpriseExplorerOpen,
     openEnterpriseExplorer: () => {
@@ -102,11 +90,6 @@ export function SystemCommandProvider({ children }) {
       triggerAudioPulse();
       setIsAdrsOpen(false);
     },
-    activeFilter: activeIncidentFilter,
-    setActiveFilter: (filter) => {
-      triggerAudioPulse();
-      setActiveIncidentFilter(filter);
-    },
     audioPulse,
     playClickSound: () => {
       triggerAudioPulse();
@@ -119,9 +102,6 @@ export function SystemCommandProvider({ children }) {
       const inquiryType = formData.inquiryType || formData.service || formData.problem || formData.type || "Engineering Discovery";
       const message = formData.message || formData.summary || nested.notes || "";
       const href = buildSafeMailtoPayload({ name, contact, inquiryType, message });
-      if (typeof window !== "undefined") {
-        window.__lastMailtoPayload = href;
-      }
       window.location.href = href;
     },
   };
