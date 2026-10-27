@@ -46,7 +46,7 @@ Deployed as a Vercel project from this repository.
 
 ## Contact
 
-The discovery wizard opens a `mailto:` brief to `titashdev@gmail.com`. There is no form backend.
+The discovery wizard opens a `mailto:` brief to `titashdev@gmail.com`. Closing the form clears it. There is no form backend, and the brief is not saved in the browser.
 
 ## Layout
 

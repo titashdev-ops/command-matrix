@@ -34,7 +34,7 @@ export default function SaasOperationsModule() {
           </h1>
 
           <p className="lede">
-            Tell me the constraint. The brief opens in your email app. This site does not keep a copy.
+            Tell me the constraint. The form is cleared when you close it. Open mail sends the note from your email app.
           </p>
         </motion.div>
 

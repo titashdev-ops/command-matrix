@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   X, Mail, Terminal, ChevronRight, Check, Building2, ShieldCheck, 
@@ -84,48 +84,28 @@ export const TECHNICAL_PROBLEMS = [
 ];
 
 export default function EngineeringDiscoveryWizard({ preselectedServiceId, preselectedProblemId }) {
-  const { isContactOpen, closeContact, dispatchPayload, playClickSound, briefServiceId } = useSystemCommand();
+  const { closeContact, dispatchPayload, playClickSound, briefServiceId } = useSystemCommand();
   const [step, setStep] = useState(1);
   const [copiedSummary, setCopiedSummary] = useState(false);
-  const [wizardState, setWizardState] = useState(() => ({
-    problemId: preselectedProblemId || TECHNICAL_PROBLEMS[0].id,
-    serviceId: preselectedServiceId || TECHNICAL_PROBLEMS[0].suggestedService,
-    currentArch: "",
-    targetScale: "",
-    primaryConstraint: "",
-    integrations: "",
-    name: "",
-    email: "",
-  }));
+  const [errorMsg, setErrorMsg] = useState("");
+  const [wizardState, setWizardState] = useState(() => {
+    const problem = TECHNICAL_PROBLEMS.find((p) => p.id === preselectedProblemId) || TECHNICAL_PROBLEMS[0];
+    const chosen = preselectedServiceId || briefServiceId;
+    const service = SERVICES_LIST.find((s) => s.id === chosen);
+    return {
+      problemId: problem.id,
+      serviceId: service?.id || problem.suggestedService,
+      currentArch: "",
+      targetScale: "",
+      primaryConstraint: "",
+      integrations: "",
+      name: "",
+      email: "",
+    };
+  });
 
   const modalRef = useRef(null);
-  useModal({ isOpen: isContactOpen, onClose: closeContact, ref: modalRef });
-
-  useEffect(() => {
-    if (!isContactOpen) return;
-    const chosen = preselectedServiceId || briefServiceId;
-    if (chosen) {
-      const match = SERVICES_LIST.find((s) => s.id === chosen);
-      if (match) setWizardState((prev) => ({ ...prev, serviceId: match.id }));
-      return;
-    }
-    setWizardState((prev) => {
-      const problem = TECHNICAL_PROBLEMS.find((p) => p.id === prev.problemId) || TECHNICAL_PROBLEMS[0];
-      if (prev.serviceId === problem.suggestedService) return prev;
-      return { ...prev, serviceId: problem.suggestedService };
-    });
-  }, [isContactOpen, preselectedServiceId, briefServiceId]);
-
-  useEffect(() => {
-    if (preselectedProblemId) {
-      const match = TECHNICAL_PROBLEMS.find(p => p.id === preselectedProblemId);
-      if (match) setWizardState(prev => ({ ...prev, problemId: match.id, serviceId: match.suggestedService }));
-    }
-  }, [preselectedProblemId]);
-
-  const [errorMsg, setErrorMsg] = useState("");
-
-  if (!isContactOpen) return null;
+  useModal({ isOpen: true, onClose: closeContact, ref: modalRef });
 
   const currentProblem = TECHNICAL_PROBLEMS.find(p => p.id === wizardState.problemId) || TECHNICAL_PROBLEMS[0];
   const currentService = SERVICES_LIST.find(s => s.id === wizardState.serviceId) || SERVICES_LIST[0];
@@ -212,16 +192,6 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
       summary: generateSummaryText(),
       data: sanitizedData,
     });
-    setWizardState({
-      problemId: preselectedProblemId || TECHNICAL_PROBLEMS[0].id,
-      serviceId: preselectedServiceId || TECHNICAL_PROBLEMS[0].suggestedService,
-      name: "",
-      email: "",
-      org: "",
-      primaryConstraint: "",
-      notes: ""
-    });
-    setStep(1);
     closeContact();
   };
 
@@ -468,7 +438,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                         {currentService.title}. {currentService.timeframe}.
                       </p>
                       <p className="text-xs text-slate-500">
-                        Open mail drafts the note in your email app. This site does not keep a copy.
+                        Nothing is saved on this site. Open mail drafts the note in your email app.
                       </p>
                     </div>
                   </div>
