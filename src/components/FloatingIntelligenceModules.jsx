@@ -11,7 +11,6 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { CASE_STUDIES } from "../data/missions";
-import { springBounce } from "../lib/motion";
 
 const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -32,7 +31,6 @@ function Glass3DTiltCard({
   ctaText, 
   onCtaClick,
   layoutId,
-  index = 0,
   spanClass = "",
 }) {
   const cardRef = useRef(null);
@@ -194,14 +192,7 @@ function Glass3DTiltCard({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{
-        ...springBounce,
-        delay: index * 0.08,
-      }}
+    <div
       className={cn("perspective-1000 w-full pointer-events-auto", spanClass)}
     >
       <motion.div
@@ -327,7 +318,7 @@ function Glass3DTiltCard({
 
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -430,8 +421,8 @@ export default function FloatingIntelligenceModules() {
 
       {/* Grid of 3D Tilt Glass Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5">
-        {MODULES.map((mod, index) => (
-          <Glass3DTiltCard key={mod.title} index={index} {...mod} />
+        {MODULES.map((mod) => (
+          <Glass3DTiltCard key={mod.title} {...mod} />
         ))}
       </div>
     </section>

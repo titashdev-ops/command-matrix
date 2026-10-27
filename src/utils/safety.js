@@ -8,8 +8,6 @@ export function buildSafeMailtoPayload({ name, contact, inquiryType, message }) 
   const subject = encodeURIComponent(`[Portfolio brief] ${safeType} — ${safeName}`);
 
   const timestamp = new Date().toISOString();
-  const resolution = typeof window !== "undefined" ? `${window.innerWidth}x${window.innerHeight}` : "Unknown";
-  const locale = typeof navigator !== "undefined" ? navigator.language : "Unknown";
 
   const body = encodeURIComponent(
     `Name: ${safeName}\n` +
@@ -18,7 +16,7 @@ export function buildSafeMailtoPayload({ name, contact, inquiryType, message }) 
       `${safeMessage}\n\n` +
       `--\n` +
       `Sent from the Titash Deb command-matrix portfolio\n` +
-      `${timestamp} · ${resolution} · ${locale}`,
+      timestamp,
   );
 
   return `mailto:${targetEmail}?subject=${subject}&body=${body}`;

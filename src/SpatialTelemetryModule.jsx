@@ -20,7 +20,7 @@ export default function SpatialTelemetryModule() {
         <div className="relative z-10 w-full space-y-8">
           
           <motion.div
-            initial="hidden"
+            initial={false}
             animate="show"
             variants={staggerHero}
             className="relative max-w-3xl"

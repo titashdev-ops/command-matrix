@@ -24,9 +24,8 @@ export default function SaasOperationsModule() {
         
         {/* Calm Hero Header */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-3xl space-y-5"
         >
           <p className="kicker text-amber-400/80">Brief</p>

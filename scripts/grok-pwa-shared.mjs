@@ -365,6 +365,8 @@ export function grokOgHeadTags({
   }
   if (String(site.type ?? "").toLowerCase() === "x:game") {
     tags.push(`<meta property="og:type" content="x:game">`);
+  } else {
+    tags.push(`<meta property="og:type" content="website">`);
   }
   if (publicHost) {
     const asset = resolveOgCardAsset(site, cwd);
