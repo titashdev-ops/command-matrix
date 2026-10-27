@@ -83,17 +83,16 @@ export const TECHNICAL_PROBLEMS = [
   }
 ];
 
-export default function EngineeringDiscoveryWizard({ preselectedServiceId, preselectedProblemId }) {
+export default function EngineeringDiscoveryWizard() {
   const { closeContact, dispatchPayload, playClickSound } = useSystemCommand();
   const [step, setStep] = useState(1);
   const [copiedSummary, setCopiedSummary] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [wizardState, setWizardState] = useState(() => {
-    const problem = TECHNICAL_PROBLEMS.find((p) => p.id === preselectedProblemId) || TECHNICAL_PROBLEMS[0];
-    const localService = SERVICES_LIST.find((s) => s.id === preselectedServiceId) || SERVICES_LIST.find((s) => s.id === problem.suggestedService) || SERVICES_LIST[0];
+    const problem = TECHNICAL_PROBLEMS[0];
     return {
       problemId: problem.id,
-      serviceId: localService.id,
+      serviceId: problem.suggestedService,
       currentArch: "",
       targetScale: "",
       primaryConstraint: "",
@@ -106,8 +105,8 @@ export default function EngineeringDiscoveryWizard({ preselectedServiceId, prese
   const modalRef = useRef(null);
   useModal({ isOpen: true, onClose: closeContact, ref: modalRef });
 
-  const currentProblem = TECHNICAL_PROBLEMS.find(p => p.id === wizardState.problemId) || TECHNICAL_PROBLEMS[0];
-  const currentService = SERVICES_LIST.find(s => s.id === wizardState.serviceId) || SERVICES_LIST[0];
+  const currentProblem = TECHNICAL_PROBLEMS.find((p) => p.id === wizardState.problemId) || TECHNICAL_PROBLEMS[0];
+  const currentService = SERVICES_LIST.find((s) => s.id === wizardState.serviceId) || SERVICES_LIST[0];
 
   const sanitizeInput = (input, maxLength = 200) => {
     if (typeof input !== "string") return "";
@@ -132,12 +131,12 @@ export default function EngineeringDiscoveryWizard({ preselectedServiceId, prese
       }
     }
     playClickSound();
-    setStep(prev => Math.min(prev + 1, 3));
+    setStep((prev) => Math.min(prev + 1, 3));
   };
 
   const handleBack = () => {
     playClickSound();
-    setStep(prev => Math.max(prev - 1, 1));
+    setStep((prev) => Math.max(prev - 1, 1));
   };
 
   const generateSummaryText = () => {
@@ -203,7 +202,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
         transition={{ duration: 0.25 }}
         className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/85 p-3 sm:p-4 backdrop-blur-md overflow-y-auto"
         onClick={closeContact}
-        role="presentation" // outer div
+        role="presentation"
       >
         <motion.div
           ref={modalRef}
@@ -217,7 +216,6 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-xl border border-cyan-electric/50 bg-slate-950/95 shadow-cyan-glow backdrop-blur-2xl custom-scrollbar flex flex-col"
         >
-          {/* Header Bar */}
           <div className="flex items-center justify-between border-b border-obsidian-border bg-slate-900/90 px-5 py-4 rounded-t-xl sticky top-0 z-20 backdrop-blur-md shrink-0">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-cyan-electric/10 text-cyan-electric border border-cyan-electric/30">
@@ -241,7 +239,6 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
             </button>
           </div>
 
-          {/* Progress Indicator */}
           <div className="w-full bg-slate-900 h-1 relative shrink-0">
             <div 
               className="bg-gradient-to-r from-cyan-electric via-emerald-glow to-amber-400 h-1 transition-all duration-200" 
@@ -249,10 +246,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
             />
           </div>
 
-          {/* Wizard Content */}
           <div className="p-5 sm:p-6 flex-1 space-y-6">
-
-            {/* STEP 1: Select Problem */}
             {step === 1 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-5">
                 <div>
@@ -273,10 +267,10 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                         type="button"
                         onClick={() => {
                           playClickSound();
-                          setWizardState(prev => ({ 
-                            ...prev, 
+                          setWizardState((prev) => ({
+                            ...prev,
                             problemId: prob.id,
-                            serviceId: preselectedServiceId || prob.suggestedService, 
+                            serviceId: prob.suggestedService,
                           }));
                         }}
                         className={cn(
@@ -303,115 +297,115 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
               </motion.div>
             )}
 
-            {/* STEP 2: Architectural Context */}
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-5">
                 <div className="relative overflow-hidden rounded-2xl border border-obsidian-border/80 bg-obsidian/40 p-5">
                   <div className="dossier-sheen hidden md:block" aria-hidden="true" />
                   <div className="relative z-10 space-y-5">
-                <div>
-                  <h3 className="font-display text-2xl font-extrabold tracking-[-0.035em] text-white">
-                    A little more
-                  </h3>
-                  <p className="text-sm text-slate-400 mt-1 font-sans">
-                    Enough to write the note. Nothing else.
-                  </p>
-                </div>
+                    <div>
+                      <h3 className="font-display text-2xl font-extrabold tracking-[-0.035em] text-white">
+                        A little more
+                      </h3>
+                      <p className="text-sm text-slate-400 mt-1 font-sans">
+                        Enough to write the note. Nothing else.
+                      </p>
+                    </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label htmlFor="currentArch" className="font-sans text-xs tracking-wide text-slate-400">What you have</label>
-                    <input
-                      id="currentArch"
-                      type="text"
-                      maxLength={150}
-                      value={wizardState.currentArch}
-                      onChange={(e) => setWizardState(prev => ({ ...prev, currentArch: sanitizeInput(e.target.value, 150) }))}
-                      className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="A monolith. A few services."
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label htmlFor="targetScale" className="font-sans text-xs tracking-wide text-slate-400">How big</label>
-                    <input
-                      id="targetScale"
-                      type="text"
-                      maxLength={150}
-                      value={wizardState.targetScale}
-                      onChange={(e) => setWizardState(prev => ({ ...prev, targetScale: sanitizeInput(e.target.value, 150) }))}
-                      className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="Tens of clinics. One fleet."
-                    />
-                  </div>
-                </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label htmlFor="currentArch" className="font-sans text-xs tracking-wide text-slate-400">What you have</label>
+                        <input
+                          id="currentArch"
+                          type="text"
+                          maxLength={150}
+                          value={wizardState.currentArch}
+                          onChange={(e) => setWizardState((prev) => ({ ...prev, currentArch: sanitizeInput(e.target.value, 150) }))}
+                          className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
+                          placeholder="A monolith. A few services."
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label htmlFor="targetScale" className="font-sans text-xs tracking-wide text-slate-400">How big</label>
+                        <input
+                          id="targetScale"
+                          type="text"
+                          maxLength={150}
+                          value={wizardState.targetScale}
+                          onChange={(e) => setWizardState((prev) => ({ ...prev, targetScale: sanitizeInput(e.target.value, 150) }))}
+                          className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
+                          placeholder="Tens of clinics. One fleet."
+                        />
+                      </div>
+                    </div>
 
-                <div className="space-y-1">
-                  <label htmlFor="primaryConstraint" className="font-sans text-xs tracking-wide text-slate-400">
-                    The constraint
-                  </label>
-                  <input
-                    id="primaryConstraint"
-                    type="text"
-                    maxLength={200}
-                    value={wizardState.primaryConstraint}
-                    onChange={(e) => setWizardState(prev => ({ ...prev, primaryConstraint: sanitizeInput(e.target.value, 200) }))}
-                    className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                    placeholder="It has to stay private. It has to feel instant."
-                  />
-                </div>
-                
-                <div className="space-y-1">
-                  <label htmlFor="integrations" className="font-sans text-xs tracking-wide text-slate-400">What it talks to</label>
-                  <input
-                    id="integrations"
-                    type="text"
-                    maxLength={150}
-                    value={wizardState.integrations}
-                    onChange={(e) => setWizardState(prev => ({ ...prev, integrations: sanitizeInput(e.target.value, 150) }))}
-                    className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                    placeholder="Postgres. A hospital feed. Nothing yet."
-                  />
-                </div>
+                    <div className="space-y-1">
+                      <label htmlFor="primaryConstraint" className="font-sans text-xs tracking-wide text-slate-400">
+                        The constraint
+                      </label>
+                      <input
+                        id="primaryConstraint"
+                        type="text"
+                        maxLength={200}
+                        value={wizardState.primaryConstraint}
+                        onChange={(e) => setWizardState((prev) => ({ ...prev, primaryConstraint: sanitizeInput(e.target.value, 200) }))}
+                        className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
+                        placeholder="It has to stay private. It has to feel instant."
+                      />
+                    </div>
+                    
+                    <div className="space-y-1">
+                      <label htmlFor="integrations" className="font-sans text-xs tracking-wide text-slate-400">What it talks to</label>
+                      <input
+                        id="integrations"
+                        type="text"
+                        maxLength={150}
+                        value={wizardState.integrations}
+                        onChange={(e) => setWizardState((prev) => ({ ...prev, integrations: sanitizeInput(e.target.value, 150) }))}
+                        className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
+                        placeholder="Postgres. A hospital feed. Nothing yet."
+                      />
+                    </div>
 
-                <div className="pt-2  grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label htmlFor="wizName" className="font-sans text-xs tracking-wide text-slate-400">Your name</label>
-                    <input
-                      id="wizName"
-                      required aria-required="true"
-                      type="text"
-                      maxLength={100}
-                      value={wizardState.name}
-                      onChange={(e) => setWizardState(prev => ({ ...prev, name: sanitizeInput(e.target.value, 100) }))}
-                      className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="Alex"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label htmlFor="wizEmail" className="font-sans text-xs tracking-wide text-slate-400">Where to reply</label>
-                    <input
-                      id="wizEmail"
-                      required aria-required="true"
-                      type="email"
-                      maxLength={150}
-                      value={wizardState.email}
-                      onChange={(e) => setWizardState(prev => ({ ...prev, email: sanitizeInput(e.target.value, 150) }))}
-                      className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
-                      placeholder="alex@studio.com"
-                    />
-                  </div>
-                </div>
+                    <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label htmlFor="wizName" className="font-sans text-xs tracking-wide text-slate-400">Your name</label>
+                        <input
+                          id="wizName"
+                          required aria-required="true"
+                          type="text"
+                          maxLength={100}
+                          value={wizardState.name}
+                          onChange={(e) => setWizardState((prev) => ({ ...prev, name: sanitizeInput(e.target.value, 100) }))}
+                          className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
+                          placeholder="Alex"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label htmlFor="wizEmail" className="font-sans text-xs tracking-wide text-slate-400">Where to reply</label>
+                        <input
+                          id="wizEmail"
+                          required aria-required="true"
+                          type="email"
+                          maxLength={150}
+                          value={wizardState.email}
+                          onChange={(e) => setWizardState((prev) => ({ ...prev, email: sanitizeInput(e.target.value, 150) }))}
+                          className="w-full rounded-md border border-slate-800 bg-slate-900 p-2.5 font-sans text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-electric focus:outline-none"
+                          placeholder="alex@studio.com"
+                        />
+                      </div>
+                    </div>
 
-                {errorMsg && (
-                  <div className="p-3 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-sans flex items-center gap-2" role="alert">
-                    <AlertTriangle size={14} />
-                    {errorMsg}
-                  </div>
-                )}
+                    {errorMsg && (
+                      <div className="p-3 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-sans flex items-center gap-2" role="alert">
+                        <AlertTriangle size={14} />
+                        {errorMsg}
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
             )}
+
             {step === 3 && (
               <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5">
                 <div className="relative overflow-hidden p-5 rounded-xl bg-slate-900/90 border border-amber-400/40 space-y-4">
@@ -442,10 +436,8 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                 </div>
               </motion.div>
             )}
-
           </div>
 
-          {/* Footer Controls */}
           <div className="p-4 sm:p-5 border-t border-obsidian-border bg-slate-900/90 flex flex-wrap items-center justify-between gap-3 rounded-b-xl shrink-0">
             {step > 1 ? (
               <button
@@ -488,7 +480,6 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
               )}
             </div>
           </div>
-
         </motion.div>
       </motion.div>
     </AnimatePresence>
