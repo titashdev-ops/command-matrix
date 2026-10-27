@@ -413,10 +413,19 @@ export default function FloatingIntelligenceModules() {
     <section className="relative w-full py-2">
       {/* Section Header */}
       <div className="mb-5 flex flex-col gap-2 border-b border-obsidian-border/80 pb-3 sm:flex-row sm:items-end sm:justify-between">
-        <div className="kicker text-slate-500">Open a study</div>
-        <p className="font-sans text-xs text-slate-500 max-w-sm sm:text-right">
-          Each card is labeled simulation, prototype, or model.
-        </p>
+        <div className="kicker text-slate-500">Featured studies</div>
+        <div className="flex flex-col gap-1 sm:items-end">
+          <p className="font-sans text-xs text-slate-500 max-w-sm sm:text-right">
+            Simulation, prototype, or model. The library holds the rest.
+          </p>
+          <button
+            type="button"
+            onClick={() => openFlagships()}
+            className="self-start font-sans text-xs font-semibold text-cyan-electric hover:text-cyan-300 sm:self-end cursor-pointer"
+          >
+            Open the library
+          </button>
+        </div>
       </div>
 
       {/* Grid of 3D Tilt Glass Cards */}

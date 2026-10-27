@@ -499,14 +499,14 @@ export const CASE_STUDIES: MissionIntelligence[] = [
   }
 ];
 
-export const PUBLIC_STUDY_IDS = [
+export const FEATURED_STUDY_IDS = [
   "fleet-command",
   "sports-physio",
   "prodent-os",
   "career-os",
 ] as const;
 
-export const PUBLIC_CASE_STUDIES = CASE_STUDIES.filter((study) =>
-  (PUBLIC_STUDY_IDS as readonly string[]).includes(study.missionId),
-);
+export function isFeaturedStudy(missionId: string) {
+  return (FEATURED_STUDY_IDS as readonly string[]).includes(missionId);
+}
 

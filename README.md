@@ -1,6 +1,6 @@
 # command-matrix
 
-Frontend portfolio of systems architecture case studies by [Titash Deb](https://github.com/titashdev-ops).
+Frontend portfolio of architecture case studies and modeled systems by [Titash Deb](https://github.com/titashdev-ops).
 
 Live site: [command-matrix-nine.vercel.app](https://command-matrix-nine.vercel.app)
 
@@ -8,7 +8,7 @@ Live site: [command-matrix-nine.vercel.app](https://command-matrix-nine.vercel.a
 
 ## What this is
 
-A browsable set of architecture case studies, decision records, and interactive models. The visual system is a spatial HUD. The data is static files in `src/data/`.
+A browsable portfolio of architecture case studies, decision records, and modeled systems. The home page features selected studies. The library holds the rest. The visual system is a spatial HUD. The data is static files in `src/data/`.
 
 ## What this is not
 
@@ -16,7 +16,7 @@ A browsable set of architecture case studies, decision records, and interactive 
 - Not a UAV fleet controller, SAP system, or ServiceNow integration
 - Not a production telemetry pipeline
 - No auth, database, or CMS
-- Moving numbers in the UI are a **client-side demo loop**, not production data
+- Canvas motion is client-side atmosphere, not live telemetry
 
 Status: **prototype / simulation**.
 

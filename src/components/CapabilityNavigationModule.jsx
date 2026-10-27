@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Compass, Lock, Eye, Filter } from "lucide-react";
-import { PUBLIC_CASE_STUDIES } from "../data/missions";
+import { CASE_STUDIES } from "../data/missions";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -11,7 +11,7 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
   {
     id: "all",
     label: "All work",
-    desc: "Open every problem shape."
+    desc: "Open every problem shape, featured and library."
   },
   {
     id: "telemetry",
@@ -30,6 +30,18 @@ export const CAPABILITY_PROBLEM_CATEGORIES = [
     label: "AI + graphs",
     desc: "Semantic search and structured retrieval.",
     targetMissionId: "career-os"
+  },
+  {
+    id: "crdt-sync",
+    label: "Local-first notes",
+    desc: "A private system. Not a public service.",
+    targetMissionId: "personal-os"
+  },
+  {
+    id: "spiking",
+    label: "Sketches",
+    desc: "Notes and feasibility checks, not shipped products.",
+    targetMissionId: "future-research"
   }
 ];
 
@@ -37,7 +49,7 @@ export default function CapabilityNavigationModule({ onOpenDossier }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const { playClickSound } = useSystemCommand();
 
-  const filteredMissions = PUBLIC_CASE_STUDIES.filter((m) => {
+  const filteredMissions = CASE_STUDIES.filter((m) => {
     if (selectedCategory === "all") return true;
     const categoryMatch = CAPABILITY_PROBLEM_CATEGORIES.find((c) => c.id === selectedCategory);
     return categoryMatch && categoryMatch.targetMissionId === m.missionId;

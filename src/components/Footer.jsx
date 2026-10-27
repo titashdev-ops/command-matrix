@@ -19,7 +19,7 @@ export default function Footer() {
             COMMAND MATRIX
           </div>
           <p className="font-sans text-sm text-slate-400">
-            Architecture case studies by Titash Deb. A prototype — not a live operations platform.
+            Architecture case studies and modeled systems by Titash Deb. A prototype — not a live operations platform.
           </p>
           <a
             href="https://command-matrix-nine.vercel.app"

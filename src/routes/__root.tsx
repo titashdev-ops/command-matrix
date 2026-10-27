@@ -15,7 +15,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Portfolio of systems architecture case studies by Titash Deb. Prototype simulations of fleet command, clinical systems, and decision records. Not a live operations platform.",
+          "Portfolio of architecture case studies and modeled systems by Titash Deb. The home page features selected studies. A prototype — not a live operations platform.",
       },
       { name: "author", content: "Titash Deb" },
     ],

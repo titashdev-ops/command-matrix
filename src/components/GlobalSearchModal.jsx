@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useSpatial, TABS } from "../SpatialContext";
 import { useModal } from "../hooks/useModal";
-import { PUBLIC_CASE_STUDIES } from "../data/missions";
+import { CASE_STUDIES } from "../data/missions";
 import { ADR_RECORDS } from "../data/adrs";
 import { overlayFade, searchReveal, galleryReveal } from "../lib/motion";
 
@@ -20,7 +20,7 @@ const firstSentence = (text) => {
 };
 
 const SEARCH_DATA = [
-  ...PUBLIC_CASE_STUDIES.map((cs) => ({
+  ...CASE_STUDIES.map((cs) => ({
     id: cs.missionId,
     title: cs.projectName,
     lede: firstSentence(cs.executiveSummary),
@@ -40,7 +40,7 @@ const SEARCH_DATA = [
   })),
   { id: "nav-records", title: "Records", lede: "Decision records.", category: "Docs", icon: FileText, path: "TRUST_CENTER" },
   { id: "nav-discovery", title: "Write a note", lede: "A short intake that opens mail.", category: "Docs", icon: Terminal, path: "DISCOVERY_WIZARD" },
-  { id: "nav-vector", title: "Studies", lede: "Four architecture case studies.", category: "Maps", icon: Map, path: "VECTOR" },
+  { id: "nav-vector", title: "Studies", lede: "Featured studies and the wider library.", category: "Maps", icon: Map, path: "VECTOR" },
   { id: "nav-pointcloud", title: "Compare", lede: "Modeled before/after comparisons.", category: "Maps", icon: Activity, path: "POINT_CLOUD" },
   { id: "nav-airspace", title: "Brief", lede: "Email a constraint. Nothing is stored.", category: "Maps", icon: Database, path: "AIRSPACE" },
   { id: "nav-archexplorer", title: "Map", lede: "A spatial view of the systems.", category: "Maps", icon: Code, path: "ARCH_EXPLORER" },

@@ -38,7 +38,7 @@ export default function SpatialTelemetryModule() {
                 <span className="block text-slate-300">case studies</span>
               </motion.h1>
               <motion.p variants={heroItem} className="lede max-w-xl">
-                Four modeled systems, each with the decision and the tradeoff written down. A portfolio simulation — not a live operations platform.
+                Featured studies, each with the decision and the tradeoff written down. The library holds more. A portfolio simulation — not a live operations platform.
               </motion.p>
             </div>
           </motion.div>

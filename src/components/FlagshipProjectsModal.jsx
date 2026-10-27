@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { useSystemCommand } from "../context/SystemCommandContext";
 import { useModal } from "../hooks/useModal";
 import { useRef } from "react";
-import { PUBLIC_CASE_STUDIES } from "../data/missions";
+import { CASE_STUDIES, isFeaturedStudy } from "../data/missions";
 import EngineeringReviewPanel from "./EngineeringReviewPanel";
 import InvestigationFlow from "./InvestigationFlow";
 import BriefCover, { briefFromMission } from "./BriefCover";
@@ -236,7 +236,7 @@ function IndexView({ onSelectProject, onClose }) {
 
   const familyOrder = ["Fleet", "Motion", "Clinic", "Graph", "Next"];
   
-  const familyGroups = PUBLIC_CASE_STUDIES.reduce((acc, proj) => {
+  const familyGroups = CASE_STUDIES.reduce((acc, proj) => {
     const family = proj.family || "OTHER";
     if (!acc[family]) acc[family] = [];
     acc[family].push(proj);
@@ -254,10 +254,10 @@ function IndexView({ onSelectProject, onClose }) {
       <div className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
         <div>
           <h2 id="case-studies-title" className="font-display text-2xl sm:text-4xl font-extrabold text-white tracking-[-0.04em] mb-1 sm:mb-2">
-            Gallery
+            Library
           </h2>
           <div className="font-sans text-sm text-slate-500">
-            Named systems. Simulations are labeled.
+            Featured studies stay on the home page. Related systems and notes are filed here by family.
           </div>
         </div>
         <button type="button" 
@@ -319,6 +319,9 @@ function IndexView({ onSelectProject, onClose }) {
                     </span>
                     <div className="flex items-center gap-3">
                       <span className="font-sans text-xs text-slate-500 hidden sm:inline-block">{heroProject.implementationStatus}</span>
+                      {isFeaturedStudy(heroProject.missionId) ? (
+                        <span className="font-sans text-[10px] uppercase tracking-wider text-cyan-electric">Featured</span>
+                      ) : null}
                       <ArrowUpRight size={16} className="text-slate-600 group-hover:text-slate-200 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50" />
                     </div>
                   </div>
@@ -372,6 +375,11 @@ function IndexView({ onSelectProject, onClose }) {
                               <span className="font-sans text-[10px] px-1.5 py-0.5 rounded bg-obsidian border border-obsidian-border text-cyan-electric">
                                 {proj.implementationStatus}
                               </span>
+                              {isFeaturedStudy(proj.missionId) ? (
+                                <span className="font-sans text-[10px] px-1.5 py-0.5 rounded bg-obsidian border border-cyan-electric/30 text-cyan-electric">
+                                  Featured
+                                </span>
+                              ) : null}
                             </div>
                           </button>
                         );
