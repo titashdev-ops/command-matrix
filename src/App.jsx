@@ -69,7 +69,10 @@ function OverlayRouter({ onOpenSearch }) {
           {activeTab === TABS.VECTOR && (
             <motion.div
               key="vector"
-              {...fadeSwap}
+              initial={false}
+              animate={fadeSwap.animate}
+              exit={fadeSwap.exit}
+              transition={fadeSwap.transition}
             >
               <SpatialTelemetryModule />
             </motion.div>

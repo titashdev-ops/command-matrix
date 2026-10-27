@@ -65,9 +65,8 @@ export default function SpatialTelemetryModule() {
 
           {/* Topology canvas — atmosphere, not the story */}
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="relative hidden overflow-hidden rounded-2xl border border-cyan-electric/25 bg-slate-950/55 shadow-[0_20px_60px_rgba(0,0,0,0.55),0_0_80px_rgba(0,240,255,0.08),_inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl pointer-events-auto md:flex md:flex-col"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-transparent to-emerald-900/10 pointer-events-none" />
