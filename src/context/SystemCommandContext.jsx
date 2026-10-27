@@ -11,7 +11,6 @@ export function SystemCommandProvider({ children }) {
   const [isFlagshipsOpen, setIsFlagshipsOpen] = useState(false);
   const [activeFlagshipMission, setActiveFlagshipMission] = useState(null);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  const [briefServiceId, setBriefServiceId] = useState(null);
 
   const [audioPulse, setAudioPulse] = useState(false);
   const triggerAudioPulse = useCallback(() => {
@@ -32,17 +31,14 @@ export function SystemCommandProvider({ children }) {
   const value = {
     isContactOpen,
     setIsContactOpen,
-    openContact: (serviceId = null) => {
+    openContact: () => {
       triggerAudioPulse();
-      setBriefServiceId(typeof serviceId === "string" ? serviceId : null);
       setIsContactOpen(true);
     },
     closeContact: () => {
       triggerAudioPulse();
       setIsContactOpen(false);
-      setBriefServiceId(null);
     },
-    briefServiceId,
     isEnterpriseExplorerOpen,
     setIsEnterpriseExplorerOpen,
     openEnterpriseExplorer: () => {

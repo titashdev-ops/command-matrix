@@ -84,17 +84,16 @@ export const TECHNICAL_PROBLEMS = [
 ];
 
 export default function EngineeringDiscoveryWizard({ preselectedServiceId, preselectedProblemId }) {
-  const { closeContact, dispatchPayload, playClickSound, briefServiceId } = useSystemCommand();
+  const { closeContact, dispatchPayload, playClickSound } = useSystemCommand();
   const [step, setStep] = useState(1);
   const [copiedSummary, setCopiedSummary] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [wizardState, setWizardState] = useState(() => {
     const problem = TECHNICAL_PROBLEMS.find((p) => p.id === preselectedProblemId) || TECHNICAL_PROBLEMS[0];
-    const chosen = preselectedServiceId || briefServiceId;
-    const service = SERVICES_LIST.find((s) => s.id === chosen);
+    const localService = SERVICES_LIST.find((s) => s.id === preselectedServiceId) || SERVICES_LIST.find((s) => s.id === problem.suggestedService) || SERVICES_LIST[0];
     return {
       problemId: problem.id,
-      serviceId: service?.id || problem.suggestedService,
+      serviceId: localService.id,
       currentArch: "",
       targetScale: "",
       primaryConstraint: "",
@@ -236,7 +235,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
 
             <button type="button" aria-label="Close" 
               onClick={closeContact}
-              className="rounded-lg p-2 relative after:absolute after:content-[''] after:-inset-3 min-h-[32px] min-w-[32px] sm:min-h-[auto] sm:min-w-[auto] flex items-center justify-center text-slate-400 transition-colors duration-200 hover:bg-obsidian-border hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50"
+              className="rounded-lg p-2 relative after:absolute after:content-[''] after:-inset-3 min-h-[32px] min-w-[32px] sm:min-h-[auto] sm:min-w-[auto] flex items-center justify-center text-slate-300 hover:text-white transition-colors duration-200"
             >
               <X size={18} />
             </button>
@@ -261,9 +260,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     What's stuck?
                   </h3>
                   <p className="text-xs text-slate-400 mt-1 font-sans">
-                    {briefServiceId
-                      ? `Offering: ${currentService.title}.`
-                      : "Pick the closest sentence. It sets the offering."}
+                    Pick the closest sentence to frame the brief.
                   </p>
                 </div>
 
@@ -279,7 +276,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                           setWizardState(prev => ({ 
                             ...prev, 
                             problemId: prob.id,
-                            serviceId: briefServiceId || prob.suggestedService, 
+                            serviceId: preselectedServiceId || prob.suggestedService, 
                           }));
                         }}
                         className={cn(
@@ -454,7 +451,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-sans text-xs font-bold hover:bg-slate-700 transition-colors duration-200 flex items-center gap-1.5 min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+                className="px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-sans text-xs font-bold hover:bg-slate-700 transition-colors duration-200 flex items-center gap-2"
               >
                 <ArrowLeft size={14} /> Back
               </button>
@@ -465,7 +462,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="px-5 py-2.5 rounded-lg border border-cyan-electric/50 bg-cyan-electric/20 text-cyan-electric font-sans text-xs font-bold hover:bg-cyan-electric/30 transition-all duration-200 flex items-center gap-2 shadow-cyan-glow min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+                  className="px-5 py-2.5 rounded-lg border border-cyan-electric/50 bg-cyan-electric/20 text-cyan-electric font-sans text-xs font-bold hover:bg-cyan-electric/30 transition-all duration-200 flex items-center gap-2"
                 >
                   Continue <ChevronRight size={16} />
                 </button>
@@ -474,7 +471,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                   <button
                     type="button"
                     onClick={handleCopySummary}
-                    className="px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-sans text-xs font-bold hover:bg-slate-700 transition-colors duration-200 flex items-center gap-1.5 min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+                    className="px-4 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-sans text-xs font-bold hover:bg-slate-700 transition-colors duration-200 flex items-center gap-2"
                   >
                     {copiedSummary ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
                     {copiedSummary ? "Copied" : "Copy"}
@@ -483,7 +480,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                   <button
                     type="button"
                     onClick={handleSubmit}
-                    className="px-5 py-2.5 rounded-lg border border-amber-400/60 bg-amber-400/20 text-amber-300 font-sans text-xs font-bold hover:bg-amber-400/30 transition-all duration-200 flex items-center gap-2 shadow-lg min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-electric/50 min-h-[44px] sm:min-h-[auto]"
+                    className="px-5 py-2.5 rounded-lg border border-amber-400/60 bg-amber-400/20 text-amber-300 font-sans text-xs font-bold hover:bg-amber-400/30 transition-all duration-200 flex items-center gap-2"
                   >
                     <Mail size={15} /> Open mail
                   </button>

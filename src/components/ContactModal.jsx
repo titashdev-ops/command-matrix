@@ -3,8 +3,7 @@ import EngineeringDiscoveryWizard from "./EngineeringDiscoveryWizard";
 import { useSystemCommand } from "../context/SystemCommandContext";
 
 export default function ContactModal(props) {
-  const { isContactOpen, briefServiceId } = useSystemCommand();
+  const { isContactOpen } = useSystemCommand();
   if (!isContactOpen) return null;
-  return <EngineeringDiscoveryWizard key={briefServiceId || "open"} {...props} />;
+  return <EngineeringDiscoveryWizard {...props} />;
 }
-
