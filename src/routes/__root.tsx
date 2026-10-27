@@ -4,6 +4,10 @@ import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "Command Matrix — Architecture case studies";
+const APP_DESCRIPTION =
+  "Portfolio of architecture case studies and modeled systems by Titash Deb. The home page features selected studies. A prototype — not a live operations platform.";
+const CANONICAL_URL = "https://command-matrix-nine.vercel.app";
+const SHARE_IMAGE_URL = `${CANONICAL_URL}/og.jpg`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -14,13 +18,22 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#07090E" },
       {
         name: "description",
-        content:
-          "Portfolio of architecture case studies and modeled systems by Titash Deb. The home page features selected studies. A prototype — not a live operations platform.",
+        content: APP_DESCRIPTION,
       },
       { name: "author", content: "Titash Deb" },
+      { property: "og:title", content: APP_NAME },
+      { property: "og:description", content: APP_DESCRIPTION },
+      { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: SHARE_IMAGE_URL },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Command Matrix" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: APP_NAME },
+      { name: "twitter:description", content: APP_DESCRIPTION },
+      { name: "twitter:image", content: SHARE_IMAGE_URL },
     ],
     links: [
-      { rel: "canonical", href: "https://command-matrix-nine.vercel.app" },
+      { rel: "canonical", href: CANONICAL_URL },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -46,7 +59,7 @@ export const Route = createRootRoute({
               name: "Titash Deb",
               jobTitle: "Systems Architect",
               email: "mailto:titashdev@gmail.com",
-              url: "https://command-matrix-nine.vercel.app",
+              url: CANONICAL_URL,
               sameAs: [
                 "https://github.com/titashdev-ops/command-matrix",
                 "https://github.com/titashdev-ops",
