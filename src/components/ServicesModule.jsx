@@ -43,7 +43,7 @@ export default function ServicesModule() {
         </div>
 
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans max-w-4xl">
-          Pick an offering. The brief opens in a fresh modal for this request.
+          Pick an offering. The brief opens in a fresh modal so you can choose the right fit there.
         </p>
       </div>
 

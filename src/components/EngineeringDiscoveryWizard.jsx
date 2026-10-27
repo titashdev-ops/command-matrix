@@ -254,7 +254,7 @@ Contact: ${wizardState.name || "n/a"} <${wizardState.email || "n/a"}>
                     What's stuck?
                   </h3>
                   <p className="text-xs text-slate-400 mt-1 font-sans">
-                    Pick the closest sentence to frame the brief.
+                    Pick the closest sentence and continue.
                   </p>
                 </div>
 
